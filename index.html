@@ -1,0 +1,1995 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <script>
+    // Auth guard — redireciona para login se não autenticado
+    if (sessionStorage.getItem('qa_auth') !== '1') {
+      window.location.replace('login.html');
+    }
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QA BIUD — Quality Assurance de Alta Performance</title>
+  <meta name="description" content="Conheça o setor de QA da BIUD: processos, métricas, automações e cultura de qualidade que sustentam a excelência do produto." />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- Chart.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+
+  <style>
+    /* ─── RESET & BASE ─── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg-primary:   #060B16;
+      --bg-secondary: #0C1525;
+      --bg-card:      rgba(12, 21, 37, 0.75);
+      --border:       rgba(56, 139, 253, 0.15);
+      --border-hover: rgba(56, 139, 253, 0.4);
+
+      --blue:         #3B82F6;
+      --blue-bright:  #60A5FA;
+      --blue-glow:    rgba(59, 130, 246, 0.25);
+      --purple:       #8B5CF6;
+      --purple-glow:  rgba(139, 92, 246, 0.2);
+      --cyan:         #22D3EE;
+      --green:        #10B981;
+      --amber:        #F59E0B;
+      --red:          #EF4444;
+
+      --text-primary:   #F1F5F9;
+      --text-secondary: #94A3B8;
+      --text-muted:     #475569;
+
+      --radius:    12px;
+      --radius-lg: 20px;
+      --radius-xl: 28px;
+      --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+    ::selection { background: var(--blue); color: #fff; }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg-primary); }
+    ::-webkit-scrollbar-thumb { background: var(--blue); border-radius: 3px; }
+
+    /* ─── LOADING SCREEN ─── */
+    #loader {
+      position: fixed; inset: 0; z-index: 9999;
+      background: var(--bg-primary);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      transition: opacity 0.6s ease, visibility 0.6s ease;
+    }
+    #loader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+
+    .loader-logo {
+      font-size: 2.5rem; font-weight: 900;
+      background: linear-gradient(135deg, var(--blue), var(--purple));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      letter-spacing: -1px; margin-bottom: 2rem;
+    }
+    .loader-bar-wrap {
+      width: 200px; height: 3px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 99px; overflow: hidden;
+    }
+    .loader-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--blue), var(--purple));
+      border-radius: 99px;
+      animation: loadbar 1.8s ease forwards;
+    }
+    @keyframes loadbar { from { width: 0; } to { width: 100%; } }
+    .loader-text {
+      margin-top: 1rem; font-size: 0.75rem;
+      color: var(--text-muted); letter-spacing: 3px; text-transform: uppercase;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* ─── NAVBAR ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 1rem 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      background: rgba(6, 11, 22, 0.8);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      transition: var(--transition);
+    }
+    .nav-logo {
+      font-size: 1.15rem; font-weight: 800;
+      background: linear-gradient(135deg, var(--blue), var(--purple));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      letter-spacing: -0.5px;
+    }
+    .nav-logo span { color: var(--text-secondary); -webkit-text-fill-color: var(--text-secondary); font-weight: 400; }
+
+    .nav-links { display: flex; gap: 0.25rem; align-items: center; }
+    .nav-links a {
+      color: var(--text-secondary); text-decoration: none;
+      font-size: 0.82rem; font-weight: 500; padding: 0.45rem 0.85rem;
+      border-radius: 8px; transition: var(--transition); white-space: nowrap;
+    }
+    .nav-links a:hover { color: var(--text-primary); background: rgba(59,130,246,0.1); }
+
+    .nav-badge {
+      padding: 0.4rem 1rem; border-radius: 8px; font-size: 0.8rem;
+      font-weight: 600; cursor: pointer; border: 1px solid var(--border);
+      background: rgba(59,130,246,0.1); color: var(--blue);
+      transition: var(--transition);
+    }
+    .nav-badge:hover { background: var(--blue); color: #fff; border-color: var(--blue); }
+
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+    .hamburger span { display: block; width: 22px; height: 2px; background: var(--text-primary); border-radius: 2px; transition: var(--transition); }
+
+    /* ─── HERO ─── */
+    #hero {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden; padding: 7rem 2rem 4rem;
+    }
+
+    /* Animated grid background */
+    .hero-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(59,130,246,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(59,130,246,0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+      animation: gridScroll 20s linear infinite;
+    }
+    @keyframes gridScroll { to { background-position: 60px 60px; } }
+
+    /* Floating orbs */
+    .orb {
+      position: absolute; border-radius: 50%;
+      filter: blur(80px); animation: orbFloat 8s ease-in-out infinite;
+      pointer-events: none;
+    }
+    .orb-1 { width: 600px; height: 600px; background: rgba(59,130,246,0.12); top: -200px; right: -150px; animation-delay: 0s; }
+    .orb-2 { width: 400px; height: 400px; background: rgba(139,92,246,0.1); bottom: -100px; left: -100px; animation-delay: -3s; }
+    .orb-3 { width: 300px; height: 300px; background: rgba(34,211,238,0.06); top: 50%; left: 40%; animation-delay: -6s; }
+    @keyframes orbFloat {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-30px) scale(1.05); }
+    }
+
+    .hero-content { position: relative; z-index: 2; text-align: center; max-width: 900px; }
+
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.4rem 1rem; border-radius: 99px;
+      border: 1px solid var(--border);
+      background: rgba(59,130,246,0.06);
+      font-size: 0.75rem; font-weight: 600; color: var(--blue);
+      letter-spacing: 1.5px; text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      font-family: 'JetBrains Mono', monospace;
+      animation: fadeUp 0.8s ease forwards;
+    }
+    .hero-tag::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.4)} }
+
+    .hero-title {
+      font-size: clamp(2.4rem, 6vw, 4.5rem);
+      font-weight: 900; line-height: 1.08;
+      letter-spacing: -2px;
+      animation: fadeUp 0.8s 0.1s ease both;
+    }
+    .hero-title .gradient-text {
+      background: linear-gradient(135deg, var(--blue) 0%, var(--purple) 50%, var(--cyan) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-sub {
+      margin-top: 1.5rem;
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
+      color: var(--text-secondary); max-width: 640px; margin-inline: auto;
+      line-height: 1.7; font-weight: 400;
+      animation: fadeUp 0.8s 0.2s ease both;
+    }
+
+    .hero-ctas {
+      display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+      margin-top: 2.5rem;
+      animation: fadeUp 0.8s 0.3s ease both;
+    }
+    .btn-primary {
+      padding: 0.8rem 2rem; border-radius: 10px; font-size: 0.9rem; font-weight: 600;
+      background: linear-gradient(135deg, var(--blue), var(--purple));
+      color: #fff; border: none; cursor: pointer; text-decoration: none;
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      transition: var(--transition); box-shadow: 0 0 30px var(--blue-glow);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 50px var(--blue-glow), 0 10px 30px rgba(59,130,246,0.3); }
+    .btn-ghost {
+      padding: 0.8rem 2rem; border-radius: 10px; font-size: 0.9rem; font-weight: 600;
+      background: transparent; color: var(--text-primary);
+      border: 1px solid var(--border); cursor: pointer; text-decoration: none;
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      transition: var(--transition);
+    }
+    .btn-ghost:hover { border-color: var(--blue); color: var(--blue); background: rgba(59,130,246,0.06); transform: translateY(-2px); }
+
+    .hero-stats {
+      display: flex; gap: 2.5rem; justify-content: center; flex-wrap: wrap;
+      margin-top: 4rem; padding-top: 3rem;
+      border-top: 1px solid var(--border);
+      animation: fadeUp 0.8s 0.4s ease both;
+    }
+    .hero-stat { text-align: center; }
+    .hero-stat strong {
+      display: block; font-size: 2rem; font-weight: 800;
+      background: linear-gradient(135deg, var(--blue), var(--cyan));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hero-stat span { font-size: 0.8rem; color: var(--text-muted); font-weight: 500; letter-spacing: 0.5px; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── SECTIONS COMMON ─── */
+    section { padding: 6rem 2rem; }
+    .container { max-width: 1180px; margin: 0 auto; }
+    .section-tag {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-size: 0.72rem; font-weight: 700; color: var(--blue);
+      text-transform: uppercase; letter-spacing: 2px;
+      font-family: 'JetBrains Mono', monospace;
+      margin-bottom: 1rem;
+    }
+    .section-tag::before { content: '//'; color: var(--text-muted); }
+    .section-title {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 800; letter-spacing: -1px; line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+    .section-title .accent { color: var(--blue); }
+    .section-desc { color: var(--text-secondary); font-size: 1rem; max-width: 560px; line-height: 1.7; }
+
+    .section-header { margin-bottom: 3.5rem; }
+
+    /* Reveal on scroll */
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* ─── GLASS CARD ─── */
+    .glass-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      transition: var(--transition);
+    }
+    .glass-card:hover { border-color: var(--border-hover); box-shadow: 0 0 40px rgba(59,130,246,0.06); transform: translateY(-3px); }
+
+    /* ─── ABOUT QA ─── */
+    #about { background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%); }
+
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 3rem; align-items: start;
+    }
+    .about-text p { color: var(--text-secondary); line-height: 1.8; margin-bottom: 1rem; }
+    .about-pillars { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.5rem; }
+    .pillar {
+      padding: 1rem 1.2rem;
+      background: rgba(59,130,246,0.05);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 0.85rem; font-weight: 600; color: var(--text-primary);
+      display: flex; align-items: center; gap: 0.6rem;
+      transition: var(--transition);
+    }
+    .pillar:hover { border-color: var(--blue); background: rgba(59,130,246,0.1); }
+    .pillar-icon { font-size: 1.1rem; flex-shrink: 0; }
+
+    /* Timeline */
+    .timeline { position: relative; padding-left: 2rem; }
+    .timeline::before {
+      content: ''; position: absolute; left: 7px; top: 0; bottom: 0;
+      width: 2px;
+      background: linear-gradient(180deg, var(--blue), var(--purple), transparent);
+    }
+    .timeline-item { position: relative; margin-bottom: 2rem; }
+    .timeline-dot {
+      position: absolute; left: -2rem; top: 4px;
+      width: 16px; height: 16px; border-radius: 50%;
+      background: var(--bg-secondary);
+      border: 2px solid var(--blue);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .timeline-dot::after {
+      content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--blue);
+    }
+    .timeline-date { font-size: 0.72rem; font-weight: 700; color: var(--blue); font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.25rem; }
+    .timeline-title { font-size: 0.9rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.3rem; }
+    .timeline-desc { font-size: 0.82rem; color: var(--text-secondary); line-height: 1.6; }
+
+    /* Links QA Sites */
+    .qa-links-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; margin-top: 2rem; }
+    .qa-link-card {
+      display: flex; align-items: center; gap: 0.8rem;
+      padding: 1rem 1.2rem;
+      background: rgba(59,130,246,0.05);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      text-decoration: none; color: var(--text-primary);
+      font-size: 0.82rem; font-weight: 600;
+      transition: var(--transition);
+    }
+    .qa-link-card:hover { border-color: var(--blue); background: rgba(59,130,246,0.12); transform: translateX(4px); }
+    .qa-link-icon { font-size: 1.3rem; flex-shrink: 0; }
+    .qa-link-label { color: var(--text-muted); font-size: 0.72rem; font-weight: 400; display: block; }
+
+    /* ─── METRICS ─── */
+    #metrics { background: var(--bg-primary); }
+
+    .metrics-top { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin-bottom: 3rem; }
+    .metric-card {
+      padding: 1.8rem;
+      background: var(--bg-card);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      position: relative; overflow: hidden;
+      transition: var(--transition);
+    }
+    .metric-card::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, var(--color, var(--blue-glow)) 0%, transparent 60%);
+      opacity: 0; transition: var(--transition);
+    }
+    .metric-card:hover::before { opacity: 1; }
+    .metric-card:hover { border-color: var(--border-hover); transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+
+    .metric-icon { font-size: 2rem; margin-bottom: 1rem; display: block; }
+    .metric-value {
+      font-size: 2.5rem; font-weight: 900; line-height: 1;
+      background: linear-gradient(135deg, var(--color-start, var(--blue)), var(--color-end, var(--cyan)));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      margin-bottom: 0.3rem;
+    }
+    .metric-label { font-size: 0.82rem; color: var(--text-secondary); font-weight: 500; line-height: 1.4; }
+    .metric-badge {
+      display: inline-flex; align-items: center; gap: 0.3rem;
+      margin-top: 0.75rem; font-size: 0.72rem; font-weight: 700;
+      color: var(--green); background: rgba(16,185,129,0.1);
+      padding: 0.2rem 0.5rem; border-radius: 6px;
+    }
+    .metric-badge.down { color: var(--red); background: rgba(239,68,68,0.1); }
+
+    .metrics-charts { display: grid; grid-template-columns: 1fr; gap: 2.5rem; }
+    .chart-card { padding: 1.8rem; }
+    .chart-title { font-size: 0.9rem; font-weight: 700; margin-bottom: 0.3rem; }
+    .chart-sub { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 1.5rem; }
+    canvas { max-height: 260px; }
+
+    /* ─── PROCESSES ─── */
+    #processes { background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%); }
+
+    .process-flow {
+      display: flex; gap: 0; align-items: stretch;
+      overflow-x: auto; padding: 1rem 0 2rem;
+      scrollbar-width: thin; scrollbar-color: var(--blue) transparent;
+    }
+    .process-step {
+      flex: 1; min-width: 140px;
+      display: flex; flex-direction: column; align-items: center;
+      position: relative;
+    }
+    .process-step::after {
+      content: '→';
+      position: absolute; right: -14px; top: 28px;
+      font-size: 1.2rem; color: var(--blue);
+      z-index: 1; font-weight: 300;
+    }
+    .process-step:last-child::after { display: none; }
+
+    .step-node {
+      width: 56px; height: 56px; border-radius: 16px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem;
+      border: 1px solid var(--border);
+      margin-bottom: 0.75rem;
+      transition: var(--transition); cursor: default;
+      position: relative;
+    }
+    .step-node:hover { transform: scale(1.1); border-color: var(--blue); box-shadow: 0 0 20px var(--blue-glow); }
+
+    .step-label { font-size: 0.78rem; font-weight: 700; text-align: center; color: var(--text-primary); margin-bottom: 0.3rem; }
+    .step-sub { font-size: 0.68rem; color: var(--text-muted); text-align: center; line-height: 1.4; max-width: 110px; }
+
+    .step-blue  .step-node { background: rgba(59,130,246,0.15); color: var(--blue); }
+    .step-purple .step-node { background: rgba(139,92,246,0.15); color: var(--purple); }
+    .step-cyan  .step-node { background: rgba(34,211,238,0.15); color: var(--cyan); }
+    .step-green .step-node { background: rgba(16,185,129,0.15); color: var(--green); }
+    .step-amber .step-node { background: rgba(245,158,11,0.15); color: var(--amber); }
+
+    .process-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3rem; }
+    .proc-card {
+      padding: 1.6rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      transition: var(--transition);
+    }
+    .proc-card:hover { border-color: var(--border-hover); transform: translateY(-3px); }
+    .proc-card-icon { font-size: 1.8rem; margin-bottom: 0.8rem; }
+    .proc-card-title { font-size: 0.9rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .proc-card-desc { font-size: 0.82rem; color: var(--text-secondary); line-height: 1.6; }
+    .proc-card-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1rem; }
+    .proc-tag {
+      font-size: 0.68rem; font-weight: 600; padding: 0.2rem 0.6rem;
+      border-radius: 6px; background: rgba(59,130,246,0.1);
+      color: var(--blue); border: 1px solid rgba(59,130,246,0.2);
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .proc-tag.purple { background: rgba(139,92,246,0.1); color: var(--purple); border-color: rgba(139,92,246,0.2); }
+    .proc-tag.green  { background: rgba(16,185,129,0.1);  color: var(--green);  border-color: rgba(16,185,129,0.2); }
+    .proc-tag.amber  { background: rgba(245,158,11,0.1);  color: var(--amber);  border-color: rgba(245,158,11,0.2); }
+    .proc-tag.cyan   { background: rgba(34,211,238,0.1);  color: var(--cyan);   border-color: rgba(34,211,238,0.2); }
+
+    /* ─── TOOLS ─── */
+    #tools { background: var(--bg-primary); }
+
+    .tools-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+    .tool-card {
+      padding: 2rem 1.5rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      text-align: center;
+      transition: var(--transition);
+      cursor: default; position: relative; overflow: hidden;
+    }
+    .tool-card::after {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+      background: var(--tool-color, linear-gradient(90deg, var(--blue), var(--purple)));
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+    .tool-card:hover::after { transform: scaleX(1); }
+    .tool-card:hover { border-color: var(--border-hover); transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+    .tool-logo { font-size: 2.8rem; margin-bottom: 1rem; display: block; }
+    .tool-name { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.3rem; }
+    .tool-cat { font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+    .tool-desc { font-size: 0.8rem; color: var(--text-secondary); margin-top: 0.8rem; line-height: 1.5; }
+
+    .tools-section-title { font-size: 1rem; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 2px; margin: 3rem 0 1.5rem; font-family: 'JetBrains Mono', monospace; }
+
+    /* ─── CASES ─── */
+    #cases { background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%); }
+
+    .cases-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .case-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: var(--transition);
+    }
+    .case-card:hover { border-color: var(--border-hover); transform: translateY(-4px); box-shadow: 0 20px 50px rgba(0,0,0,0.4); }
+
+    .case-header {
+      padding: 1.5rem 1.5rem 1rem;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .case-badge {
+      font-size: 0.7rem; font-weight: 700; padding: 0.25rem 0.7rem;
+      border-radius: 99px; text-transform: uppercase; letter-spacing: 1px;
+    }
+    .badge-blue   { background: rgba(59,130,246,0.15); color: var(--blue); }
+    .badge-green  { background: rgba(16,185,129,0.15); color: var(--green); }
+    .badge-purple { background: rgba(139,92,246,0.15); color: var(--purple); }
+    .badge-amber  { background: rgba(245,158,11,0.15); color: var(--amber); }
+    .badge-cyan   { background: rgba(34,211,238,0.15); color: var(--cyan); }
+
+    .case-icon { font-size: 1.8rem; }
+    .case-body { padding: 1.5rem; }
+    .case-title { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .case-desc { font-size: 0.82rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 1rem; }
+    .case-impact {
+      display: flex; align-items: center; gap: 0.5rem;
+      font-size: 0.8rem; color: var(--green); font-weight: 600;
+      background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.15);
+      padding: 0.5rem 0.8rem; border-radius: 8px;
+    }
+    .case-impact.blue { color: var(--blue); background: rgba(59,130,246,0.08); border-color: rgba(59,130,246,0.15); }
+    .case-impact.purple { color: var(--purple); background: rgba(139,92,246,0.08); border-color: rgba(139,92,246,0.15); }
+
+    /* ─── CULTURE ─── */
+    #culture { background: var(--bg-primary); }
+
+    .culture-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .culture-card {
+      padding: 2rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      text-align: center;
+      transition: var(--transition); position: relative; overflow: hidden;
+    }
+    .culture-card::before {
+      content: ''; position: absolute;
+      width: 120px; height: 120px; border-radius: 50%;
+      background: var(--glow, rgba(59,130,246,0.08));
+      top: -30px; right: -30px; filter: blur(30px);
+    }
+    .culture-card:hover { border-color: var(--border-hover); transform: translateY(-4px); }
+    .culture-emoji { font-size: 2.5rem; display: block; margin-bottom: 1rem; }
+    .culture-title { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .culture-desc { font-size: 0.82rem; color: var(--text-secondary); line-height: 1.6; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border);
+      padding: 3rem 2rem 2rem;
+    }
+    .footer-inner {
+      max-width: 1180px; margin: 0 auto;
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3rem; margin-bottom: 3rem;
+    }
+    .footer-brand .nav-logo { font-size: 1.3rem; display: block; margin-bottom: 0.75rem; }
+    .footer-brand p { font-size: 0.83rem; color: var(--text-muted); line-height: 1.7; }
+
+    .footer-col h4 { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-muted); margin-bottom: 1rem; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 0.6rem; }
+    .footer-col a { font-size: 0.85rem; color: var(--text-secondary); text-decoration: none; transition: var(--transition); }
+    .footer-col a:hover { color: var(--blue); }
+
+    .footer-bottom {
+      max-width: 1180px; margin: 0 auto;
+      display: flex; justify-content: space-between; align-items: center;
+      padding-top: 2rem; border-top: 1px solid var(--border);
+      font-size: 0.78rem; color: var(--text-muted);
+    }
+    .footer-status {
+      display: flex; align-items: center; gap: 0.5rem;
+      font-size: 0.75rem; color: var(--green);
+    }
+    .status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
+
+    /* ─── DIVIDER ─── */
+    .divider {
+      height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent);
+      margin: 0 2rem;
+    }
+
+    /* ─── DOC CARDS ─── */
+    .doc-card {
+      display: block;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: var(--transition);
+      cursor: pointer;
+    }
+    .doc-card:hover { border-color: var(--border-hover); transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.35); }
+    .doc-card-inner { display: flex; gap: 1.2rem; padding: 1.5rem; align-items: flex-start; }
+    .doc-icon {
+      width: 48px; height: 48px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; flex-shrink: 0;
+    }
+    .doc-body { flex: 1; min-width: 0; }
+    .doc-title { font-size: 0.9rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.4rem; }
+    .doc-desc { font-size: 0.78rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 0.8rem; }
+    .doc-meta { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .doc-tag {
+      font-size: 0.65rem; font-weight: 700; padding: 0.15rem 0.55rem;
+      border-radius: 6px; background: rgba(59,130,246,0.08);
+      color: var(--text-muted); border: 1px solid var(--border);
+      font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .doc-tag.blue   { background: rgba(59,130,246,0.1);  color: var(--blue);   border-color: rgba(59,130,246,0.2); }
+    .doc-tag.green  { background: rgba(16,185,129,0.1);  color: var(--green);  border-color: rgba(16,185,129,0.2); }
+    .doc-tag.red    { background: rgba(239,68,68,0.1);   color: var(--red);    border-color: rgba(239,68,68,0.2); }
+    .doc-tag.amber  { background: rgba(245,158,11,0.1);  color: var(--amber);  border-color: rgba(245,158,11,0.2); }
+    .doc-tag.purple { background: rgba(139,92,246,0.1);  color: var(--purple); border-color: rgba(139,92,246,0.2); }
+    .doc-tag.cyan   { background: rgba(34,211,238,0.1);  color: var(--cyan);   border-color: rgba(34,211,238,0.2); }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 1024px) {
+      .metrics-top { grid-template-columns: repeat(2, 1fr); }
+      .metrics-charts { grid-template-columns: 1fr; }
+      .tools-grid { grid-template-columns: repeat(3, 1fr); }
+      .footer-inner { grid-template-columns: 1fr 1fr; gap: 2rem; }
+    }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .nav-links.open {
+        display: flex; flex-direction: column;
+        position: absolute; top: 100%; left: 0; right: 0;
+        background: rgba(6,11,22,0.98); padding: 1rem;
+        border-bottom: 1px solid var(--border);
+      }
+      .hamburger { display: flex; }
+      .about-grid { grid-template-columns: 1fr; }
+      .process-cards { grid-template-columns: 1fr; }
+      .tools-grid { grid-template-columns: repeat(2, 1fr); }
+      .cases-grid { grid-template-columns: 1fr; }
+      .culture-grid { grid-template-columns: 1fr; }
+      .footer-inner { grid-template-columns: 1fr; gap: 1.5rem; }
+      .footer-bottom { flex-direction: column; gap: 1rem; text-align: center; }
+      .about-pillars { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 500px) {
+      .metrics-top { grid-template-columns: 1fr; }
+      .tools-grid { grid-template-columns: 1fr; }
+      .hero-stats { flex-direction: column; gap: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     LOADING SCREEN
+═══════════════════════════════════════════ -->
+<div id="loader">
+  <div class="loader-logo">BIUD QA</div>
+  <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
+  <div class="loader-text">Carregando sistema de qualidade...</div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     NAVBAR
+═══════════════════════════════════════════ -->
+<nav id="navbar">
+  <a href="#hero" class="nav-logo">BIUD <span>/ QA</span></a>
+
+  <div class="nav-links" id="navLinks">
+    <a href="#about">Sobre</a>
+    <a href="#metrics">Métricas</a>
+    <a href="#processes">Processos</a>
+    <a href="#docs">Documentação</a>
+    <a href="#tools">Ferramentas</a>
+    <a href="#cases">Cases</a>
+    <a href="#sprint">Sprint</a>
+    <a href="#culture">Cultura</a>
+    
+  </div>
+
+  <button onclick="qaLogout()" style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.25);color:#fca5a5;padding:0.35rem 0.85rem;border-radius:6px;font-size:0.75rem;font-weight:700;cursor:pointer;font-family:inherit;letter-spacing:0.3px;transition:background 0.2s;" onmouseover="this.style.background='rgba(239,68,68,0.2)'" onmouseout="this.style.background='rgba(239,68,68,0.1)'">Sair</button>
+
+    <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════
+     HERO
+═══════════════════════════════════════════ -->
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+
+  <div class="hero-content">
+    <div class="hero-tag">⚡ Quality Assurance · BIUD Tech &nbsp;·&nbsp; <span style="color:var(--green);font-weight:700;">Sprint 39</span> &nbsp;·&nbsp; QA desde 02/02/2026</div>
+
+    <h1 class="hero-title">
+      Qualidade não é etapa final.<br/>
+      <span class="gradient-text">É parte da estratégia.</span>
+    </h1>
+
+    <p class="hero-sub">
+      O setor de QA da BIUD garante excelência nas entregas do
+      <strong style="color:var(--blue)">BIUD V3 – ESG SEBRAE</strong> e demais produtos —
+      com processos estruturados, automações, observabilidade e uma
+      cultura de qualidade que permeia todo o ciclo de desenvolvimento.
+    </p>
+
+    <div class="hero-ctas">
+      <a href="#sprint" class="btn-primary">Ver Status do Sprint →</a>
+      <a href="#processes" class="btn-ghost">Nossos Processos</a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <strong style="font-size:2rem;font-weight:900;color:var(--cyan)">39</strong>
+        <span>Sprint atual em andamento</span>
+      </div>
+      <div class="hero-stat">
+        <strong style="font-size:2rem;font-weight:900;color:var(--green)">9</strong>
+        <span>Casos de teste automatizados</span>
+      </div>
+      <div class="hero-stat">
+        <strong style="font-size:2rem;font-weight:900;color:var(--blue)">12</strong>
+        <span>Documentos e processos criados</span>
+      </div>
+      <div class="hero-stat">
+        <strong style="font-size:2rem;font-weight:900;color:var(--purple)">113d</strong>
+        <span>Dias estruturando o setor</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════════
+     ABOUT QA
+═══════════════════════════════════════════ -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+
+      <!-- LEFT: description + pillars -->
+      <div class="about-text reveal">
+        <div class="section-header">
+          <div class="section-tag">Sobre o Time</div>
+          <h2 class="section-title">QA como <span class="accent">pilar estratégico</span> do produto</h2>
+          <p class="section-desc">
+            O time de QA da BIUD atua de forma integrada ao desenvolvimento,
+            garantindo qualidade desde a concepção até a entrega em produção.
+            Não somos um gargalo — somos um acelerador de confiança.
+          </p>
+        </div>
+
+        <p style="color:var(--text-secondary);line-height:1.8;margin-bottom:1rem">
+          O Portal de QA da BIUD centraliza todos os processos, padrões e ferramentas
+          que garantem a excelência das nossas entregas — desde as definições de pronto
+          (<strong style="color:var(--text-primary)">DoR / DoD</strong>) até os templates
+          de abertura de bugs, regras de negócio e modelos de execução de teste.
+        </p>
+        <p style="color:var(--text-secondary);line-height:1.8;margin-bottom:1.5rem">
+          Atuamos de forma integrada ao desenvolvimento no projeto
+          <strong style="color:var(--blue)">BIUD V3 – ESG SEBRAE</strong>, cobrindo desde
+          o refinamento do backlog até o pós-deploy: testes manuais, automação, análise de
+          causa raiz (RCA), KPIs de qualidade, severidade/prioridade de bugs e observabilidade.
+        </p>
+
+        <div class="about-pillars">
+          <div class="pillar"><span class="pillar-icon">🎯</span> Prevenção Primeiro</div>
+          <div class="pillar"><span class="pillar-icon">⚡</span> Automação Inteligente</div>
+          <div class="pillar"><span class="pillar-icon">🔍</span> Observabilidade</div>
+          <div class="pillar"><span class="pillar-icon">🤝</span> QA Shift-Left</div>
+          <div class="pillar"><span class="pillar-icon">📊</span> Métricas de Qualidade</div>
+          <div class="pillar"><span class="pillar-icon">🛡️</span> Confiabilidade</div>
+        </div>
+
+        <!-- Links para QA Intranet -->
+        <div style="margin-top:2rem">
+          <div class="section-tag" style="margin-bottom:1rem">Documentação Oficial — Portal QA BIUD</div>
+          <div class="qa-links-grid">
+            <a href="docs/Apresentacao_Setor_QA_BIUD_V3.pptx" class="qa-link-card">
+              <span class="qa-link-icon">🏠</span>
+              <div><strong>Página Inicial</strong><span class="qa-link-label">Portal QA BIUD</span></div>
+            </a>
+            <a href="docs/- Responsabilidades QA.docx" class="qa-link-card">
+              <span class="qa-link-icon">👤</span>
+              <div><strong>Responsabilidades QA</strong><span class="qa-link-label">Fluxo refinamento → pós-deploy</span></div>
+            </a>
+            <a href="docs/- Gestão e Templates de BUG e Sub-Bug.docx" class="qa-link-card">
+              <span class="qa-link-icon">🐛</span>
+              <div><strong>Templates de Bug</strong><span class="qa-link-label">Gestão de Bug e Sub-Bug</span></div>
+            </a>
+            <a href="docs/- Implementação de KPIs de Qualidade (QA).pdf" class="qa-link-card">
+              <span class="qa-link-icon">📊</span>
+              <div><strong>KPIs de Qualidade</strong><span class="qa-link-label">Implementação e métricas</span></div>
+            </a>
+            <a href="docs/- Definição de Severidade e Prioridade.pdf" class="qa-link-card">
+              <span class="qa-link-icon">🚨</span>
+              <div><strong>Severidade & Prioridade</strong><span class="qa-link-label">Definição e critérios</span></div>
+            </a>
+            <a href="docs/- Tipos de BUGs.docx" class="qa-link-card">
+              <span class="qa-link-icon">🔍</span>
+              <div><strong>Tipos de Bugs</strong><span class="qa-link-label">Classificação de Bug e Sub-Bug</span></div>
+            </a>
+            <a href="docs/- Padrão para Abertura de Card (DoR – Definition of Ready).docx" class="qa-link-card">
+              <span class="qa-link-icon">📋</span>
+              <div><strong>Padrão DoR</strong><span class="qa-link-label">Abertura de Card – Definition of Ready</span></div>
+            </a>
+            <a href="docs/- Apresentacao_DoR_DoD_Squad.pptx" class="qa-link-card">
+              <span class="qa-link-icon">🎯</span>
+              <div><strong>Apresentação DoR × DoD</strong><span class="qa-link-label">Definition of Ready vs Done</span></div>
+            </a>
+            <a href="docs/- Modelo de Plano de Teste.docx" class="qa-link-card">
+              <span class="qa-link-icon">📝</span>
+              <div><strong>Plano de Teste</strong><span class="qa-link-label">Modelo oficial de test plan</span></div>
+            </a>
+            <a href="docs/- Modelo de Execução de Teste.docx" class="qa-link-card">
+              <span class="qa-link-icon">▶️</span>
+              <div><strong>Execução de Teste</strong><span class="qa-link-label">Modelo de test execution</span></div>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Timeline -->
+      <div class="reveal reveal-delay-2">
+        <div class="glass-card" style="padding:2rem">
+          <div class="section-tag" style="margin-bottom:1.5rem">Evolução do Setor</div>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-date">02/02/2026 · Sprint 31 · Início</div>
+              <div class="timeline-title">Entrada do QA na BIUD</div>
+              <div class="timeline-desc">Onboarding no produto ESG Sebrae, mapeamento de gaps de qualidade e início da estruturação do setor.</div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-date">Mar 2026 · Sprints 33–34 · Fundação</div>
+              <div class="timeline-title">Documentação e Processos Base</div>
+              <div class="timeline-desc">Responsabilidades QA, Templates de Bug, KPIs de Qualidade, DoR × DoD, Severidade e Prioridade — tudo definido e publicado.</div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-date">Abr 2026 · Sprints 35–36 · Expansão</div>
+              <div class="timeline-title">Testes e Ambiente</div>
+              <div class="timeline-desc">Testes de segurança, performance e backend implementados. Esteira de bug estruturada. Equalização e versionamento do ambiente HMG.</div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-date">Mai 2026 · Sprints 37–38 · Automação</div>
+              <div class="timeline-title">Suite Automatizada e Dashboard</div>
+              <div class="timeline-desc">9 casos de teste UI automatizados com Playwright. Dashboard de QA criado. Teste unitário implementado.</div>
+            </div>
+            <div class="timeline-item" style="opacity:1">
+              <div class="timeline-dot" style="background:var(--green);box-shadow:0 0 0 4px rgba(16,185,129,.25)"></div>
+              <div class="timeline-date" style="color:var(--green)">25/05/2026 · Sprint 39 · Em Andamento ●</div>
+              <div class="timeline-title">RCA, BIUD Talks e Expansão da Automação</div>
+              <div class="timeline-desc">Análise de Causa Raiz em implementação. BIUD Talks iniciado. 13 novos casos de automação em curso.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     METRICS
+═══════════════════════════════════════════ -->
+<section id="metrics" style="background: var(--bg-primary);">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">Indicadores</div>
+      <h2 class="section-title">Dados reais do <span class="accent">projeto em produção</span></h2>
+      <p class="section-desc">Gráficos gerados a partir dos dados reais do BIUD V3 – ESG SEBRAE. Atualizados conforme o ciclo de sprints.</p>
+    </div>
+
+
+    <!-- Charts — imagens reais do projeto -->
+    <div class="metrics-charts reveal">
+
+      <!-- Gráfico 1 -->
+      <div class="glass-card chart-card">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:2rem;flex-wrap:wrap;margin-bottom:1.25rem;">
+          <div>
+            <div class="chart-title" style="font-size:1.05rem;">Distribuição de Bugs e Sub-Bugs por Sprint</div>
+            <div class="chart-sub" style="margin-bottom:0;">Sprints 25 a 31 — projeto BIUD V3 – ESG SEBRAE</div>
+          </div>
+          <div style="display:flex;gap:1.25rem;flex-shrink:0;align-items:center;">
+            <div style="display:flex;align-items:center;gap:0.4rem;font-size:0.78rem;color:var(--text-secondary);">
+              <span style="width:12px;height:12px;border-radius:2px;background:#e84393;display:inline-block;flex-shrink:0;"></span>Bugs
+            </div>
+            <div style="display:flex;align-items:center;gap:0.4rem;font-size:0.78rem;color:var(--text-secondary);">
+              <span style="width:12px;height:12px;border-radius:2px;background:#f9a8d4;display:inline-block;flex-shrink:0;"></span>Sub-Bugs
+            </div>
+          </div>
+        </div>
+        <p style="font-size:0.82rem;color:var(--text-secondary);line-height:1.65;margin-bottom:1.25rem;">
+          Cada barra representa o total de bugs e sub-bugs registrados no ClickUp durante o sprint.
+          O pico no <strong style="color:var(--text-primary)">Sprint 31</strong> coincide com a equalização do ambiente de HMG e a entrada de novas funcionalidades de pagamento.
+          A queda no <strong style="color:var(--text-primary)">Sprint 29</strong> reflete o efeito da esteira de bug estruturada nas sprints anteriores.
+        </p>
+        <img src="docs/distribuicao_bugs.png" alt="Distribuição de Bugs e Sub-Bugs por Sprint"
+             style="width:100%;border-radius:0.75rem;object-fit:contain;" />
+      </div>
+
+      <!-- Gráfico 2 -->
+      <div class="glass-card chart-card">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:2rem;flex-wrap:wrap;margin-bottom:1.25rem;">
+          <div>
+            <div class="chart-title" style="font-size:1.05rem;">Tendência: Cards em Produção × Cards de Qualidade</div>
+            <div class="chart-sub" style="margin-bottom:0;">Sprints 25 a 31 — relação entre velocidade de entrega e qualidade</div>
+          </div>
+          <div style="display:flex;gap:1.25rem;flex-shrink:0;align-items:center;">
+            <div style="display:flex;align-items:center;gap:0.4rem;font-size:0.78rem;color:var(--text-secondary);">
+              <span style="width:12px;height:3px;background:#22d3ee;display:inline-block;flex-shrink:0;border-radius:2px;"></span>Cards em Produção
+            </div>
+            <div style="display:flex;align-items:center;gap:0.4rem;font-size:0.78rem;color:var(--text-secondary);">
+              <span style="width:12px;height:3px;background:#10b981;display:inline-block;flex-shrink:0;border-radius:2px;"></span>Cards de Qualidade
+            </div>
+          </div>
+        </div>
+        <p style="font-size:0.82rem;color:var(--text-secondary);line-height:1.65;margin-bottom:1.25rem;">
+          A linha azul mostra o volume de cards entregues em produção por sprint.
+          A linha verde representa os cards tratados pelo QA (revisão, validação, critérios de aceite).
+          A <strong style="color:var(--text-primary)">distância entre as linhas</strong> indica o gap de cobertura de qualidade — quanto menor, melhor o controle do QA sobre o que vai para produção.
+          O aumento da linha verde a partir do <strong style="color:var(--text-primary)">Sprint 29</strong> reflete a implantação dos processos de DoR/DoD e da esteira de bug.
+        </p>
+        <img src="docs/tendencia_producao_qualidade.png" alt="Tendência Produção x Qualidade"
+             style="width:100%;border-radius:0.75rem;object-fit:contain;" />
+      </div>
+
+    </div>
+
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     PROCESSES
+═══════════════════════════════════════════ -->
+<section id="processes">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">Processos</div>
+      <h2 class="section-title">Pipeline de <span class="accent">Qualidade</span></h2>
+      <p class="section-desc">Fluxo de trabalho estruturado que garante qualidade em cada etapa do ciclo de desenvolvimento.</p>
+    </div>
+
+    <!-- Flow Steps -->
+    <div class="glass-card reveal" style="padding:2rem">
+      <div class="section-tag" style="margin-bottom:1.5rem;">Fluxo de QA — Sprint Típica</div>
+      <div class="process-flow">
+        <div class="process-step step-blue">
+          <div class="step-node">📋</div>
+          <div class="step-label">Refinamento</div>
+          <div class="step-sub">Análise de critérios de aceite</div>
+        </div>
+        <div class="process-step step-purple">
+          <div class="step-node">🧪</div>
+          <div class="step-label">Plano de Testes</div>
+          <div class="step-sub">Casos de teste e checklists</div>
+        </div>
+        <div class="process-step step-blue">
+          <div class="step-node">⚙️</div>
+          <div class="step-label">Dev + Review</div>
+          <div class="step-sub">QA revisa PRs e critérios</div>
+        </div>
+        <div class="process-step step-cyan">
+          <div class="step-node">🔬</div>
+          <div class="step-label">Teste Manual</div>
+          <div class="step-sub">Exploratório e funcional</div>
+        </div>
+        <div class="process-step step-green">
+          <div class="step-node">🤖</div>
+          <div class="step-label">Automação</div>
+          <div class="step-sub">Suite Playwright + CI</div>
+        </div>
+        <div class="process-step step-amber">
+          <div class="step-node">🚀</div>
+          <div class="step-label">Deploy</div>
+          <div class="step-sub">Gates de qualidade CI/CD</div>
+        </div>
+        <div class="process-step step-blue">
+          <div class="step-node">📊</div>
+          <div class="step-label">Monitoramento</div>
+          <div class="step-sub">Observabilidade pós-deploy</div>
+        </div>
+        <div class="process-step step-purple">
+          <div class="step-node">🔍</div>
+          <div class="step-label">RCA</div>
+          <div class="step-sub">Análise de causa raiz</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Process Cards -->
+    <div class="process-cards" style="margin-top:2.5rem">
+
+      <div class="proc-card reveal">
+        <div class="proc-card-icon">🤖</div>
+        <div class="proc-card-title">Automação de Testes</div>
+        <div class="proc-card-desc">
+          Suite de testes E2E com Playwright cobrindo os fluxos críticos do produto.
+          Integrada ao pipeline de CI/CD para execução automática a cada PR.
+          Relatórios detalhados com screenshots e traces de falhas.
+        </div>
+        <div class="proc-card-tags">
+          <span class="proc-tag">Playwright</span>
+          <span class="proc-tag purple">GitHub Actions</span>
+          <span class="proc-tag green">E2E</span>
+          <span class="proc-tag cyan">CI/CD</span>
+        </div>
+      </div>
+
+      <div class="proc-card reveal reveal-delay-1">
+        <div class="proc-card-icon">🔍</div>
+        <div class="proc-card-title">Testes de API</div>
+        <div class="proc-card-desc">
+          Validação completa das APIs REST com Postman Collections. Contratos,
+          schemas, autenticações, edge cases e performance. Collections versionadas
+          no GitHub com execução automática via Newman no CI.
+        </div>
+        <div class="proc-card-tags">
+          <span class="proc-tag">Postman</span>
+          <span class="proc-tag purple">Newman</span>
+          <span class="proc-tag amber">REST</span>
+          <span class="proc-tag green">Contrato</span>
+        </div>
+      </div>
+
+      <div class="proc-card reveal reveal-delay-2">
+        <div class="proc-card-icon">👁️</div>
+        <div class="proc-card-title">Observabilidade</div>
+        <div class="proc-card-desc">
+          Monitoramento contínuo com dashboards de saúde do produto. Alertas
+          configurados para métricas críticas de performance, erros e disponibilidade.
+          Visibilidade em tempo real das APIs e serviços.
+        </div>
+        <div class="proc-card-tags">
+          <span class="proc-tag cyan">Monitoring</span>
+          <span class="proc-tag">Alertas</span>
+          <span class="proc-tag purple">Dashboards</span>
+        </div>
+      </div>
+
+      <div class="proc-card reveal">
+        <div class="proc-card-icon">🔎</div>
+        <div class="proc-card-title">RCA — Análise de Causa Raiz</div>
+        <div class="proc-card-desc">
+          Todo incidente em produção passa por análise estruturada de causa raiz.
+          Documentação padronizada, ações corretivas rastreadas no Jira e
+          retrospectivas para prevenção de recorrências.
+        </div>
+        <div class="proc-card-tags">
+          <span class="proc-tag amber">Jira</span>
+          <span class="proc-tag">5 Whys</span>
+          <span class="proc-tag green">Prevenção</span>
+        </div>
+      </div>
+
+      <div class="proc-card reveal reveal-delay-1">
+        <div class="proc-card-icon">🔄</div>
+        <div class="proc-card-title">CI/CD com Quality Gates</div>
+        <div class="proc-card-desc">
+          Pipelines no GitHub Actions com gates de qualidade obrigatórios. Nenhum
+          merge sem aprovação de QA e execução completa da suite automatizada.
+          Rollback automatizado em caso de degradação.
+        </div>
+        <div class="proc-card-tags">
+          <span class="proc-tag purple">GitHub Actions</span>
+          <span class="proc-tag cyan">Quality Gate</span>
+          <span class="proc-tag">Pipeline</span>
+        </div>
+      </div>
+
+      <div class="proc-card reveal reveal-delay-2">
+        <div class="proc-card-icon">🧭</div>
+        <div class="proc-card-title">Teste Exploratório</div>
+        <div class="proc-card-desc">
+          Sessões estruturadas de teste exploratório com charters definidos,
+          cobrindo cenários não cobertos pela automação. Foco em usabilidade,
+          edge cases e comportamentos inesperados do produto.
+        </div>
+        <div class="proc-card-tags">
+          <span class="proc-tag green">Sessões</span>
+          <span class="proc-tag amber">Charters</span>
+          <span class="proc-tag">UX</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     DOCUMENTAÇÃO OFICIAL
+═══════════════════════════════════════════ -->
+<section id="docs" style="background:var(--bg-secondary)">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">Documentação Oficial</div>
+      <h2 class="section-title">Processos <span class="accent">documentados e acessíveis</span></h2>
+      <p class="section-desc">
+        Todo o conhecimento do time de QA centralizado no portal interno —
+        do padrão de abertura de cards ao modelo de execução de testes.
+        Projeto: <strong style="color:var(--blue)">BIUD V3 – ESG SEBRAE</strong>.
+      </p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1.25rem;">
+
+      <a href="docs/- Responsabilidades QA.docx"
+         target="_blank" class="doc-card reveal" style="text-decoration:none">
+        <div class="doc-card-inner">
+          <div class="doc-icon" style="background:rgba(59,130,246,0.12);color:var(--blue)">👤</div>
+          <div class="doc-body">
+            <div class="doc-title">Responsabilidades QA</div>
+            <div class="doc-desc">Consolida as responsabilidades do QA no projeto BIUD V3 – ESG SEBRAE, descrevendo o fluxo de atuação do refinamento até o pós-deploy.</div>
+            <div class="doc-meta"><span class="doc-tag">Processo</span><span class="doc-tag blue">Docx</span></div>
+          </div>
+        </div>
+      </a>
+
+      <a href="docs/- Gestão e Templates de BUG e Sub-Bug.docx"
+         target="_blank" class="doc-card reveal reveal-delay-1" style="text-decoration:none">
+        <div class="doc-card-inner">
+          <div class="doc-icon" style="background:rgba(239,68,68,0.12);color:var(--red)">🐛</div>
+          <div class="doc-body">
+            <div class="doc-title">Templates de Bug e Sub-Bug</div>
+            <div class="doc-desc">Templates padronizados para abertura, gestão e rastreamento de bugs e sub-bugs no Jira. Garante consistência e rastreabilidade.</div>
+            <div class="doc-meta"><span class="doc-tag">Template</span><span class="doc-tag red">Bug</span></div>
+          </div>
+        </div>
+      </a>
+
+      <a href="docs/- Implementação de KPIs de Qualidade (QA).pdf"
+         target="_blank" class="doc-card reveal reveal-delay-2" style="text-decoration:none">
+        <div class="doc-card-inner">
+          <div class="doc-icon" style="background:rgba(16,185,129,0.12);color:var(--green)">📊</div>
+          <div class="doc-body">
+            <div class="doc-title">Implementação de KPIs de Qualidade</div>
+            <div class="doc-desc">Define e implementa os indicadores-chave de qualidade (KPIs) do time de QA para mensurar e evoluir a maturidade dos processos.</div>
+            <div class="doc-meta"><span class="doc-tag">Métricas</span><span class="doc-tag green">KPI</span></div>
+          </div>
+        </div>
+      </a>
+
+      <a href="docs/- Definição de Severidade e Prioridade.pdf"
+         target="_blank" class="doc-card reveal" style="text-decoration:none">
+        <div class="doc-card-inner">
+          <div class="doc-icon" style="background:rgba(245,158,11,0.12);color:var(--amber)">🚨</div>
+          <div class="doc-body">
+            <div class="doc-title">Definição de Severidade e Prioridade</div>
+            <div class="doc-desc">Critérios claros para classificar severidade e prioridade de bugs, garantindo triagem correta e resposta proporcional ao impacto.</div>
+            <div class="doc-meta"><span class="doc-tag">Classificação</span><span class="doc-tag amber">Severidade</span></div>
+          </div>
+        </div>
+      </a>
+
+      <a href="docs/- Tipos de BUGs.docx"
+         target="_blank" class="doc-card reveal reveal-delay-1" style="text-decoration:none">
+        <div class="doc-card-inner">
+          <div class="doc-icon" style="background:rgba(139,92,246,0.12);color:var(--purple)">🔍</div>
+          <div class="doc-body">
+            <div class="doc-title">Tipos de Bug e Sub-Bug</div>
+            <div class="doc-desc">Taxonomia completa dos tipos de bugs e sub-bugs identificados no produto, com exemplos e orientações de classificação para o time.</div>
+            <div class="doc-meta"><span class="doc-tag">Taxonomia</span><span class="doc-tag purple">Bugs</span></div>
+          </div>
+        </div>
+      </a>
+
+      <a href="docs/- Padrão para Abertura de Card (DoR – Definition of Ready).docx"
+         target="_blank" class="doc-card reveal reveal-delay-2" style="text-decoration:none">
+        <div class="doc-card-inner">
+          <div class="doc-icon" style="background:rgba(34,211,238,0.12);color:var(--cyan)">📋</div>
+          <div class="doc-body">
+            <div class="doc-title">Padrão para Abertura de Card (DoR)</div>
+            <div class="doc-desc">Definition of Ready: critérios obrigatórios que uma história deve atender antes de entrar em sprint, garantindo clareza e reduzindo retrabalho.</div>
+            <div class="doc-meta"><span class="doc-tag">DoR</span><span class="doc-tag cyan">Scrum</span></div>
+          </div>
+        </div>
+      </a>
+
+      <a href="docs/- Apresentacao_DoR_DoD_Squad.pptx"
+         target="_blank" class="doc-card reveal" style="text-decoration:none">
+        <div class="doc-card-inner">
+          <div class="doc-icon" style="background:rgba(59,130,246,0.12);color:var(--blue)">🎯</div>
+          <div class="doc-body">
+            <div class="doc-title">Apresentação DoR × DoD</div>
+            <div class="doc-desc">Apresentação completa (pptx) usada nos squads explicando Definition of Ready vs Definition of Done — conceitos, critérios e aplicação prática.</div>
+            <div class="doc-meta"><span class="doc-tag">DoR</span><span class="doc-tag blue">DoD</span><span class="doc-tag" style="background:rgba(245,158,11,0.1);color:var(--amber);border-color:rgba(245,158,11,0.2)">pptx</span></div>
+          </div>
+        </div>
+      </a>
+
+      <a href="docs/- Modelo de Plano de Teste.docx"
+         target="_blank" class="doc-card reveal reveal-delay-1" style="text-decoration:none">
+        <div class="doc-card-inner">
+          <div class="doc-icon" style="background:rgba(16,185,129,0.12);color:var(--green)">📝</div>
+          <div class="doc-body">
+            <div class="doc-title">Modelo de Plano de Teste</div>
+            <div class="doc-desc">Template oficial de Test Plan para uso do time de QA — escopo, estratégia, recursos, cronograma, riscos e critérios de entrada/saída.</div>
+            <div class="doc-meta"><span class="doc-tag">Template</span><span class="doc-tag green">Test Plan</span></div>
+          </div>
+        </div>
+      </a>
+
+      <a href="docs/- Modelo de Execução de Teste.docx"
+         target="_blank" class="doc-card reveal reveal-delay-2" style="text-decoration:none">
+        <div class="doc-card-inner">
+          <div class="doc-icon" style="background:rgba(139,92,246,0.12);color:var(--purple)">▶️</div>
+          <div class="doc-body">
+            <div class="doc-title">Modelo de Execução de Teste</div>
+            <div class="doc-desc">Template de registro de execução de testes — resultados, evidências, defeitos encontrados e status de cada caso de teste executado.</div>
+            <div class="doc-meta"><span class="doc-tag">Template</span><span class="doc-tag purple">Execução</span></div>
+          </div>
+        </div>
+      </a>
+
+    </div>
+
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     TOOLS & TECHNOLOGIES
+═══════════════════════════════════════════ -->
+<section id="tools" style="background:var(--bg-primary)">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">Ferramentas & Tecnologias</div>
+      <h2 class="section-title">Stack de <span class="accent">Qualidade</span></h2>
+      <p class="section-desc">Ferramentas de ponta que suportam nossa metodologia e maximizam a eficiência do time de QA.</p>
+    </div>
+
+    <div class="tools-section-title reveal">Core Tools</div>
+    <div class="tools-grid">
+      <div class="tool-card reveal" style="--tool-color:linear-gradient(90deg,#0052CC,#2684FF)">
+        <span class="tool-logo">🎫</span>
+        <div class="tool-name">Jira</div>
+        <div class="tool-cat">Gestão & Rastreamento</div>
+        <div class="tool-desc">Ciclo completo de bugs, test cases, sprints e dashboards de qualidade integrados ao workflow de dev.</div>
+      </div>
+      <div class="tool-card reveal reveal-delay-1" style="--tool-color:linear-gradient(90deg,#2ECC71,#16A085)">
+        <span class="tool-logo">🎭</span>
+        <div class="tool-name">Playwright</div>
+        <div class="tool-cat">Automação E2E</div>
+        <div class="tool-desc">Suite de testes end-to-end com cross-browser, screenshots automáticos, traces e relatórios de execução.</div>
+      </div>
+      <div class="tool-card reveal reveal-delay-2" style="--tool-color:linear-gradient(90deg,#EF5B25,#FF7140)">
+        <span class="tool-logo">📮</span>
+        <div class="tool-name">Postman</div>
+        <div class="tool-cat">Testes de API</div>
+        <div class="tool-desc">Collections para todas as APIs BIUD com variáveis por ambiente, assertions e Newman para CI automático.</div>
+      </div>
+      <div class="tool-card reveal reveal-delay-3" style="--tool-color:linear-gradient(90deg,#24292E,#586069)">
+        <span class="tool-logo">🐙</span>
+        <div class="tool-name">GitHub</div>
+        <div class="tool-cat">Versionamento & CI/CD</div>
+        <div class="tool-desc">Repositório de testes, PRs com review de QA, Actions para pipelines automatizados e quality gates.</div>
+      </div>
+    </div>
+
+    <div class="tools-section-title reveal" style="margin-top:2.5rem">Metodologias</div>
+    <div class="tools-grid">
+      <div class="tool-card reveal" style="--tool-color:linear-gradient(90deg,var(--blue),var(--purple))">
+        <span class="tool-logo">🔄</span>
+        <div class="tool-name">Scrum</div>
+        <div class="tool-cat">Metodologia Ágil</div>
+        <div class="tool-desc">QA integrado em todas as cerimônias — refinamento, planning, daily, review e retrospectiva.</div>
+      </div>
+      <div class="tool-card reveal reveal-delay-1" style="--tool-color:linear-gradient(90deg,var(--cyan),var(--blue))">
+        <span class="tool-logo">🚀</span>
+        <div class="tool-name">CI/CD</div>
+        <div class="tool-cat">Integração Contínua</div>
+        <div class="tool-desc">Pipelines automatizados com gates de qualidade que bloqueiam deployments com falhas nos testes.</div>
+      </div>
+      <div class="tool-card reveal reveal-delay-2" style="--tool-color:linear-gradient(90deg,var(--green),var(--cyan))">
+        <span class="tool-logo">👁️</span>
+        <div class="tool-name">Observabilidade</div>
+        <div class="tool-cat">Monitoramento</div>
+        <div class="tool-desc">Logs, métricas e alertas configurados para detecção precoce de anomalias em produção.</div>
+      </div>
+      <div class="tool-card reveal reveal-delay-3" style="--tool-color:linear-gradient(90deg,var(--amber),var(--red))">
+        <span class="tool-logo">🔍</span>
+        <div class="tool-name">RCA</div>
+        <div class="tool-cat">Análise de Causa Raiz</div>
+        <div class="tool-desc">Framework estruturado de investigação de incidentes com 5 Whys, fishbone e documentação padronizada.</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     CASES & MELHORIAS
+═══════════════════════════════════════════ -->
+<section id="cases">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">Cases & Melhorias</div>
+      <h2 class="section-title">Impacto <span class="accent">real no produto</span></h2>
+      <p class="section-desc">Problemas resolvidos, melhorias implementadas e o impacto mensurável no negócio BIUD.</p>
+    </div>
+
+    <div class="cases-grid">
+
+      <div class="case-card reveal">
+        <div class="case-header">
+          <div class="case-badge badge-green">✅ Resolvido</div>
+          <div class="case-icon">🔐</div>
+        </div>
+        <div class="case-body">
+          <div class="case-title">Suite de Regressão Automatizada</div>
+          <div class="case-desc">
+            Identificamos que 70% do tempo de QA era gasto em regressão manual a cada release.
+            Criamos uma suite Playwright cobrindo os fluxos críticos que rodou no CI a cada PR,
+            liberando o time para testes exploratórios de maior valor.
+          </div>
+          <div class="case-impact">
+            <span>⚡</span> -80% tempo de regressão manual por release
+          </div>
+        </div>
+      </div>
+
+      <div class="case-card reveal reveal-delay-1">
+        <div class="case-header">
+          <div class="case-badge badge-blue">🚀 Implementado</div>
+          <div class="case-icon">🔌</div>
+        </div>
+        <div class="case-body">
+          <div class="case-title">Cobertura Total das APIs REST</div>
+          <div class="case-desc">
+            Com a expansão das APIs BIUD, criamos collections Postman para todos os endpoints
+            críticos — Core, Payment, ESG, Clients, Insights e MIA. Integradas ao CI via Newman
+            com relatórios automáticos de cobertura e falhas.
+          </div>
+          <div class="case-impact blue">
+            <span>🛡️</span> 6 APIs mapeadas · 100% dos endpoints críticos cobertos
+          </div>
+        </div>
+      </div>
+
+      <div class="case-card reveal reveal-delay-2">
+        <div class="case-header">
+          <div class="case-badge badge-purple">📊 Em Evolução</div>
+          <div class="case-icon">📈</div>
+        </div>
+        <div class="case-body">
+          <div class="case-title">Dashboard de Qualidade no Jira</div>
+          <div class="case-desc">
+            Criação de dashboards Jira consolidando bug rate por squad, tempo médio de resolução,
+            debt de qualidade e saúde das releases. Visibilidade completa para gestão e
+            tomada de decisão estratégica.
+          </div>
+          <div class="case-impact purple">
+            <span>👁️</span> Visibilidade em tempo real para todos os stakeholders
+          </div>
+        </div>
+      </div>
+
+      <div class="case-card reveal">
+        <div class="case-header">
+          <div class="case-badge badge-amber">⚡ Acelerado</div>
+          <div class="case-icon">🔄</div>
+        </div>
+        <div class="case-body">
+          <div class="case-title">QA Shift-Left nas Cerimônias</div>
+          <div class="case-desc">
+            Introdução do QA desde o refinamento de backlog, criando critérios de aceite precisos
+            antes do desenvolvimento começar. Redução drástica de retrabalho e ambiguidades de
+            requisitos que causavam bugs funcionais.
+          </div>
+          <div class="case-impact">
+            <span>📉</span> -45% de bugs por requisitos ambíguos
+          </div>
+        </div>
+      </div>
+
+      <div class="case-card reveal reveal-delay-1">
+        <div class="case-header">
+          <div class="case-badge badge-green">✅ Resolvido</div>
+          <div class="case-icon">🚨</div>
+        </div>
+        <div class="case-body">
+          <div class="case-title">Framework de Resposta a Incidentes</div>
+          <div class="case-desc">
+            Estruturação de processo de RCA para todos os incidentes P0 e P1. Templates
+            de documentação, triagem em 15min, análise em 24h e ações corretivas rastreadas.
+            Redução de incidentes recorrentes.
+          </div>
+          <div class="case-impact">
+            <span>🛡️</span> -67% de incidentes recorrentes em 6 meses
+          </div>
+        </div>
+      </div>
+
+      <div class="case-card reveal reveal-delay-2">
+        <div class="case-header">
+          <div class="case-badge badge-cyan">🔍 Monitorado</div>
+          <div class="case-icon">📡</div>
+        </div>
+        <div class="case-body">
+          <div class="case-title">Observabilidade Pós-Deploy</div>
+          <div class="case-desc">
+            Implementação de monitoramento ativo após cada deploy. Alertas configurados para
+            degradação de performance, aumento de erros e comportamentos anômalos, com
+            runbooks de resposta para cada tipo de alerta.
+          </div>
+          <div class="case-impact blue">
+            <span>⚡</span> MTTD reduzido de horas para minutos
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+
+
+<!-- SPRINT & ROADMAP -->
+<section id="sprint" style="background:var(--bg-secondary)">
+  <div class="container">
+
+    <div class="section-header reveal">
+      <div class="section-tag">Sprint & Roadmap</div>
+      <h2 class="section-title">O que o QA <span class="accent">construiu e está construindo</span></h2>
+      <p class="section-desc">
+        Histórico real desde <strong style="color:var(--blue)">02/02/2026</strong> — entrada do QA na BIUD.
+        Hoje, <strong style="color:var(--green)">25/05/2026</strong>, iniciamos a
+        <strong style="color:var(--green)">Sprint 39</strong>.
+      </p>
+    </div>
+
+    <!-- ─── O que já foi entregue ─────────────────────────────────────────── -->
+    <div class="reveal" style="margin-bottom:3rem">
+      <h3 style="font-size:1.25rem;font-weight:700;color:var(--blue);margin-bottom:1.5rem;display:flex;align-items:center;gap:0.6rem;">
+        <span style="background:rgba(59,130,246,.15);border:1px solid rgba(59,130,246,.3);border-radius:6px;padding:0.25rem 0.75rem;font-size:0.8rem;letter-spacing:.08em;text-transform:uppercase;">✅ Entregue</span>
+        O que o QA já fez até agora
+      </h3>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem;">
+
+        <div class="glass-card" style="padding:1.25rem;display:flex;gap:0.9rem;align-items:flex-start;">
+          <span style="font-size:1.4rem;flex-shrink:0;">📄</span>
+          <div>
+            <div style="font-weight:700;font-size:0.95rem;margin-bottom:0.3rem;">Responsabilidades QA</div>
+            <div style="font-size:0.8rem;color:var(--text-secondary);">Definição clara de papéis e responsabilidades do setor</div>
+          </div>
+        </div>
+
+        <div class="glass-card" style="padding:1.25rem;display:flex;gap:0.9rem;align-items:flex-start;">
+          <span style="font-size:1.4rem;flex-shrink:0;">🐛</span>
+          <div>
+            <div style="font-weight:700;font-size:0.95rem;margin-bottom:0.3rem;">Templates de Bug e Sub-Bug</div>
+            <div style="font-size:0.8rem;color:var(--text-secondary);">Padronização do processo de abertura e gestão de bugs</div>
+          </div>
+        </div>
+
+        <div class="glass-card" style="padding:1.25rem;display:flex;gap:0.9rem;align-items:flex-start;">
+          <span style="font-size:1.4rem;flex-shrink:0;">📊</span>
+          <div>
+            <div style="font-weight:700;font-size:0.95rem;margin-bottom:0.3rem;">Implementação de KPIs de Qualidade</div>
+            <div style="font-size:0.8rem;color:var(--text-secondary);">Métricas e indicadores de qualidade definidos e em uso</div>
+          </div>
+        </div>
+
+        <div class="glass-card" style="padding:1.25rem;display:flex;gap:0.9rem;align-items:flex-start;">
+          <span style="font-size:1.4rem;flex-shrink:0;">⚡</span>
+          <div>
+            <div style="font-weight:700;font-size:0.95rem;margin-bottom:0.3rem;">Definição de Severidade e Prioridade</div>
+            <div style="font-size:0.8rem;color:var(--text-secondary);">Classificação padronizada para triagem e priorização de issues</div>
+          </div>
+        </div>
+
+        <div class="glass-card" style="padding:1.25rem;display:flex;gap:0.9rem;align-items:flex-start;">
+          <span style="font-size:1.4rem;flex-shrink:0;">🗂️</span>
+          <div>
+            <div style="font-weight:700;font-size:0.95rem;margin-bottom:0.3rem;">Tipos de Bugs</div>
+            <div style="font-size:0.8rem;color:var(--text-secondary);">Taxonomia completa para categorização de falhas</div>
+          </div>
+        </div>
+
+        <div class="glass-card" style="padding:1.25rem;display:flex;gap:0.9rem;align-items:flex-start;">
+          <span style="font-size:1.4rem;flex-shrink:0;">🎯</span>
+          <div>
+            <div style="font-weight:700;font-size:0.95rem;margin-bottom:0.3rem;">Padrão para Abertura de Card (DoR)</div>
+            <div style="font-size:0.8rem;color:var(--text-secondary);">Definition of Ready — critérios para entrada de cards no sprint</div>
+          </div>
+        </div>
+
+        <div class="glass-card" style="padding:1.25rem;display:flex;gap:0.9rem;align-items:flex-start;">
+          <span style="font-size:1.4rem;flex-shrink:0;">🔁</span>
+          <div>
+            <div style="font-weight:700;font-size:0.95rem;margin-bottom:0.3rem;">Apresentação DoR × DoD</div>
+            <div style="font-size:0.8rem;color:var(--text-secondary);">Alinhamento do squad sobre entrada e saída de features</div>
+          </div>
+        </div>
+
+        <div class="glass-card" style="padding:1.25rem;display:flex;gap:0.9rem;align-items:flex-start;">
+          <span style="font-size:1.4rem;flex-shrink:0;">📋</span>
+          <div>
+            <div style="font-weight:700;font-size:0.95rem;margin-bottom:0.3rem;">Modelos de Plano e Execução de Teste</div>
+            <div style="font-size:0.8rem;color:var(--text-secondary);">Templates estruturados para planejamento e execução de testes</div>
+          </div>
+        </div>
+
+        <div class="glass-card" style="padding:1.25rem;display:flex;gap:0.9rem;align-items:flex-start;">
+          <span style="font-size:1.4rem;flex-shrink:0;">🔒</span>
+          <div>
+            <div style="font-weight:700;font-size:0.95rem;margin-bottom:0.3rem;">Testes de Segurança implementados</div>
+            <div style="font-size:0.8rem;color:var(--text-secondary);">Cobertura de vulnerabilidades e validação de autenticação</div>
+          </div>
+        </div>
+
+        <div class="glass-card" style="padding:1.25rem;display:flex;gap:0.9rem;align-items:flex-start;">
+          <span style="font-size:1.4rem;flex-shrink:0;">⚙️</span>
+          <div>
+            <div style="font-weight:700;font-size:0.95rem;margin-bottom:0.3rem;">Testes de Performance implementados</div>
+            <div style="font-size:0.8rem;color:var(--text-secondary);">Validação de carga, tempo de resposta e estabilidade</div>
+          </div>
+        </div>
+
+        <div class="glass-card" style="padding:1.25rem;display:flex;gap:0.9rem;align-items:flex-start;">
+          <span style="font-size:1.4rem;flex-shrink:0;">🔗</span>
+          <div>
+            <div style="font-weight:700;font-size:0.95rem;margin-bottom:0.3rem;">Testes de Backend implementados</div>
+            <div style="font-size:0.8rem;color:var(--text-secondary);">Validação de APIs, contratos e integrações de serviços</div>
+          </div>
+        </div>
+
+        <div class="glass-card" style="padding:1.25rem;display:flex;gap:0.9rem;align-items:flex-start;">
+          <span style="font-size:1.4rem;flex-shrink:0;">🌐</span>
+          <div>
+            <div style="font-weight:700;font-size:0.95rem;margin-bottom:0.3rem;">Portal do QA criado</div>
+            <div style="font-size:0.8rem;color:var(--text-secondary);">Hub centralizado com documentos, processos e dashboards do setor</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ─── Últimas 2 sprints ──────────────────────────────────────────────── -->
+    <div class="reveal" style="margin-bottom:3rem">
+      <h3 style="font-size:1.25rem;font-weight:700;color:var(--purple);margin-bottom:1.5rem;display:flex;align-items:center;gap:0.6rem;">
+        <span style="background:rgba(139,92,246,.15);border:1px solid rgba(139,92,246,.3);border-radius:6px;padding:0.25rem 0.75rem;font-size:0.8rem;letter-spacing:.08em;text-transform:uppercase;">🏃 Sprints 37 & 38</span>
+        Atividades e processos recentes
+      </h3>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;">
+
+        <div class="glass-card" style="padding:1.25rem;text-align:center;border-top:2px solid var(--purple);">
+          <div style="font-size:2rem;margin-bottom:0.5rem;">🧪</div>
+          <div style="font-weight:700;font-size:0.9rem;">Teste Unitário</div>
+          <div style="font-size:0.75rem;color:var(--text-secondary);margin-top:0.3rem;">Implementação e cobertura de testes unitários na base de código</div>
+        </div>
+
+        <div class="glass-card" style="padding:1.25rem;text-align:center;border-top:2px solid var(--purple);">
+          <div style="font-size:2rem;margin-bottom:0.5rem;">🐞</div>
+          <div style="font-weight:700;font-size:0.9rem;">Esteira de Bug</div>
+          <div style="font-size:0.75rem;color:var(--text-secondary);margin-top:0.3rem;">Processo estruturado de triagem, priorização e resolução de bugs</div>
+        </div>
+
+        <div class="glass-card" style="padding:1.25rem;text-align:center;border-top:2px solid var(--purple);">
+          <div style="font-size:2rem;margin-bottom:0.5rem;">⚖️</div>
+          <div style="font-weight:700;font-size:0.9rem;">Equalização do HMG</div>
+          <div style="font-size:0.75rem;color:var(--text-secondary);margin-top:0.3rem;">Ambiente de homologação alinhado com produção</div>
+        </div>
+
+        <div class="glass-card" style="padding:1.25rem;text-align:center;border-top:2px solid var(--purple);">
+          <div style="font-size:2rem;margin-bottom:0.5rem;">🏷️</div>
+          <div style="font-weight:700;font-size:0.9rem;">Versionamento HMG / Prod</div>
+          <div style="font-size:0.75rem;color:var(--text-secondary);margin-top:0.3rem;">Controle de versões entre homologação e produção</div>
+        </div>
+
+        <div class="glass-card" style="padding:1.25rem;text-align:center;border-top:2px solid var(--purple);">
+          <div style="font-size:2rem;margin-bottom:0.5rem;">📈</div>
+          <div style="font-weight:700;font-size:0.9rem;">Dashboard de QA</div>
+          <div style="font-size:0.75rem;color:var(--text-secondary);margin-top:0.3rem;">Painel de métricas e indicadores de qualidade em tempo real</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ─── Automação: casos implementados ────────────────────────────────── -->
+    <div class="reveal" style="margin-bottom:3rem">
+      <h3 style="font-size:1.25rem;font-weight:700;color:var(--cyan);margin-bottom:1.5rem;display:flex;align-items:center;gap:0.6rem;">
+        <span style="background:rgba(34,211,238,.12);border:1px solid rgba(34,211,238,.3);border-radius:6px;padding:0.25rem 0.75rem;font-size:0.8rem;letter-spacing:.08em;text-transform:uppercase;">🤖 Automação Concluída</span>
+        Casos de teste automatizados implementados
+      </h3>
+      <div class="glass-card" style="overflow-x:auto;">
+        <table style="width:100%;border-collapse:collapse;font-size:0.875rem;">
+          <thead>
+            <tr style="border-bottom:1px solid rgba(255,255,255,.1);">
+              <th style="padding:0.75rem 1rem;text-align:left;color:var(--text-secondary);font-weight:600;white-space:nowrap;">ID</th>
+              <th style="padding:0.75rem 1rem;text-align:left;color:var(--text-secondary);font-weight:600;">Caso de Teste</th>
+              <th style="padding:0.75rem 1rem;text-align:center;color:var(--text-secondary);font-weight:600;">Tipo</th>
+              <th style="padding:0.75rem 1rem;text-align:center;color:var(--text-secondary);font-weight:600;">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid rgba(255,255,255,.05);">
+              <td style="padding:0.75rem 1rem;font-family:monospace;color:var(--cyan);font-weight:700;">ST-001</td>
+              <td style="padding:0.75rem 1rem;">Login com Autenticação AMEI</td>
+              <td style="padding:0.75rem 1rem;text-align:center;"><span style="background:rgba(59,130,246,.15);color:var(--blue);padding:0.2rem 0.6rem;border-radius:4px;font-size:0.75rem;font-weight:600;">UI</span></td>
+              <td style="padding:0.75rem 1rem;text-align:center;"><span style="color:var(--green);">✅ Feito</span></td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(255,255,255,.05);">
+              <td style="padding:0.75rem 1rem;font-family:monospace;color:var(--cyan);font-weight:700;">ST-002</td>
+              <td style="padding:0.75rem 1rem;">Seleção de Empresa</td>
+              <td style="padding:0.75rem 1rem;text-align:center;"><span style="background:rgba(59,130,246,.15);color:var(--blue);padding:0.2rem 0.6rem;border-radius:4px;font-size:0.75rem;font-weight:600;">UI</span></td>
+              <td style="padding:0.75rem 1rem;text-align:center;"><span style="color:var(--green);">✅ Feito</span></td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(255,255,255,.05);">
+              <td style="padding:0.75rem 1rem;font-family:monospace;color:var(--cyan);font-weight:700;">ST-003</td>
+              <td style="padding:0.75rem 1rem;">Carregamento do Dashboard Inicial</td>
+              <td style="padding:0.75rem 1rem;text-align:center;"><span style="background:rgba(59,130,246,.15);color:var(--blue);padding:0.2rem 0.6rem;border-radius:4px;font-size:0.75rem;font-weight:600;">UI</span></td>
+              <td style="padding:0.75rem 1rem;text-align:center;"><span style="color:var(--green);">✅ Feito</span></td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(255,255,255,.05);">
+              <td style="padding:0.75rem 1rem;font-family:monospace;color:var(--cyan);font-weight:700;">ST-004</td>
+              <td style="padding:0.75rem 1rem;">Navegação pelo Menu Lateral</td>
+              <td style="padding:0.75rem 1rem;text-align:center;"><span style="background:rgba(59,130,246,.15);color:var(--blue);padding:0.2rem 0.6rem;border-radius:4px;font-size:0.75rem;font-weight:600;">UI</span></td>
+              <td style="padding:0.75rem 1rem;text-align:center;"><span style="color:var(--green);">✅ Feito</span></td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(255,255,255,.05);">
+              <td style="padding:0.75rem 1rem;font-family:monospace;color:var(--cyan);font-weight:700;">ST-005</td>
+              <td style="padding:0.75rem 1rem;">Acesso ao Questionário de Diagnóstico</td>
+              <td style="padding:0.75rem 1rem;text-align:center;"><span style="background:rgba(59,130,246,.15);color:var(--blue);padding:0.2rem 0.6rem;border-radius:4px;font-size:0.75rem;font-weight:600;">UI</span></td>
+              <td style="padding:0.75rem 1rem;text-align:center;"><span style="color:var(--green);">✅ Feito</span></td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(255,255,255,.05);">
+              <td style="padding:0.75rem 1rem;font-family:monospace;color:var(--cyan);font-weight:700;">ST-010</td>
+              <td style="padding:0.75rem 1rem;">Logout do Sistema</td>
+              <td style="padding:0.75rem 1rem;text-align:center;"><span style="background:rgba(59,130,246,.15);color:var(--blue);padding:0.2rem 0.6rem;border-radius:4px;font-size:0.75rem;font-weight:600;">UI</span></td>
+              <td style="padding:0.75rem 1rem;text-align:center;"><span style="color:var(--green);">✅ Feito</span></td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(255,255,255,.05);">
+              <td style="padding:0.75rem 1rem;font-family:monospace;color:var(--cyan);font-weight:700;">ST-018</td>
+              <td style="padding:0.75rem 1rem;">Navegação entre Perguntas do Questionário</td>
+              <td style="padding:0.75rem 1rem;text-align:center;"><span style="background:rgba(59,130,246,.15);color:var(--blue);padding:0.2rem 0.6rem;border-radius:4px;font-size:0.75rem;font-weight:600;">UI</span></td>
+              <td style="padding:0.75rem 1rem;text-align:center;"><span style="color:var(--green);">✅ Feito</span></td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(255,255,255,.05);">
+              <td style="padding:0.75rem 1rem;font-family:monospace;color:var(--cyan);font-weight:700;">ST-019</td>
+              <td style="padding:0.75rem 1rem;">Validação de Porte na Seleção CPE (ME/EPP/MEI)</td>
+              <td style="padding:0.75rem 1rem;text-align:center;"><span style="background:rgba(59,130,246,.15);color:var(--blue);padding:0.2rem 0.6rem;border-radius:4px;font-size:0.75rem;font-weight:600;">UI</span></td>
+              <td style="padding:0.75rem 1rem;text-align:center;"><span style="color:var(--green);">✅ Feito</span></td>
+            </tr>
+            <tr>
+              <td style="padding:0.75rem 1rem;font-family:monospace;color:var(--cyan);font-weight:700;">ST-020</td>
+              <td style="padding:0.75rem 1rem;">Persistência de Dados no Cadastro</td>
+              <td style="padding:0.75rem 1rem;text-align:center;"><span style="background:rgba(59,130,246,.15);color:var(--blue);padding:0.2rem 0.6rem;border-radius:4px;font-size:0.75rem;font-weight:600;">UI</span></td>
+              <td style="padding:0.75rem 1rem;text-align:center;"><span style="color:var(--green);">✅ Feito</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ─── Em andamento ──────────────────────────────────────────────────── -->
+    <div class="reveal" style="margin-bottom:3rem">
+      <h3 style="font-size:1.25rem;font-weight:700;color:#f59e0b;margin-bottom:1.5rem;display:flex;align-items:center;gap:0.6rem;">
+        <span style="background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.35);border-radius:6px;padding:0.25rem 0.75rem;font-size:0.8rem;letter-spacing:.08em;text-transform:uppercase;">🔄 Em Andamento</span>
+        Atividades e processos em curso
+      </h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;">
+
+        <!-- processos gerais -->
+        <div class="glass-card" style="padding:1.5rem;">
+          <div style="font-weight:700;font-size:1rem;margin-bottom:1rem;color:var(--text-primary);">Processos e Iniciativas</div>
+          <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.75rem;">
+            <li style="display:flex;gap:0.75rem;align-items:flex-start;">
+              <span style="color:#f59e0b;font-size:1rem;flex-shrink:0;margin-top:0.05rem;">⚡</span>
+              <div>
+                <div style="font-weight:600;font-size:0.9rem;">Implementação do RCA</div>
+                <div style="font-size:0.78rem;color:var(--text-secondary);">Root Cause Analysis — análise de causa raiz de incidentes</div>
+              </div>
+            </li>
+            <li style="display:flex;gap:0.75rem;align-items:flex-start;">
+              <span style="color:#f59e0b;font-size:1rem;flex-shrink:0;margin-top:0.05rem;">🎙️</span>
+              <div>
+                <div style="font-weight:600;font-size:0.9rem;">BIUD Talks</div>
+                <div style="font-size:0.78rem;color:var(--text-secondary);">Iniciativa de disseminação de cultura de qualidade internamente</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <!-- automação em andamento -->
+        <div class="glass-card" style="padding:1.5rem;">
+          <div style="font-weight:700;font-size:1rem;margin-bottom:1rem;color:var(--text-primary);">Automação em Andamento</div>
+          <div style="display:flex;flex-direction:column;gap:0.5rem;">
+            <div style="display:flex;gap:0.5rem;align-items:center;font-size:0.82rem;">
+              <span style="font-family:monospace;color:var(--cyan);font-weight:700;min-width:52px;">ST-006</span>
+              <span style="flex:1;">Acesso à Jornada ESG e Questionário</span>
+              <span style="background:rgba(59,130,246,.15);color:var(--blue);padding:0.15rem 0.5rem;border-radius:4px;font-size:0.7rem;">UI</span>
+            </div>
+            <div style="display:flex;gap:0.5rem;align-items:center;font-size:0.82rem;">
+              <span style="font-family:monospace;color:var(--cyan);font-weight:700;min-width:52px;">ST-007</span>
+              <span style="flex:1;">Interação Básica com MIA (Assistente Virtual)</span>
+              <span style="background:rgba(59,130,246,.15);color:var(--blue);padding:0.15rem 0.5rem;border-radius:4px;font-size:0.7rem;">UI</span>
+            </div>
+            <div style="display:flex;gap:0.5rem;align-items:center;font-size:0.82rem;">
+              <span style="font-family:monospace;color:var(--cyan);font-weight:700;min-width:52px;">ST-008</span>
+              <span style="flex:1;">Disponibilidade de APIs Críticas</span>
+              <span style="background:rgba(59,130,246,.15);color:var(--blue);padding:0.15rem 0.5rem;border-radius:4px;font-size:0.7rem;">UI</span>
+            </div>
+            <div style="display:flex;gap:0.5rem;align-items:center;font-size:0.82rem;">
+              <span style="font-family:monospace;color:var(--cyan);font-weight:700;min-width:52px;">ST-009</span>
+              <span style="flex:1;">Acesso às Configurações</span>
+              <span style="background:rgba(59,130,246,.15);color:var(--blue);padding:0.15rem 0.5rem;border-radius:4px;font-size:0.7rem;">UI</span>
+            </div>
+            <div style="display:flex;gap:0.5rem;align-items:center;font-size:0.82rem;">
+              <span style="font-family:monospace;color:var(--cyan);font-weight:700;min-width:52px;">ST-011</span>
+              <span style="flex:1;">Validação de Planos e Pagamentos</span>
+              <span style="background:rgba(59,130,246,.15);color:var(--blue);padding:0.15rem 0.5rem;border-radius:4px;font-size:0.7rem;">UI</span>
+            </div>
+            <div style="display:flex;gap:0.5rem;align-items:center;font-size:0.82rem;">
+              <span style="font-family:monospace;color:var(--cyan);font-weight:700;min-width:52px;">ST-012</span>
+              <span style="flex:1;">Responsividade Mobile</span>
+              <span style="background:rgba(59,130,246,.15);color:var(--blue);padding:0.15rem 0.5rem;border-radius:4px;font-size:0.7rem;">UI</span>
+            </div>
+            <div style="display:flex;gap:0.5rem;align-items:center;font-size:0.82rem;">
+              <span style="font-family:monospace;color:var(--cyan);font-weight:700;min-width:52px;">ST-013</span>
+              <span style="flex:1;">Integração WhatsApp Business</span>
+              <span style="background:rgba(59,130,246,.15);color:var(--blue);padding:0.15rem 0.5rem;border-radius:4px;font-size:0.7rem;">UI</span>
+            </div>
+            <div style="display:flex;gap:0.5rem;align-items:center;font-size:0.82rem;">
+              <span style="font-family:monospace;color:var(--cyan);font-weight:700;min-width:52px;">ST-014</span>
+              <span style="flex:1;">Recuperação de Senha</span>
+              <span style="background:rgba(59,130,246,.15);color:var(--blue);padding:0.15rem 0.5rem;border-radius:4px;font-size:0.7rem;">UI</span>
+            </div>
+            <div style="display:flex;gap:0.5rem;align-items:center;font-size:0.82rem;">
+              <span style="font-family:monospace;color:var(--cyan);font-weight:700;min-width:52px;">ST-015</span>
+              <span style="flex:1;">Vinculação de Empresa</span>
+              <span style="background:rgba(59,130,246,.15);color:var(--blue);padding:0.15rem 0.5rem;border-radius:4px;font-size:0.7rem;">UI</span>
+            </div>
+            <div style="display:flex;gap:0.5rem;align-items:center;font-size:0.82rem;">
+              <span style="font-family:monospace;color:var(--cyan);font-weight:700;min-width:52px;">ST-016</span>
+              <span style="flex:1;">Notificações do Sistema</span>
+              <span style="background:rgba(59,130,246,.15);color:var(--blue);padding:0.15rem 0.5rem;border-radius:4px;font-size:0.7rem;">UI</span>
+            </div>
+            <div style="display:flex;gap:0.5rem;align-items:center;font-size:0.82rem;">
+              <span style="font-family:monospace;color:var(--cyan);font-weight:700;min-width:52px;">ST-017</span>
+              <span style="flex:1;">Geração de Insights/Relatórios</span>
+              <span style="background:rgba(59,130,246,.15);color:var(--blue);padding:0.15rem 0.5rem;border-radius:4px;font-size:0.7rem;">UI</span>
+            </div>
+            <div style="display:flex;gap:0.5rem;align-items:center;font-size:0.82rem;">
+              <span style="font-family:monospace;color:var(--cyan);font-weight:700;min-width:52px;">ST-023</span>
+              <span style="flex:1;">Aplicação de Cupom Estadual</span>
+              <span style="background:rgba(139,92,246,.15);color:var(--purple);padding:0.15rem 0.5rem;border-radius:4px;font-size:0.7rem;">API</span>
+            </div>
+            <div style="display:flex;gap:0.5rem;align-items:center;font-size:0.82rem;">
+              <span style="font-family:monospace;color:var(--cyan);font-weight:700;min-width:52px;">ST-024</span>
+              <span style="flex:1;">Restrição de Cupom por UF</span>
+              <span style="background:rgba(139,92,246,.15);color:var(--purple);padding:0.15rem 0.5rem;border-radius:4px;font-size:0.7rem;">API</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ─── Próximos Passos ────────────────────────────────────────────────── -->
+    <div class="reveal">
+      <h3 style="font-size:1.25rem;font-weight:700;color:var(--text-secondary);margin-bottom:1.5rem;display:flex;align-items:center;gap:0.6rem;">
+        <span style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);border-radius:6px;padding:0.25rem 0.75rem;font-size:0.8rem;letter-spacing:.08em;text-transform:uppercase;">🗺️ Próximos Passos</span>
+        Atividades e automações futuras
+      </h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;">
+
+        <div class="glass-card" style="padding:1.5rem;">
+          <div style="font-weight:700;font-size:1rem;margin-bottom:1rem;color:var(--text-primary);">Processos Futuros</div>
+          <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.6rem;">
+            <li style="display:flex;gap:0.6rem;align-items:flex-start;font-size:0.87rem;">
+              <span style="color:var(--text-secondary);flex-shrink:0;">→</span>Manter e evoluir todos os processos em andamento
+            </li>
+            <li style="display:flex;gap:0.6rem;align-items:flex-start;font-size:0.87rem;">
+              <span style="color:var(--text-secondary);flex-shrink:0;">→</span>Automatizar toda a gestão e dashboards de qualidade
+            </li>
+          </ul>
+        </div>
+
+        <div class="glass-card" style="padding:1.5rem;">
+          <div style="font-weight:700;font-size:1rem;margin-bottom:1rem;color:var(--text-primary);">Automações Planejadas</div>
+          <div style="display:flex;flex-direction:column;gap:0.45rem;">
+            <div style="display:flex;gap:0.5rem;align-items:center;font-size:0.82rem;opacity:0.7;">
+              <span style="font-family:monospace;color:var(--cyan);font-weight:700;min-width:52px;">ST-021</span>
+              <span style="flex:1;">Sincronização de CPF Existente</span>
+              <span style="background:rgba(139,92,246,.12);color:var(--purple);padding:0.15rem 0.5rem;border-radius:4px;font-size:0.7rem;">API</span>
+            </div>
+            <div style="display:flex;gap:0.5rem;align-items:center;font-size:0.82rem;opacity:0.7;">
+              <span style="font-family:monospace;color:var(--cyan);font-weight:700;min-width:52px;">ST-022</span>
+              <span style="flex:1;">Bloqueio Pós-Trial de 15 Dias</span>
+              <span style="background:rgba(59,130,246,.12);color:var(--blue);padding:0.15rem 0.5rem;border-radius:4px;font-size:0.7rem;">UI</span>
+            </div>
+            <div style="display:flex;gap:0.5rem;align-items:center;font-size:0.82rem;opacity:0.7;">
+              <span style="font-family:monospace;color:var(--cyan);font-weight:700;min-width:52px;">ST-025</span>
+              <span style="flex:1;">Revogação de Selo por Exclusão</span>
+              <span style="background:rgba(139,92,246,.12);color:var(--purple);padding:0.15rem 0.5rem;border-radius:4px;font-size:0.7rem;">API</span>
+            </div>
+            <div style="display:flex;gap:0.5rem;align-items:center;font-size:0.82rem;opacity:0.7;">
+              <span style="font-family:monospace;color:var(--cyan);font-weight:700;min-width:52px;">ST-026</span>
+              <span style="flex:1;">Deferimento de Autodiagnóstico</span>
+              <span style="background:rgba(139,92,246,.12);color:var(--purple);padding:0.15rem 0.5rem;border-radius:4px;font-size:0.7rem;">API</span>
+            </div>
+            <div style="display:flex;gap:0.5rem;align-items:center;font-size:0.82rem;opacity:0.7;">
+              <span style="font-family:monospace;color:var(--cyan);font-weight:700;min-width:52px;">ST-027</span>
+              <span style="flex:1;">Verificação de Critérios Impeditivos</span>
+              <span style="background:rgba(139,92,246,.12);color:var(--purple);padding:0.15rem 0.5rem;border-radius:4px;font-size:0.7rem;">API</span>
+            </div>
+            <div style="display:flex;gap:0.5rem;align-items:center;font-size:0.82rem;opacity:0.7;">
+              <span style="font-family:monospace;color:var(--cyan);font-weight:700;min-width:52px;">ST-028</span>
+              <span style="flex:1;">Restrição de Usuário Regional</span>
+              <span style="background:rgba(59,130,246,.12);color:var(--blue);padding:0.15rem 0.5rem;border-radius:4px;font-size:0.7rem;">UI</span>
+            </div>
+            <div style="display:flex;gap:0.5rem;align-items:center;font-size:0.82rem;opacity:0.7;">
+              <span style="font-family:monospace;color:var(--cyan);font-weight:700;min-width:52px;">ST-029</span>
+              <span style="flex:1;">Download de Lista Gerencial</span>
+              <span style="background:rgba(59,130,246,.12);color:var(--blue);padding:0.15rem 0.5rem;border-radius:4px;font-size:0.7rem;">UI</span>
+            </div>
+            <div style="display:flex;gap:0.5rem;align-items:center;font-size:0.82rem;opacity:0.7;">
+              <span style="font-family:monospace;color:var(--cyan);font-weight:700;min-width:52px;">ST-031</span>
+              <span style="flex:1;">Feedback de Insight (Dislike)</span>
+              <span style="background:rgba(59,130,246,.12);color:var(--blue);padding:0.15rem 0.5rem;border-radius:4px;font-size:0.7rem;">UI</span>
+            </div>
+            <div style="display:flex;gap:0.5rem;align-items:center;font-size:0.82rem;opacity:0.7;">
+              <span style="font-family:monospace;color:var(--cyan);font-weight:700;min-width:52px;">ST-033</span>
+              <span style="flex:1;">Aptidão para Envios em Massa</span>
+              <span style="background:rgba(59,130,246,.12);color:var(--blue);padding:0.15rem 0.5rem;border-radius:4px;font-size:0.7rem;">UI</span>
+            </div>
+            <div style="display:flex;gap:0.5rem;align-items:center;font-size:0.82rem;opacity:0.7;">
+              <span style="font-family:monospace;color:var(--cyan);font-weight:700;min-width:52px;">ST-034</span>
+              <span style="flex:1;">Bloqueio de Exclusão em Plano Pago</span>
+              <span style="background:rgba(59,130,246,.12);color:var(--blue);padding:0.15rem 0.5rem;border-radius:4px;font-size:0.7rem;">UI</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CULTURE -->
+<section id="culture" style="background:var(--bg-primary)">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">Cultura de Qualidade</div>
+      <h2 class="section-title">Qualidade e <span class="accent">responsabilidade de todos</span></h2>
+      <p class="section-desc">O QA nao e um filtro no final - e uma mentalidade que permeia cada decisao de produto e engenharia da BIUD.</p>
+    </div>
+    <div class="culture-grid">
+      <div class="culture-card reveal" style="--glow:rgba(59,130,246,0.12)">
+        <span class="culture-emoji">&#129309;</span>
+        <div class="culture-title">Colaboracao Continua</div>
+        <div class="culture-desc">QA, Dev e Product alinhados desde o refinamento. DoR claro, criterios antecipados, problemas resolvidos antes de virar codigo.</div>
+      </div>
+      <div class="culture-card reveal reveal-delay-1" style="--glow:rgba(16,185,129,0.12)">
+        <span class="culture-emoji">&#128737;</span>
+        <div class="culture-title">Prevencao sobre Correcao</div>
+        <div class="culture-desc">Investimos em prevenir bugs na origem. Templates de abertura de card, definition of ready e criterios de aceite bem definidos.</div>
+      </div>
+      <div class="culture-card reveal reveal-delay-2" style="--glow:rgba(139,92,246,0.12)">
+        <span class="culture-emoji">&#128218;</span>
+        <div class="culture-title">Aprendizado Continuo</div>
+        <div class="culture-desc">Cada incidente vira aprendizado. RCAs documentados, retrospectivas e portal de QA centralizado para todo o time.</div>
+      </div>
+      <div class="culture-card reveal" style="--glow:rgba(245,158,11,0.12)">
+        <span class="culture-emoji">&#128202;</span>
+        <div class="culture-title">Metricas como Bussola</div>
+        <div class="culture-desc">Decisoes baseadas em KPIs de qualidade. Indicadores visiveis para toda a engenharia, nao so para o QA.</div>
+      </div>
+      <div class="culture-card reveal reveal-delay-1" style="--glow:rgba(34,211,238,0.12)">
+        <span class="culture-emoji">&#9889;</span>
+        <div class="culture-title">Velocidade com Seguranca</div>
+        <div class="culture-desc">Automacao que libera o time para inovar com confianca. Deployments frequentes e confiaveis, nao apavorantes.</div>
+      </div>
+      <div class="culture-card reveal reveal-delay-2" style="--glow:rgba(239,68,68,0.12)">
+        <span class="culture-emoji">&#128680;</span>
+        <div class="culture-title">Resiliencia Operacional</div>
+        <div class="culture-desc">Severidade e prioridade definidas, runbooks claros e processos de resposta a incidentes que funcionam sob pressao real.</div>
+      </div>
+    </div>
+
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="nav-logo">BIUD <span style="-webkit-text-fill-color:var(--text-secondary)">/ QA</span></span>
+      <p>Setor de Quality Assurance da BIUD &mdash; excelencia, confiabilidade e performance no produto <strong style="color:var(--text-primary)">BIUD V3 &ndash; ESG SEBRAE</strong> e na plataforma de marketing inteligente para o varejo brasileiro.</p>
+      <div class="footer-status" style="margin-top:1rem">
+        <div class="status-dot"></div>
+        Todos os sistemas operacionais
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Documentacao QA</h4>
+      <ul>
+        <li><a href="docs/- Responsabilidades QA.docx">Responsabilidades QA</a></li>
+        <li><a href="docs/- Gestão e Templates de BUG e Sub-Bug.docx">Templates de Bug</a></li>
+        <li><a href="docs/- Implementação de KPIs de Qualidade (QA).pdf">KPIs de Qualidade</a></li>
+        <li><a href="docs/- Definição de Severidade e Prioridade.pdf">Severidade e Prioridade</a></li>
+        <li><a href="docs/- Padrão para Abertura de Card (DoR – Definition of Ready).docx">Padrão DoR</a></li>
+        <li><a href="docs/- Modelo de Plano de Teste.docx">Plano de Teste</a></li>
+        <li><a href="docs/- Modelo de Execução de Teste.docx">Modelo de Execução</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Setor QA</h4>
+      <ul>
+        <li><a href="#about">Sobre o QA</a></li>
+        <li><a href="#metrics">Metricas</a></li>
+        <li><a href="#processes">Processos</a></li>
+        <li><a href="#docs">Documentacao</a></li>
+        <li><a href="#tools">Ferramentas</a></li>
+        <li><a href="#cases">Cases</a></li>
+        <li><a href="#culture">Cultura</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>APIs e Empresa</h4>
+      <ul>
+        <li><a href="https://biud.com.br" target="_blank">BIUD.com.br</a></li>
+        <li><a href="https://esg.sebrae.com.br" target="_blank">Projeto ESG SEBRAE</a></li>
+        <li><a href="https://api-core-hmg.biud.com.br/api-docs" target="_blank">API Core</a></li>
+        <li><a href="https://api-payment-hmg.biud.com.br/api-docs" target="_blank">API Payment</a></li>
+        <li><a href="https://api-esg-hmg.biud.com.br/api-docs" target="_blank">API ESG</a></li>
+        <li><a href="https://biud-insights-hmg.biud.com.br/api-docs" target="_blank">API Insights</a></li>
+        <li><a href="mailto:rogeriolopes@biud.com.br">Contato QA</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; 2025 BIUD Tecnologia &middot; Setor de Quality Assurance &middot; BIUD V3 &ndash; ESG SEBRAE</span>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--text-muted)">v2.1.0 &middot; Build com &#10084; pelo time de QA</span>
+    <span>rogeriolopes@biud.com.br</span>
+  </div>
+</footer>
+
+<script>
+  window.addEventListener('load', function() {
+    setTimeout(function() {
+      var el = document.getElementById('loader');
+      if (el) { el.style.opacity = '0'; el.style.visibility = 'hidden'; el.style.pointerEvents = 'none'; }
+    }, 2000);
+  });
+
+  function toggleMenu() {
+    document.getElementById('navLinks').classList.toggle('open');
+  }
+
+  var revealObs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+  document.querySelectorAll('.reveal').forEach(function(el) { revealObs.observe(el); });
+
+
+
+  window.addEventListener('scroll', function() {
+    document.getElementById('navbar').style.boxShadow = window.scrollY > 50 ? '0 8px 32px rgba(0,0,0,0.4)' : 'none';
+  });
+
+  var sections = document.querySelectorAll('section[id]');
+  var navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+  var navObs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) navLinks.forEach(function(a) {
+        a.style.color = a.getAttribute('href') === '#' + e.target.id ? 'var(--blue)' : '';
+      });
+    });
+  }, { threshold: 0.4 });
+  sections.forEach(function(s) { navObs.observe(s); });
+
+  if (typeof Chart !== 'undefined') {
+    Chart.defaults.color = '#94A3B8';
+    Chart.defaults.font = { family: 'Inter', size: 11 };
+  }
+
+  function qaLogout() {
+    sessionStorage.removeItem('qa_auth');
+    window.location.replace('login.html');
+  }
+</script>
+</body>
+</html>

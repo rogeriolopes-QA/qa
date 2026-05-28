@@ -836,6 +836,58 @@
   }
   .glossary-def { font-size: 0.87rem; color: var(--text-secondary); line-height: 1.6; }
 
+  /* ── BIUD TALKS ─────────────────────────────── */
+  .talks-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+  }
+  .talk-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.1rem 1.25rem;
+    display: flex; align-items: center; gap: 1rem;
+    transition: var(--transition);
+    text-decoration: none; color: inherit;
+    position: relative; overflow: hidden;
+  }
+  .talk-card:hover { border-color: var(--border-hover); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.25); }
+  .talk-card.upcoming { opacity: 0.55; cursor: default; pointer-events: none; }
+  .talk-card.upcoming:hover { transform: none; box-shadow: none; }
+  .talk-date {
+    min-width: 52px; text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem; font-weight: 700;
+    color: var(--cyan); line-height: 1.3;
+  }
+  .talk-info { flex: 1; min-width: 0; }
+  .talk-speaker { font-size: 0.92rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.15rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .talk-title  { font-size: 0.78rem; color: var(--text-secondary); line-height: 1.45; }
+  .talk-badge {
+    font-size: 0.65rem; font-weight: 700; padding: 0.15rem 0.55rem;
+    border-radius: 20px; flex-shrink: 0; letter-spacing: 0.4px; text-transform: uppercase;
+  }
+  .talk-badge.done     { background: rgba(16,185,129,0.15); color: var(--green); border: 1px solid rgba(16,185,129,0.25); }
+  .talk-badge.upcoming { background: rgba(148,163,184,0.1);  color: var(--text-muted); border: 1px solid rgba(148,163,184,0.15); }
+  .talk-badge.soon     { background: rgba(59,130,246,0.12);  color: var(--blue);       border: 1px solid rgba(59,130,246,0.25); }
+  .talk-badge.open     { background: rgba(251,146,60,0.12);  color: #fb923c;           border: 1px solid rgba(251,146,60,0.25); }
+  .talk-pdf-icon { font-size: 1rem; flex-shrink: 0; opacity: 0.7; }
+  .talk-card:not(.upcoming) .talk-pdf-icon { color: var(--cyan); opacity: 1; }
+  .talks-template-bar {
+    display: flex; align-items: center; gap: 1.25rem;
+    background: rgba(139,92,246,0.07);
+    border: 1px solid rgba(139,92,246,0.22);
+    border-radius: 14px; padding: 1rem 1.4rem;
+    text-decoration: none; color: inherit;
+    transition: var(--transition); margin-bottom: 2.5rem;
+  }
+  .talks-template-bar:hover { background: rgba(139,92,246,0.13); border-color: rgba(139,92,246,0.4); transform: translateY(-1px); }
+  body.light-mode .talk-card { background: rgba(255,255,255,0.82); border-color: rgba(0,0,0,0.08); }
+  body.light-mode .talk-date { color: #0369a1; }
+  body.light-mode .talks-template-bar { background: rgba(139,92,246,0.05); }
+
   </style>
 </head>
 <body>
@@ -863,8 +915,9 @@
     <a href="#tools">Ferramentas</a>
     <a href="#cases">Cases</a>
     <a href="#sprint">Sprint</a>
+    <a href="#biud-talks">BIUD Talks</a>
     <a href="#culture">Cultura</a>
-    
+
   </div>
 
   <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Alternar tema">
@@ -2159,6 +2212,222 @@
   </div>
 </section>
 
+<!-- ═══════════════════════════════════════════
+     BIUD TALKS
+═══════════════════════════════════════════ -->
+<section id="biud-talks" style="background:var(--bg-secondary)">
+  <div class="container">
+
+    <div class="section-header reveal">
+      <div class="section-tag">Knowledge Sharing</div>
+      <h2 class="section-title">BIUD <span class="accent">Talks</span></h2>
+      <p class="section-desc">Ciclo de palestras técnicas semanais da BIUD — cada terça-feira um membro do time compartilha conhecimento com toda a engenharia.</p>
+    </div>
+
+    <!-- Stats -->
+    <div class="hero-stats reveal" style="margin-bottom:2.5rem;">
+      <div class="hero-stat">
+        <strong style="font-size:2rem;font-weight:900;color:var(--green)">6</strong>
+        <span>Palestras realizadas</span>
+      </div>
+      <div class="hero-stat">
+        <strong style="font-size:2rem;font-weight:900;color:var(--blue)">11</strong>
+        <span>Palestras agendadas</span>
+      </div>
+
+    </div>
+
+    <!-- Template de apresentação -->
+    <a href="docs/biud-talks/modelo-apresentacao-biud-talks.pptx" target="_blank" rel="noopener"
+       class="talks-template-bar reveal">
+      <span style="font-size:1.6rem;">📎</span>
+      <div style="flex:1;">
+        <div style="font-weight:700;font-size:0.95rem;margin-bottom:0.2rem;color:var(--text-primary);">Template Oficial — BIUD Talks</div>
+        <div style="font-size:0.8rem;color:var(--text-secondary);">Use este modelo para preparar sua apresentação. Quer apresentar? Envie seu tema para o Rogério.</div>
+      </div>
+      <span style="font-size:0.78rem;font-weight:700;color:var(--purple);white-space:nowrap;">Ver Template →</span>
+    </a>
+
+    <!-- Grade de palestras -->
+    <div class="talks-grid reveal">
+
+      <!-- ── REALIZADAS ── -->
+      <a href="docs/biud-talks/01-Wanderson-IA-Dev.pdf" target="_blank" rel="noopener" class="talk-card">
+        <div class="talk-date">22<br>ABR</div>
+        <div class="talk-info">
+          <div class="talk-speaker">Wanderson Santos</div>
+          <div class="talk-title">Inteligência Artificial para Dev</div>
+        </div>
+        <span class="talk-badge done">✓ PDF</span>
+        <span class="talk-pdf-icon">📄</span>
+      </a>
+
+      <a href="docs/biud-talks/02-Praxedes-Testes-Unitarios.pdf" target="_blank" rel="noopener" class="talk-card">
+        <div class="talk-date">29<br>ABR</div>
+        <div class="talk-info">
+          <div class="talk-speaker">Praxedes</div>
+          <div class="talk-title">Testes Unitários</div>
+        </div>
+        <span class="talk-badge done">✓ PDF</span>
+        <span class="talk-pdf-icon">📄</span>
+      </a>
+
+      <a href="docs/biud-talks/03-Luk-Arquitetura-Software.pdf" target="_blank" rel="noopener" class="talk-card">
+        <div class="talk-date">06<br>MAI</div>
+        <div class="talk-info">
+          <div class="talk-speaker">Luk</div>
+          <div class="talk-title">Arquitetura de Software</div>
+        </div>
+        <span class="talk-badge done">✓ PDF</span>
+        <span class="talk-pdf-icon">📄</span>
+      </a>
+
+      <a href="docs/biud-talks/04-Regis-Integracao-Sistemas.pdf" target="_blank" rel="noopener" class="talk-card">
+        <div class="talk-date">13<br>MAI</div>
+        <div class="talk-info">
+          <div class="talk-speaker">Gabriel Regis</div>
+          <div class="talk-title">Integração de Sistemas</div>
+        </div>
+        <span class="talk-badge done">✓ PDF</span>
+        <span class="talk-pdf-icon">📄</span>
+      </a>
+
+      <a href="docs/biud-talks/05-Rogerio-RCA.pdf" target="_blank" rel="noopener" class="talk-card">
+        <div class="talk-date">20<br>MAI</div>
+        <div class="talk-info">
+          <div class="talk-speaker">Rogério</div>
+          <div class="talk-title">Root Cause Analysis (RCA)</div>
+        </div>
+        <span class="talk-badge done">✓ PDF</span>
+        <span class="talk-pdf-icon">📄</span>
+      </a>
+
+      <a href="docs/biud-talks/06-Gustavo-Metodologia-Agil.pdf" target="_blank" rel="noopener" class="talk-card">
+        <div class="talk-date">27<br>MAI</div>
+        <div class="talk-info">
+          <div class="talk-speaker">Gustavo</div>
+          <div class="talk-title">Metodologia Ágil</div>
+        </div>
+        <span class="talk-badge done">✓ PDF</span>
+        <span class="talk-pdf-icon">📄</span>
+      </a>
+
+      <!-- ── PRÓXIMAS ── -->
+      <div class="talk-card upcoming">
+        <div class="talk-date">03<br>JUN</div>
+        <div class="talk-info">
+          <div class="talk-speaker">Luk</div>
+          <div class="talk-title">CR – Code Review</div>
+        </div>
+        <span class="talk-badge soon">Em breve</span>
+        <span class="talk-pdf-icon">🕐</span>
+      </div>
+
+      <div class="talk-card upcoming">
+        <div class="talk-date">10<br>JUN</div>
+        <div class="talk-info">
+          <div class="talk-speaker">Thiago</div>
+          <div class="talk-title">IA na prática: Claude Code</div>
+        </div>
+        <span class="talk-badge upcoming">Agendado</span>
+        <span class="talk-pdf-icon">🕐</span>
+      </div>
+
+      <div class="talk-card upcoming">
+        <div class="talk-date">17<br>JUN</div>
+        <div class="talk-info">
+          <div class="talk-speaker">Guilherme</div>
+          <div class="talk-title">Segurança de Dados no ambiente corporativo e pessoal</div>
+        </div>
+        <span class="talk-badge upcoming">Agendado</span>
+        <span class="talk-pdf-icon">🕐</span>
+      </div>
+
+      <div class="talk-card upcoming">
+        <div class="talk-date">24<br>JUN</div>
+        <div class="talk-info">
+          <div class="talk-speaker">Jean</div>
+          <div class="talk-title">Machine Learning</div>
+        </div>
+        <span class="talk-badge upcoming">Agendado</span>
+        <span class="talk-pdf-icon">🕐</span>
+      </div>
+
+      <div class="talk-card upcoming">
+        <div class="talk-date">01<br>JUL</div>
+        <div class="talk-info">
+          <div class="talk-speaker">Santiago</div>
+          <div class="talk-title">CNV (Comunicação Não Violenta) no ambiente de trabalho</div>
+        </div>
+        <span class="talk-badge upcoming">Agendado</span>
+        <span class="talk-pdf-icon">🕐</span>
+      </div>
+
+      <div class="talk-card upcoming">
+        <div class="talk-date">08<br>JUL</div>
+        <div class="talk-info">
+          <div class="talk-speaker">Rogério</div>
+          <div class="talk-title">Saúde Mental</div>
+        </div>
+        <span class="talk-badge upcoming">Agendado</span>
+        <span class="talk-pdf-icon">🕐</span>
+      </div>
+
+      <div class="talk-card upcoming">
+        <div class="talk-date">15<br>JUL</div>
+        <div class="talk-info">
+          <div class="talk-speaker">Guilherme</div>
+          <div class="talk-title">DevOps e Infraestrutura</div>
+        </div>
+        <span class="talk-badge upcoming">Agendado</span>
+        <span class="talk-pdf-icon">🕐</span>
+      </div>
+
+      <div class="talk-card upcoming">
+        <div class="talk-date">22<br>JUL</div>
+        <div class="talk-info">
+          <div class="talk-speaker">Gustavo</div>
+          <div class="talk-title">Ambidestria Organizacional</div>
+        </div>
+        <span class="talk-badge upcoming">Agendado</span>
+        <span class="talk-pdf-icon">🕐</span>
+      </div>
+
+      <div class="talk-card upcoming">
+        <div class="talk-date">29<br>JUL</div>
+        <div class="talk-info">
+          <div class="talk-speaker">Santiago</div>
+          <div class="talk-title">Mindset Ágil</div>
+        </div>
+        <span class="talk-badge upcoming">Agendado</span>
+        <span class="talk-pdf-icon">🕐</span>
+      </div>
+
+      <div class="talk-card upcoming">
+        <div class="talk-date">05<br>AGO</div>
+        <div class="talk-info">
+          <div class="talk-speaker">Jean</div>
+          <div class="talk-title">RAG</div>
+        </div>
+        <span class="talk-badge upcoming">Agendado</span>
+        <span class="talk-pdf-icon">🕐</span>
+      </div>
+
+      <div class="talk-card upcoming">
+        <div class="talk-date">12<br>AGO</div>
+        <div class="talk-info">
+          <div class="talk-speaker">????</div>
+          <div class="talk-title">Pode ser você! Envie seu tema para o Rogério.</div>
+        </div>
+        <span class="talk-badge open">Aberto</span>
+        <span class="talk-pdf-icon">✨</span>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
 <!-- CULTURE -->
 <section id="culture" style="background:var(--bg-primary)">
   <div class="container">
@@ -2306,7 +2575,7 @@
       <div class="glossary-item visible">
         <div class="glossary-term">Bug / Sub-Bug</div>
         <div class="glossary-full">Defeito no software</div>
-        <div class="glossary-def">Bug é um defeito que causa comportamento incorreto no sistema. Sub-bug é um defeito derivado ou relacionado a um bug principal. No ClickUp, sub-bugs são cards filhos vinculados ao bug pai para rastreamento granular.</div>
+        <div class="glossary-def">Bug é um defeito que causa comportamento incorreto no sistema. Sub-bug é um defeito derivado ou relacionado a um bug principal. No Jira, sub-bugs são cards filhos vinculados ao bug pai para rastreamento granular.</div>
       </div>
 
       <div class="glossary-item visible">
@@ -2362,6 +2631,7 @@
         <li><a href="#docs">Documentação</a></li>
         <li><a href="#tools">Ferramentas</a></li>
         <li><a href="#cases">Cases</a></li>
+        <li><a href="#biud-talks">BIUD Talks</a></li>
         <li><a href="#culture">Cultura</a></li>
       </ul>
     </div>
@@ -2425,7 +2695,7 @@
   }
 
 
-  // ── Theme toggle ──────────────────────────────────────────────────────────
+  // -- Theme toggle
   (function() {
     var saved = sessionStorage.getItem('qa_theme');
     if (saved === 'light') {
@@ -2452,7 +2722,7 @@
     }
   }
 
-  // ── Glossário ─────────────────────────────────────────────────────────────
+  // -- Glossario
   function openGlossary() {
     document.getElementById('glossaryOverlay').classList.add('open');
     document.body.style.overflow = 'hidden';
@@ -2474,7 +2744,6 @@
       item.classList.toggle('visible', !q || text.includes(q));
     });
   }
-  // Fechar com Escape
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') closeGlossary();
   });
@@ -2485,10 +2754,10 @@
   }
 
 
-  // ── Sprint dinâmico ─────────────────────────────────────────────────────
+  // -- Sprint dinamico
   (function() {
     var SPRINT_31_START = new Date('2026-02-02');
-    var SPRINT_LEN = 14; // dias (quinzenal)
+    var SPRINT_LEN = 14;
     var today = new Date();
     today.setHours(0,0,0,0);
     SPRINT_31_START.setHours(0,0,0,0);
@@ -2504,13 +2773,11 @@
       return d.toLocaleDateString('pt-BR', { day:'2-digit', month:'2-digit', year:'numeric' });
     }
 
-    // Hero tag e stat
     var heroTag = document.getElementById('hero-tag-sprint');
     var heroStat = document.getElementById('hero-sprint-num');
     if (heroTag)  heroTag.textContent  = 'Sprint ' + sprintNum;
     if (heroStat) heroStat.textContent = sprintNum;
 
-    // Sprint section description
     var todayEl   = document.getElementById('sprint-today-date');
     var secNum    = document.getElementById('sprint-section-num');
     var secRange  = document.getElementById('sprint-section-range');
@@ -2518,12 +2785,11 @@
     if (secNum)   secNum.textContent   = 'Sprint ' + sprintNum;
     if (secRange) secRange.textContent = '(' + fmt(sprintStart) + ' – ' + fmt(sprintEnd) + ')';
 
-    // Em Andamento badge
     var andBadge = document.getElementById('andamento-sprint-badge');
     if (andBadge) andBadge.textContent = 'Sprint ' + sprintNum + ' · ' + fmt(sprintStart) + ' → ' + fmt(sprintEnd);
   })();
 
-  // ── Contador automático de dias ──────────────────────────────
+  // -- Contador automatico de dias
   (function() {
     var start = new Date('2026-02-02');
     var today = new Date();

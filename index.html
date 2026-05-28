@@ -888,6 +888,22 @@
   body.light-mode .talk-date { color: #0369a1; }
   body.light-mode .talks-template-bar { background: rgba(139,92,246,0.05); }
 
+  /* ── Video Modal ── */
+  .talk-actions { display:flex; gap:0.5rem; align-items:center; flex-shrink:0; }
+  .talk-btn { display:inline-flex; align-items:center; gap:0.3rem; font-size:0.68rem; font-weight:700; padding:0.22rem 0.6rem; border-radius:20px; border:none; cursor:pointer; text-decoration:none; transition:var(--transition); letter-spacing:0.3px; font-family:inherit; }
+  .talk-btn.pdf   { background:rgba(59,130,246,0.12); color:var(--blue); border:1px solid rgba(59,130,246,0.25); }
+  .talk-btn.pdf:hover   { background:rgba(59,130,246,0.24); }
+  .talk-btn.video { background:rgba(16,185,129,0.12); color:var(--green); border:1px solid rgba(16,185,129,0.25); }
+  .talk-btn.video:hover { background:rgba(16,185,129,0.24); }
+  #videoModal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.88); z-index:9999; align-items:center; justify-content:center; }
+  #videoModal.open { display:flex; }
+  .video-modal-inner { position:relative; width:min(900px,95vw); aspect-ratio:16/9; background:#000; border-radius:12px; overflow:hidden; box-shadow:0 24px 80px rgba(0,0,0,0.8); }
+  .video-modal-close { position:absolute; top:-2.6rem; right:0; background:none; border:none; color:#fff; font-size:1.6rem; cursor:pointer; opacity:0.75; transition:opacity 0.2s; line-height:1; }
+  .video-modal-close:hover { opacity:1; }
+  .video-modal-inner iframe { width:100%; height:100%; border:none; }
+  body.light-mode .talk-btn.pdf   { background:rgba(59,130,246,0.08); }
+  body.light-mode .talk-btn.video { background:rgba(16,185,129,0.08); }
+
   </style>
 </head>
 <body>
@@ -2221,7 +2237,7 @@
     <div class="section-header reveal">
       <div class="section-tag">Knowledge Sharing</div>
       <h2 class="section-title">BIUD <span class="accent">Talks</span></h2>
-      <p class="section-desc">Ciclo de palestras técnicas semanais da BIUD — cada terça-feira um membro do time compartilha conhecimento com toda a engenharia.</p>
+      <p class="section-desc">Ciclo de palestras técnicas semanais da BIUD — toda quarta-feira às 15h um membro do time compartilha conhecimento com toda a engenharia.</p>
     </div>
 
     <!-- Stats -->
@@ -2262,55 +2278,65 @@
         <span class="talk-pdf-icon">📄</span>
       </a>
 
-      <a href="docs/biud-talks/02-Praxedes-Testes-Unitarios.pdf" target="_blank" rel="noopener" class="talk-card">
+      <div class="talk-card">
         <div class="talk-date">29<br>ABR</div>
         <div class="talk-info">
           <div class="talk-speaker">Praxedes</div>
           <div class="talk-title">Testes Unitários</div>
         </div>
-        <span class="talk-badge done">✓ PDF</span>
-        <span class="talk-pdf-icon">📄</span>
-      </a>
+        <div class="talk-actions">
+          <a href="docs/biud-talks/02-Praxedes-Testes-Unitarios.pdf" target="_blank" rel="noopener" class="talk-btn pdf">📄 PDF</a>
+          <button class="talk-btn video" onclick="openVideo('https://drive.google.com/file/d/1JBUW9O-_Ab0P682uIgesY6Map5MAChgF/preview')">▶ Vídeo</button>
+        </div>
+      </div>
 
-      <a href="docs/biud-talks/03-Luk-Arquitetura-Software.pdf" target="_blank" rel="noopener" class="talk-card">
+      <div class="talk-card">
         <div class="talk-date">06<br>MAI</div>
         <div class="talk-info">
           <div class="talk-speaker">Luk</div>
           <div class="talk-title">Arquitetura de Software</div>
         </div>
-        <span class="talk-badge done">✓ PDF</span>
-        <span class="talk-pdf-icon">📄</span>
-      </a>
+        <div class="talk-actions">
+          <a href="docs/biud-talks/03-Luk-Arquitetura-Software.pdf" target="_blank" rel="noopener" class="talk-btn pdf">📄 PDF</a>
+          <button class="talk-btn video" onclick="openVideo('https://drive.google.com/file/d/12s2zPmWrtYTnoNsCVmCKQdkS1ZZMjtXL/preview')">▶ Vídeo</button>
+        </div>
+      </div>
 
-      <a href="docs/biud-talks/04-Regis-Integracao-Sistemas.pdf" target="_blank" rel="noopener" class="talk-card">
+      <div class="talk-card">
         <div class="talk-date">13<br>MAI</div>
         <div class="talk-info">
           <div class="talk-speaker">Gabriel Regis</div>
           <div class="talk-title">Integração de Sistemas</div>
         </div>
-        <span class="talk-badge done">✓ PDF</span>
-        <span class="talk-pdf-icon">📄</span>
-      </a>
+        <div class="talk-actions">
+          <a href="docs/biud-talks/04-Regis-Integracao-Sistemas.pdf" target="_blank" rel="noopener" class="talk-btn pdf">📄 PDF</a>
+          <button class="talk-btn video" onclick="openVideo('https://drive.google.com/file/d/1E7w1-MPGtoZvYBc99wopVGld88dFkOp6/preview')">▶ Vídeo</button>
+        </div>
+      </div>
 
-      <a href="docs/biud-talks/05-Rogerio-RCA.pdf" target="_blank" rel="noopener" class="talk-card">
+      <div class="talk-card">
         <div class="talk-date">20<br>MAI</div>
         <div class="talk-info">
           <div class="talk-speaker">Rogério</div>
           <div class="talk-title">Root Cause Analysis (RCA)</div>
         </div>
-        <span class="talk-badge done">✓ PDF</span>
-        <span class="talk-pdf-icon">📄</span>
-      </a>
+        <div class="talk-actions">
+          <a href="docs/biud-talks/05-Rogerio-RCA.pdf" target="_blank" rel="noopener" class="talk-btn pdf">📄 PDF</a>
+          <button class="talk-btn video" onclick="openVideo('https://drive.google.com/file/d/15BXfzWve6fREcYRKhSOUNJE91JXdps3T/preview')">▶ Vídeo</button>
+        </div>
+      </div>
 
-      <a href="docs/biud-talks/06-Gustavo-Metodologia-Agil.pdf" target="_blank" rel="noopener" class="talk-card">
+      <div class="talk-card">
         <div class="talk-date">27<br>MAI</div>
         <div class="talk-info">
           <div class="talk-speaker">Gustavo</div>
           <div class="talk-title">Metodologia Ágil</div>
         </div>
-        <span class="talk-badge done">✓ PDF</span>
-        <span class="talk-pdf-icon">📄</span>
-      </a>
+        <div class="talk-actions">
+          <a href="docs/biud-talks/06-Gustavo-Metodologia-Agil.pdf" target="_blank" rel="noopener" class="talk-btn pdf">📄 PDF</a>
+          <button class="talk-btn video" onclick="openVideo('https://drive.google.com/file/d/1VljynID9yIh7Q-YO6VJJYbGRN76d9hs8/preview')">▶ Vídeo</button>
+        </div>
+      </div>
 
       <!-- ── PRÓXIMAS ── -->
       <div class="talk-card upcoming">
@@ -2474,6 +2500,14 @@
 </section>
 
 <!-- FOOTER -->
+
+<!-- VIDEO MODAL -->
+<div id="videoModal" onclick="closeVideoModal(event)">
+  <div class="video-modal-inner">
+    <button class="video-modal-close" onclick="closeVideo()">✕</button>
+    <iframe id="videoFrame" src="" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+  </div>
+</div>
 
 <!-- GLOSSÁRIO FLUTUANTE -->
 <button class="glossary-btn" onclick="openGlossary()" title="Glossário de termos técnicos">?</button>
@@ -2799,6 +2833,24 @@
     var el = document.getElementById('qa-days-counter');
     if (el) el.textContent = diff + 'd';
   })();
+
+  // ── Video Modal ──────────────────────────────────────────────────────────
+  function openVideo(url) {
+    document.getElementById('videoFrame').src = url;
+    document.getElementById('videoModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeVideo() {
+    document.getElementById('videoModal').classList.remove('open');
+    document.getElementById('videoFrame').src = '';
+    document.body.style.overflow = '';
+  }
+  function closeVideoModal(e) {
+    if (e.target === document.getElementById('videoModal')) closeVideo();
+  }
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && document.getElementById('videoModal').classList.contains('open')) closeVideo();
+  });
 </script>
 </body>
 </html>

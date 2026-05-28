@@ -2765,11 +2765,17 @@
   function closeGlossaryOutside(e) {
     if (e.target === document.getElementById('glossaryOverlay')) closeGlossary();
   }
+  function normalizeStr(s) {
+    return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+  }
   function filterGlossary() {
-    var q = document.getElementById('glossarySearch').value.toLowerCase();
+    var raw = document.getElementById('glossarySearch').value;
+    var words = normalizeStr(raw).split(/\s+/).filter(Boolean);
     document.querySelectorAll('.glossary-item').forEach(function(item) {
-      var text = item.textContent.toLowerCase();
-      item.classList.toggle('visible', !q || text.includes(q));
+      if (!words.length) { item.classList.add('visible'); return; }
+      var text = normalizeStr(item.textContent);
+      var match = words.every(function(w) { return text.includes(w); });
+      item.classList.toggle('visible', match);
     });
   }
   document.addEventListener('keydown', function(e) {

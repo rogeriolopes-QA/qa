@@ -786,8 +786,19 @@
     color: #1E3A8A;
   }
   body.light-mode .hero-stat {
-    background: rgba(255,255,255,0.75);
-    border-color: rgba(0,0,0,0.08);
+    background: transparent;
+    border: none;
+  }
+  body.light-mode .hero-stat strong {
+    background: linear-gradient(135deg, #1D4ED8, #0891B2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  body.light-mode .hero-stat span {
+    color: #64748B;
+  }
+  body.light-mode .hero-stats {
+    border-top-color: rgba(0,0,0,0.1);
   }
   body.light-mode .timeline-item::before {
     background: rgba(0,0,0,0.08);
@@ -1975,67 +1986,73 @@
         <table style="width:100%;border-collapse:collapse;font-size:0.875rem;">
           <thead>
             <tr style="border-bottom:1px solid rgba(255,255,255,.1);">
-              <th style="padding:0.75rem 1rem;text-align:left;color:var(--text-secondary);font-weight:600;white-space:nowrap;">ID</th>
               <th style="padding:0.75rem 1rem;text-align:left;color:var(--text-secondary);font-weight:600;">Caso de Teste</th>
               <th style="padding:0.75rem 1rem;text-align:center;color:var(--text-secondary);font-weight:600;">Tipo</th>
               <th style="padding:0.75rem 1rem;text-align:center;color:var(--text-secondary);font-weight:600;">Status</th>
             </tr>
           </thead>
           <tbody>
-            <tr style="border-bottom:1px solid rgba(255,255,255,.05);">
-              <td style="padding:0.75rem 1rem;font-family:monospace;color:var(--cyan);font-weight:700;">ST-001</td>
-              <td style="padding:0.75rem 1rem;">Login com Autenticação AMEI</td>
-              <td style="padding:0.75rem 1rem;text-align:center;"><span style="background:rgba(59,130,246,.15);color:var(--blue);padding:0.2rem 0.6rem;border-radius:4px;font-size:0.75rem;font-weight:600;">UI</span></td>
-              <td style="padding:0.75rem 1rem;text-align:center;"><span style="color:var(--green);">✅ Feito</span></td>
+
+            <!-- ── AUTENTICAÇÃO ── -->
+            <tr>
+              <td colspan="3" style="padding:1.1rem 1rem 0.4rem;font-size:0.68rem;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:var(--cyan);border-top:1px solid rgba(34,211,238,0.15);">🔐 Autenticação &nbsp;·&nbsp; 2 casos</td>
             </tr>
             <tr style="border-bottom:1px solid rgba(255,255,255,.05);">
-              <td style="padding:0.75rem 1rem;font-family:monospace;color:var(--cyan);font-weight:700;">ST-002</td>
-              <td style="padding:0.75rem 1rem;">Seleção de Empresa</td>
-              <td style="padding:0.75rem 1rem;text-align:center;"><span style="background:rgba(59,130,246,.15);color:var(--blue);padding:0.2rem 0.6rem;border-radius:4px;font-size:0.75rem;font-weight:600;">UI</span></td>
-              <td style="padding:0.75rem 1rem;text-align:center;"><span style="color:var(--green);">✅ Feito</span></td>
+              <td style="padding:0.7rem 1rem;">Login com Autenticação AMEI</td>
+              <td style="padding:0.7rem 1rem;text-align:center;"><span style="background:rgba(59,130,246,.15);color:var(--blue);padding:0.2rem 0.6rem;border-radius:4px;font-size:0.75rem;font-weight:600;">UI</span></td>
+              <td style="padding:0.7rem 1rem;text-align:center;"><span style="color:var(--green);">✅ Feito</span></td>
             </tr>
             <tr style="border-bottom:1px solid rgba(255,255,255,.05);">
-              <td style="padding:0.75rem 1rem;font-family:monospace;color:var(--cyan);font-weight:700;">ST-003</td>
-              <td style="padding:0.75rem 1rem;">Carregamento do Dashboard Inicial</td>
-              <td style="padding:0.75rem 1rem;text-align:center;"><span style="background:rgba(59,130,246,.15);color:var(--blue);padding:0.2rem 0.6rem;border-radius:4px;font-size:0.75rem;font-weight:600;">UI</span></td>
-              <td style="padding:0.75rem 1rem;text-align:center;"><span style="color:var(--green);">✅ Feito</span></td>
+              <td style="padding:0.7rem 1rem;">Logout do Sistema</td>
+              <td style="padding:0.7rem 1rem;text-align:center;"><span style="background:rgba(59,130,246,.15);color:var(--blue);padding:0.2rem 0.6rem;border-radius:4px;font-size:0.75rem;font-weight:600;">UI</span></td>
+              <td style="padding:0.7rem 1rem;text-align:center;"><span style="color:var(--green);">✅ Feito</span></td>
+            </tr>
+
+            <!-- ── ONBOARDING ── -->
+            <tr>
+              <td colspan="3" style="padding:1.1rem 1rem 0.4rem;font-size:0.68rem;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:var(--cyan);border-top:1px solid rgba(34,211,238,0.15);">🏁 Onboarding &nbsp;·&nbsp; 5 casos</td>
             </tr>
             <tr style="border-bottom:1px solid rgba(255,255,255,.05);">
-              <td style="padding:0.75rem 1rem;font-family:monospace;color:var(--cyan);font-weight:700;">ST-004</td>
-              <td style="padding:0.75rem 1rem;">Navegação pelo Menu Lateral</td>
-              <td style="padding:0.75rem 1rem;text-align:center;"><span style="background:rgba(59,130,246,.15);color:var(--blue);padding:0.2rem 0.6rem;border-radius:4px;font-size:0.75rem;font-weight:600;">UI</span></td>
-              <td style="padding:0.75rem 1rem;text-align:center;"><span style="color:var(--green);">✅ Feito</span></td>
+              <td style="padding:0.7rem 1rem;">Seleção de Empresa</td>
+              <td style="padding:0.7rem 1rem;text-align:center;"><span style="background:rgba(59,130,246,.15);color:var(--blue);padding:0.2rem 0.6rem;border-radius:4px;font-size:0.75rem;font-weight:600;">UI</span></td>
+              <td style="padding:0.7rem 1rem;text-align:center;"><span style="color:var(--green);">✅ Feito</span></td>
             </tr>
             <tr style="border-bottom:1px solid rgba(255,255,255,.05);">
-              <td style="padding:0.75rem 1rem;font-family:monospace;color:var(--cyan);font-weight:700;">ST-005</td>
-              <td style="padding:0.75rem 1rem;">Acesso ao Questionário de Diagnóstico</td>
-              <td style="padding:0.75rem 1rem;text-align:center;"><span style="background:rgba(59,130,246,.15);color:var(--blue);padding:0.2rem 0.6rem;border-radius:4px;font-size:0.75rem;font-weight:600;">UI</span></td>
-              <td style="padding:0.75rem 1rem;text-align:center;"><span style="color:var(--green);">✅ Feito</span></td>
+              <td style="padding:0.7rem 1rem;">Carregamento do Dashboard Inicial</td>
+              <td style="padding:0.7rem 1rem;text-align:center;"><span style="background:rgba(59,130,246,.15);color:var(--blue);padding:0.2rem 0.6rem;border-radius:4px;font-size:0.75rem;font-weight:600;">UI</span></td>
+              <td style="padding:0.7rem 1rem;text-align:center;"><span style="color:var(--green);">✅ Feito</span></td>
             </tr>
             <tr style="border-bottom:1px solid rgba(255,255,255,.05);">
-              <td style="padding:0.75rem 1rem;font-family:monospace;color:var(--cyan);font-weight:700;">ST-010</td>
-              <td style="padding:0.75rem 1rem;">Logout do Sistema</td>
-              <td style="padding:0.75rem 1rem;text-align:center;"><span style="background:rgba(59,130,246,.15);color:var(--blue);padding:0.2rem 0.6rem;border-radius:4px;font-size:0.75rem;font-weight:600;">UI</span></td>
-              <td style="padding:0.75rem 1rem;text-align:center;"><span style="color:var(--green);">✅ Feito</span></td>
+              <td style="padding:0.7rem 1rem;">Navegação pelo Menu Lateral</td>
+              <td style="padding:0.7rem 1rem;text-align:center;"><span style="background:rgba(59,130,246,.15);color:var(--blue);padding:0.2rem 0.6rem;border-radius:4px;font-size:0.75rem;font-weight:600;">UI</span></td>
+              <td style="padding:0.7rem 1rem;text-align:center;"><span style="color:var(--green);">✅ Feito</span></td>
             </tr>
             <tr style="border-bottom:1px solid rgba(255,255,255,.05);">
-              <td style="padding:0.75rem 1rem;font-family:monospace;color:var(--cyan);font-weight:700;">ST-018</td>
-              <td style="padding:0.75rem 1rem;">Navegação entre Perguntas do Questionário</td>
-              <td style="padding:0.75rem 1rem;text-align:center;"><span style="background:rgba(59,130,246,.15);color:var(--blue);padding:0.2rem 0.6rem;border-radius:4px;font-size:0.75rem;font-weight:600;">UI</span></td>
-              <td style="padding:0.75rem 1rem;text-align:center;"><span style="color:var(--green);">✅ Feito</span></td>
+              <td style="padding:0.7rem 1rem;">Validação de Porte na Seleção CPE (ME/EPP/MEI)</td>
+              <td style="padding:0.7rem 1rem;text-align:center;"><span style="background:rgba(59,130,246,.15);color:var(--blue);padding:0.2rem 0.6rem;border-radius:4px;font-size:0.75rem;font-weight:600;">UI</span></td>
+              <td style="padding:0.7rem 1rem;text-align:center;"><span style="color:var(--green);">✅ Feito</span></td>
             </tr>
             <tr style="border-bottom:1px solid rgba(255,255,255,.05);">
-              <td style="padding:0.75rem 1rem;font-family:monospace;color:var(--cyan);font-weight:700;">ST-019</td>
-              <td style="padding:0.75rem 1rem;">Validação de Porte na Seleção CPE (ME/EPP/MEI)</td>
-              <td style="padding:0.75rem 1rem;text-align:center;"><span style="background:rgba(59,130,246,.15);color:var(--blue);padding:0.2rem 0.6rem;border-radius:4px;font-size:0.75rem;font-weight:600;">UI</span></td>
-              <td style="padding:0.75rem 1rem;text-align:center;"><span style="color:var(--green);">✅ Feito</span></td>
+              <td style="padding:0.7rem 1rem;">Persistência de Dados no Cadastro</td>
+              <td style="padding:0.7rem 1rem;text-align:center;"><span style="background:rgba(59,130,246,.15);color:var(--blue);padding:0.2rem 0.6rem;border-radius:4px;font-size:0.75rem;font-weight:600;">UI</span></td>
+              <td style="padding:0.7rem 1rem;text-align:center;"><span style="color:var(--green);">✅ Feito</span></td>
+            </tr>
+
+            <!-- ── JORNADA ESG ── -->
+            <tr>
+              <td colspan="3" style="padding:1.1rem 1rem 0.4rem;font-size:0.68rem;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:var(--cyan);border-top:1px solid rgba(34,211,238,0.15);">🌱 Jornada ESG &nbsp;·&nbsp; 2 casos</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(255,255,255,.05);">
+              <td style="padding:0.7rem 1rem;">Acesso ao Questionário de Diagnóstico</td>
+              <td style="padding:0.7rem 1rem;text-align:center;"><span style="background:rgba(59,130,246,.15);color:var(--blue);padding:0.2rem 0.6rem;border-radius:4px;font-size:0.75rem;font-weight:600;">UI</span></td>
+              <td style="padding:0.7rem 1rem;text-align:center;"><span style="color:var(--green);">✅ Feito</span></td>
             </tr>
             <tr>
-              <td style="padding:0.75rem 1rem;font-family:monospace;color:var(--cyan);font-weight:700;">ST-020</td>
-              <td style="padding:0.75rem 1rem;">Persistência de Dados no Cadastro</td>
-              <td style="padding:0.75rem 1rem;text-align:center;"><span style="background:rgba(59,130,246,.15);color:var(--blue);padding:0.2rem 0.6rem;border-radius:4px;font-size:0.75rem;font-weight:600;">UI</span></td>
-              <td style="padding:0.75rem 1rem;text-align:center;"><span style="color:var(--green);">✅ Feito</span></td>
+              <td style="padding:0.7rem 1rem;">Navegação entre Perguntas do Questionário</td>
+              <td style="padding:0.7rem 1rem;text-align:center;"><span style="background:rgba(59,130,246,.15);color:var(--blue);padding:0.2rem 0.6rem;border-radius:4px;font-size:0.75rem;font-weight:600;">UI</span></td>
+              <td style="padding:0.7rem 1rem;text-align:center;"><span style="color:var(--green);">✅ Feito</span></td>
             </tr>
+
           </tbody>
         </table>
       </div>
@@ -2076,67 +2093,54 @@
           <div style="font-weight:700;font-size:1rem;margin-bottom:1rem;color:var(--text-primary);">Automação em Andamento</div>
           <div style="display:flex;flex-direction:column;gap:0.5rem;">
             <div style="display:flex;gap:0.5rem;align-items:center;font-size:0.82rem;">
-              <span style="font-family:monospace;color:var(--cyan);font-weight:700;min-width:52px;">ST-006</span>
               <span style="flex:1;">Acesso à Jornada ESG e Questionário</span>
               <span style="background:rgba(59,130,246,.15);color:var(--blue);padding:0.15rem 0.5rem;border-radius:4px;font-size:0.7rem;">UI</span>
             </div>
             <div style="display:flex;gap:0.5rem;align-items:center;font-size:0.82rem;">
-              <span style="font-family:monospace;color:var(--cyan);font-weight:700;min-width:52px;">ST-007</span>
               <span style="flex:1;">Interação Básica com MIA (Assistente Virtual)</span>
               <span style="background:rgba(59,130,246,.15);color:var(--blue);padding:0.15rem 0.5rem;border-radius:4px;font-size:0.7rem;">UI</span>
             </div>
             <div style="display:flex;gap:0.5rem;align-items:center;font-size:0.82rem;">
-              <span style="font-family:monospace;color:var(--cyan);font-weight:700;min-width:52px;">ST-008</span>
               <span style="flex:1;">Disponibilidade de APIs Críticas</span>
               <span style="background:rgba(59,130,246,.15);color:var(--blue);padding:0.15rem 0.5rem;border-radius:4px;font-size:0.7rem;">UI</span>
             </div>
             <div style="display:flex;gap:0.5rem;align-items:center;font-size:0.82rem;">
-              <span style="font-family:monospace;color:var(--cyan);font-weight:700;min-width:52px;">ST-009</span>
               <span style="flex:1;">Acesso às Configurações</span>
               <span style="background:rgba(59,130,246,.15);color:var(--blue);padding:0.15rem 0.5rem;border-radius:4px;font-size:0.7rem;">UI</span>
             </div>
             <div style="display:flex;gap:0.5rem;align-items:center;font-size:0.82rem;">
-              <span style="font-family:monospace;color:var(--cyan);font-weight:700;min-width:52px;">ST-011</span>
               <span style="flex:1;">Validação de Planos e Pagamentos</span>
               <span style="background:rgba(59,130,246,.15);color:var(--blue);padding:0.15rem 0.5rem;border-radius:4px;font-size:0.7rem;">UI</span>
             </div>
             <div style="display:flex;gap:0.5rem;align-items:center;font-size:0.82rem;">
-              <span style="font-family:monospace;color:var(--cyan);font-weight:700;min-width:52px;">ST-012</span>
               <span style="flex:1;">Responsividade Mobile</span>
               <span style="background:rgba(59,130,246,.15);color:var(--blue);padding:0.15rem 0.5rem;border-radius:4px;font-size:0.7rem;">UI</span>
             </div>
             <div style="display:flex;gap:0.5rem;align-items:center;font-size:0.82rem;">
-              <span style="font-family:monospace;color:var(--cyan);font-weight:700;min-width:52px;">ST-013</span>
               <span style="flex:1;">Integração WhatsApp Business</span>
               <span style="background:rgba(59,130,246,.15);color:var(--blue);padding:0.15rem 0.5rem;border-radius:4px;font-size:0.7rem;">UI</span>
             </div>
             <div style="display:flex;gap:0.5rem;align-items:center;font-size:0.82rem;">
-              <span style="font-family:monospace;color:var(--cyan);font-weight:700;min-width:52px;">ST-014</span>
               <span style="flex:1;">Recuperação de Senha</span>
               <span style="background:rgba(59,130,246,.15);color:var(--blue);padding:0.15rem 0.5rem;border-radius:4px;font-size:0.7rem;">UI</span>
             </div>
             <div style="display:flex;gap:0.5rem;align-items:center;font-size:0.82rem;">
-              <span style="font-family:monospace;color:var(--cyan);font-weight:700;min-width:52px;">ST-015</span>
               <span style="flex:1;">Vinculação de Empresa</span>
               <span style="background:rgba(59,130,246,.15);color:var(--blue);padding:0.15rem 0.5rem;border-radius:4px;font-size:0.7rem;">UI</span>
             </div>
             <div style="display:flex;gap:0.5rem;align-items:center;font-size:0.82rem;">
-              <span style="font-family:monospace;color:var(--cyan);font-weight:700;min-width:52px;">ST-016</span>
               <span style="flex:1;">Notificações do Sistema</span>
               <span style="background:rgba(59,130,246,.15);color:var(--blue);padding:0.15rem 0.5rem;border-radius:4px;font-size:0.7rem;">UI</span>
             </div>
             <div style="display:flex;gap:0.5rem;align-items:center;font-size:0.82rem;">
-              <span style="font-family:monospace;color:var(--cyan);font-weight:700;min-width:52px;">ST-017</span>
               <span style="flex:1;">Geração de Insights/Relatórios</span>
               <span style="background:rgba(59,130,246,.15);color:var(--blue);padding:0.15rem 0.5rem;border-radius:4px;font-size:0.7rem;">UI</span>
             </div>
             <div style="display:flex;gap:0.5rem;align-items:center;font-size:0.82rem;">
-              <span style="font-family:monospace;color:var(--cyan);font-weight:700;min-width:52px;">ST-023</span>
               <span style="flex:1;">Aplicação de Cupom Estadual</span>
               <span style="background:rgba(139,92,246,.15);color:var(--purple);padding:0.15rem 0.5rem;border-radius:4px;font-size:0.7rem;">API</span>
             </div>
             <div style="display:flex;gap:0.5rem;align-items:center;font-size:0.82rem;">
-              <span style="font-family:monospace;color:var(--cyan);font-weight:700;min-width:52px;">ST-024</span>
               <span style="flex:1;">Restrição de Cupom por UF</span>
               <span style="background:rgba(139,92,246,.15);color:var(--purple);padding:0.15rem 0.5rem;border-radius:4px;font-size:0.7rem;">API</span>
             </div>
@@ -2170,52 +2174,42 @@
           <div style="font-weight:700;font-size:1rem;margin-bottom:1rem;color:var(--text-primary);">Automações Planejadas</div>
           <div style="display:flex;flex-direction:column;gap:0.45rem;">
             <div style="display:flex;gap:0.5rem;align-items:center;font-size:0.82rem;opacity:0.7;">
-              <span style="font-family:monospace;color:var(--cyan);font-weight:700;min-width:52px;">ST-021</span>
               <span style="flex:1;">Sincronização de CPF Existente</span>
               <span style="background:rgba(139,92,246,.12);color:var(--purple);padding:0.15rem 0.5rem;border-radius:4px;font-size:0.7rem;">API</span>
             </div>
             <div style="display:flex;gap:0.5rem;align-items:center;font-size:0.82rem;opacity:0.7;">
-              <span style="font-family:monospace;color:var(--cyan);font-weight:700;min-width:52px;">ST-022</span>
               <span style="flex:1;">Bloqueio Pós-Trial de 15 Dias</span>
               <span style="background:rgba(59,130,246,.12);color:var(--blue);padding:0.15rem 0.5rem;border-radius:4px;font-size:0.7rem;">UI</span>
             </div>
             <div style="display:flex;gap:0.5rem;align-items:center;font-size:0.82rem;opacity:0.7;">
-              <span style="font-family:monospace;color:var(--cyan);font-weight:700;min-width:52px;">ST-025</span>
               <span style="flex:1;">Revogação de Selo por Exclusão</span>
               <span style="background:rgba(139,92,246,.12);color:var(--purple);padding:0.15rem 0.5rem;border-radius:4px;font-size:0.7rem;">API</span>
             </div>
             <div style="display:flex;gap:0.5rem;align-items:center;font-size:0.82rem;opacity:0.7;">
-              <span style="font-family:monospace;color:var(--cyan);font-weight:700;min-width:52px;">ST-026</span>
               <span style="flex:1;">Deferimento de Autodiagnóstico</span>
               <span style="background:rgba(139,92,246,.12);color:var(--purple);padding:0.15rem 0.5rem;border-radius:4px;font-size:0.7rem;">API</span>
             </div>
             <div style="display:flex;gap:0.5rem;align-items:center;font-size:0.82rem;opacity:0.7;">
-              <span style="font-family:monospace;color:var(--cyan);font-weight:700;min-width:52px;">ST-027</span>
               <span style="flex:1;">Verificação de Critérios Impeditivos</span>
               <span style="background:rgba(139,92,246,.12);color:var(--purple);padding:0.15rem 0.5rem;border-radius:4px;font-size:0.7rem;">API</span>
             </div>
             <div style="display:flex;gap:0.5rem;align-items:center;font-size:0.82rem;opacity:0.7;">
-              <span style="font-family:monospace;color:var(--cyan);font-weight:700;min-width:52px;">ST-028</span>
               <span style="flex:1;">Restrição de Usuário Regional</span>
               <span style="background:rgba(59,130,246,.12);color:var(--blue);padding:0.15rem 0.5rem;border-radius:4px;font-size:0.7rem;">UI</span>
             </div>
             <div style="display:flex;gap:0.5rem;align-items:center;font-size:0.82rem;opacity:0.7;">
-              <span style="font-family:monospace;color:var(--cyan);font-weight:700;min-width:52px;">ST-029</span>
               <span style="flex:1;">Download de Lista Gerencial</span>
               <span style="background:rgba(59,130,246,.12);color:var(--blue);padding:0.15rem 0.5rem;border-radius:4px;font-size:0.7rem;">UI</span>
             </div>
             <div style="display:flex;gap:0.5rem;align-items:center;font-size:0.82rem;opacity:0.7;">
-              <span style="font-family:monospace;color:var(--cyan);font-weight:700;min-width:52px;">ST-031</span>
               <span style="flex:1;">Feedback de Insight (Dislike)</span>
               <span style="background:rgba(59,130,246,.12);color:var(--blue);padding:0.15rem 0.5rem;border-radius:4px;font-size:0.7rem;">UI</span>
             </div>
             <div style="display:flex;gap:0.5rem;align-items:center;font-size:0.82rem;opacity:0.7;">
-              <span style="font-family:monospace;color:var(--cyan);font-weight:700;min-width:52px;">ST-033</span>
               <span style="flex:1;">Aptidão para Envios em Massa</span>
               <span style="background:rgba(59,130,246,.12);color:var(--blue);padding:0.15rem 0.5rem;border-radius:4px;font-size:0.7rem;">UI</span>
             </div>
             <div style="display:flex;gap:0.5rem;align-items:center;font-size:0.82rem;opacity:0.7;">
-              <span style="font-family:monospace;color:var(--cyan);font-weight:700;min-width:52px;">ST-034</span>
               <span style="flex:1;">Bloqueio de Exclusão em Plano Pago</span>
               <span style="background:rgba(59,130,246,.12);color:var(--blue);padding:0.15rem 0.5rem;border-radius:4px;font-size:0.7rem;">UI</span>
             </div>
@@ -2240,17 +2234,17 @@
       <p class="section-desc">Ciclo de palestras técnicas semanais da BIUD — toda quarta-feira às 15h um membro do time compartilha conhecimento com toda a engenharia.</p>
     </div>
 
-    <!-- Stats -->
-    <div class="hero-stats reveal" style="margin-bottom:2.5rem;">
-      <div class="hero-stat">
-        <strong style="font-size:2rem;font-weight:900;color:var(--green)">6</strong>
-        <span>Palestras realizadas</span>
-      </div>
-      <div class="hero-stat">
-        <strong style="font-size:2rem;font-weight:900;color:var(--blue)">11</strong>
-        <span>Palestras agendadas</span>
-      </div>
-
+    <!-- Stats compactos -->
+    <div class="reveal" style="display:flex;gap:0.75rem;justify-content:center;flex-wrap:wrap;margin-bottom:2rem;">
+      <span style="display:inline-flex;align-items:center;gap:0.45rem;background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.25);border-radius:999px;padding:0.35rem 1rem;font-size:0.82rem;font-weight:600;color:var(--green);">
+        <span style="font-size:1rem;font-weight:900;">6</span> Palestras realizadas
+      </span>
+      <span style="display:inline-flex;align-items:center;gap:0.45rem;background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.25);border-radius:999px;padding:0.35rem 1rem;font-size:0.82rem;font-weight:600;color:var(--blue);">
+        <span style="font-size:1rem;font-weight:900;">11</span> Palestras agendadas
+      </span>
+      <span style="display:inline-flex;align-items:center;gap:0.45rem;background:rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.25);border-radius:999px;padding:0.35rem 1rem;font-size:0.82rem;font-weight:600;color:var(--purple);">
+        📅 Toda quarta · 15h
+      </span>
     </div>
 
     <!-- Template de apresentação -->
@@ -2470,12 +2464,12 @@
       </div>
       <div class="culture-card reveal reveal-delay-1" style="--glow:rgba(16,185,129,0.12)">
         <span class="culture-emoji">&#128737;</span>
-        <div class="culture-title">Prevenção sobre Correcao</div>
+        <div class="culture-title">Prevenção sobre Correção</div>
         <div class="culture-desc">Investimos em prevenir bugs na origem. Templates de abertura de card, definition of ready e critérios de aceite bem definidos.</div>
       </div>
       <div class="culture-card reveal reveal-delay-2" style="--glow:rgba(139,92,246,0.12)">
         <span class="culture-emoji">&#128218;</span>
-        <div class="culture-title">Aprendizado Continuo</div>
+        <div class="culture-title">Aprendizado Contínuo</div>
         <div class="culture-desc">Cada incidente vira aprendizado. RCAs documentados, retrospectivas e portal de QA centralizado para todo o time.</div>
       </div>
       <div class="culture-card reveal" style="--glow:rgba(245,158,11,0.12)">
@@ -2485,12 +2479,12 @@
       </div>
       <div class="culture-card reveal reveal-delay-1" style="--glow:rgba(34,211,238,0.12)">
         <span class="culture-emoji">&#9889;</span>
-        <div class="culture-title">Velocidade com Seguranca</div>
+        <div class="culture-title">Velocidade com Segurança</div>
         <div class="culture-desc">Automação que libera o time para inovar com confiança. Deployments frequentes e confiáveis, não apavorantes.</div>
       </div>
       <div class="culture-card reveal reveal-delay-2" style="--glow:rgba(239,68,68,0.12)">
         <span class="culture-emoji">&#128680;</span>
-        <div class="culture-title">Resiliencia Operacional</div>
+        <div class="culture-title">Resiliência Operacional</div>
         <div class="culture-desc">Severidade e prioridade definidas, runbooks claros e processos de resposta a incidentes que funcionam sob pressão real.</div>
       </div>
     </div>

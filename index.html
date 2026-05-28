@@ -643,6 +643,199 @@
       .tools-grid { grid-template-columns: 1fr; }
       .hero-stats { flex-direction: column; gap: 1.5rem; }
     }
+
+  /* ── Light Mode ───────────────────────────────────────────────────────── */
+  body.light-mode {
+    --bg-primary:   #F0F4F8;
+    --bg-card:      rgba(255,255,255,0.85);
+    --bg-secondary: #E2E8F0;
+    --text-primary: #0F172A;
+    --text-secondary: #334155;
+    --text-muted:   #64748B;
+    --border:       rgba(0,0,0,0.10);
+    --surface:      rgba(0,0,0,0.03);
+    --glass-bg:     rgba(255,255,255,0.70);
+    --blue:         #2563EB;
+    --purple:       #7C3AED;
+    --cyan:         #0891B2;
+    --green:        #059669;
+    --amber:        #D97706;
+    --red:          #DC2626;
+  }
+  body.light-mode .bg-grid {
+    background-image:
+      linear-gradient(rgba(37,99,235,0.07) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(37,99,235,0.07) 1px, transparent 1px);
+  }
+  body.light-mode .glass-card {
+    background: rgba(255,255,255,0.75);
+    border-color: rgba(0,0,0,0.08);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+  }
+  body.light-mode .orb-1 { background: rgba(37,99,235,0.10); }
+  body.light-mode .orb-2 { background: rgba(124,58,237,0.08); }
+  body.light-mode #navbar {
+    background: rgba(240,244,248,0.90);
+    border-bottom-color: rgba(0,0,0,0.08);
+  }
+  body.light-mode .nav-logo,
+  body.light-mode .nav-links a { color: var(--text-primary); }
+  body.light-mode footer {
+    background: #1E293B;
+    color: #F1F5F9;
+  }
+  body.light-mode .hero-grid {
+    background-image:
+      linear-gradient(rgba(37,99,235,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(37,99,235,0.06) 1px, transparent 1px);
+  }
+  body.light-mode .btn-ghost {
+    border-color: rgba(0,0,0,0.2);
+    color: var(--text-primary);
+  }
+  body.light-mode table { color: var(--text-primary); }
+
+  /* ── Theme toggle button ── */
+  .theme-toggle {
+    background: none; border: 1px solid var(--border);
+    border-radius: 8px; padding: 0.35rem 0.6rem;
+    cursor: pointer; font-size: 1rem; line-height: 1;
+    color: var(--text-secondary); transition: all 0.2s;
+    display: flex; align-items: center; gap: 0.4rem;
+  }
+  .theme-toggle:hover { border-color: var(--blue); color: var(--blue); }
+  .theme-toggle .toggle-label {
+    font-size: 0.7rem; font-weight: 700; letter-spacing: 0.3px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* ── Glossary modal ── */
+  .glossary-btn {
+    position: fixed; bottom: 2rem; right: 2rem; z-index: 900;
+    width: 48px; height: 48px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--blue), var(--purple));
+    border: none; cursor: pointer; color: #fff;
+    font-size: 1.2rem; font-weight: 900;
+    box-shadow: 0 4px 20px rgba(59,130,246,0.4);
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .glossary-btn:hover { transform: scale(1.08); box-shadow: 0 6px 28px rgba(59,130,246,0.55); }
+
+  .glossary-overlay {
+    display: none; position: fixed; inset: 0; z-index: 950;
+    background: rgba(0,0,0,0.6); backdrop-filter: blur(6px);
+    align-items: center; justify-content: center; padding: 1.5rem;
+  }
+  .glossary-overlay.open { display: flex; }
+  .glossary-modal {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 1.25rem;
+    width: 100%; max-width: 680px; max-height: 80vh;
+    display: flex; flex-direction: column;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.5);
+    animation: fadeUp 0.25s ease both;
+  }
+  .glossary-header {
+    padding: 1.5rem 1.75rem 1rem;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  }
+  .glossary-header h2 { font-size: 1.1rem; font-weight: 800; }
+  .glossary-search {
+    width: 100%; padding: 0.55rem 0.9rem;
+    background: rgba(255,255,255,0.05); border: 1px solid var(--border);
+    border-radius: 0.5rem; color: var(--text-primary);
+    font-size: 0.85rem; font-family: inherit; outline: none;
+    transition: border-color 0.2s;
+  }
+  body.light-mode .glossary-search { background: rgba(0,0,0,0.05); }
+  .glossary-search:focus { border-color: var(--blue); }
+  body.light-mode .step-node {
+    background: rgba(255,255,255,0.75);
+    border-color: rgba(0,0,0,0.12);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  body.light-mode .step-label { color: #0F172A; }
+  body.light-mode .step-sub   { color: #475569; }
+  body.light-mode .proc-card,
+  body.light-mode .tool-card,
+  body.light-mode .doc-card,
+  body.light-mode .culture-card,
+  body.light-mode .case-card {
+    background: rgba(255,255,255,0.82);
+    border-color: rgba(0,0,0,0.08);
+    box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+  }
+  body.light-mode .case-header {
+    border-bottom-color: rgba(0,0,0,0.08);
+  }
+  body.light-mode .qa-link-card {
+    background: rgba(37,99,235,0.05);
+    border-color: rgba(37,99,235,0.18);
+    color: #0F172A;
+  }
+  body.light-mode .qa-link-card:hover {
+    background: rgba(37,99,235,0.10);
+    border-color: rgba(37,99,235,0.35);
+  }
+  body.light-mode .hero-tag {
+    background: rgba(37,99,235,0.08);
+    border-color: rgba(37,99,235,0.2);
+    color: #1E3A8A;
+  }
+  body.light-mode .hero-stat {
+    background: rgba(255,255,255,0.75);
+    border-color: rgba(0,0,0,0.08);
+  }
+  body.light-mode .timeline-item::before {
+    background: rgba(0,0,0,0.08);
+  }
+  body.light-mode .section-tag { color: #1E3A8A; }
+  body.light-mode .proc-card-desc,
+  body.light-mode .tool-desc,
+  body.light-mode .case-desc,
+  body.light-mode .culture-desc { color: #475569; }
+  body.light-mode .case-impact {
+    color: #065F46;
+    background: rgba(5,150,105,0.10);
+    border-color: rgba(5,150,105,0.25);
+  }
+  body.light-mode .case-impact.blue {
+    color: #1E40AF;
+    background: rgba(37,99,235,0.10);
+    border-color: rgba(37,99,235,0.25);
+  }
+  body.light-mode .case-impact.purple {
+    color: #5B21B6;
+    background: rgba(124,58,237,0.10);
+    border-color: rgba(124,58,237,0.25);
+  }
+  body.light-mode .tools-section-title { color: #475569; }
+
+  .glossary-close {
+    background: none; border: none; color: var(--text-muted);
+    font-size: 1.4rem; cursor: pointer; padding: 0.2rem; line-height: 1;
+    transition: color 0.2s; flex-shrink: 0;
+  }
+  .glossary-close:hover { color: var(--text-primary); }
+  .glossary-body { overflow-y: auto; padding: 1rem 1.75rem 1.75rem; }
+  .glossary-item {
+    padding: 0.9rem 0; border-bottom: 1px solid var(--border);
+    display: none;
+  }
+  .glossary-item.visible { display: block; }
+  .glossary-term {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem; font-weight: 700;
+    color: var(--cyan); margin-bottom: 0.3rem;
+  }
+  .glossary-full {
+    font-size: 0.78rem; color: var(--text-muted); margin-bottom: 0.4rem;
+  }
+  .glossary-def { font-size: 0.87rem; color: var(--text-secondary); line-height: 1.6; }
+
   </style>
 </head>
 <body>
@@ -674,6 +867,11 @@
     
   </div>
 
+  <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Alternar tema">
+    <span id="themeIcon">🌙</span>
+    <span class="toggle-label" id="themeLabel">Dark</span>
+  </button>
+
   <button onclick="qaLogout()" style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.25);color:#fca5a5;padding:0.35rem 0.85rem;border-radius:6px;font-size:0.75rem;font-weight:700;cursor:pointer;font-family:inherit;letter-spacing:0.3px;transition:background 0.2s;" onmouseover="this.style.background='rgba(239,68,68,0.2)'" onmouseout="this.style.background='rgba(239,68,68,0.1)'">Sair</button>
 
     <div class="hamburger" id="hamburger" onclick="toggleMenu()">
@@ -691,7 +889,7 @@
   <div class="orb orb-3"></div>
 
   <div class="hero-content">
-    <div class="hero-tag">⚡ Quality Assurance · BIUD Tech &nbsp;·&nbsp; <span style="color:var(--green);font-weight:700;">Sprint 39</span> &nbsp;·&nbsp; QA desde 02/02/2026</div>
+    <div class="hero-tag">⚡ Quality Assurance · BIUD Tech &nbsp;·&nbsp; <span id="hero-tag-sprint" style="color:var(--green);font-weight:700;">Sprint —</span> &nbsp;·&nbsp; QA desde 02/02/2026</div>
 
     <h1 class="hero-title">
       Qualidade não é etapa final.<br/>
@@ -712,7 +910,7 @@
 
     <div class="hero-stats">
       <div class="hero-stat">
-        <strong style="font-size:2rem;font-weight:900;color:var(--cyan)">39</strong>
+        <strong id="hero-sprint-num" style="font-size:2rem;font-weight:900;color:var(--cyan)">—</strong>
         <span>Sprint atual em andamento</span>
       </div>
       <div class="hero-stat">
@@ -724,7 +922,7 @@
         <span>Documentos e processos criados</span>
       </div>
       <div class="hero-stat">
-        <strong style="font-size:2rem;font-weight:900;color:var(--purple)">113d</strong>
+        <strong id="qa-days-counter" style="font-size:2rem;font-weight:900;color:var(--purple)">—</strong>
         <span>Dias estruturando o setor</span>
       </div>
     </div>
@@ -776,45 +974,45 @@
 
         <!-- Links para QA Intranet -->
         <div style="margin-top:2rem">
-          <div class="section-tag" style="margin-bottom:1rem">Documentação Oficial — Portal QA BIUD</div>
+          <div class="section-tag" style="margin-bottom:1rem">Documentação Oficial — QA BIUD</div>
           <div class="qa-links-grid">
-            <a href="docs/Apresentacao_Setor_QA_BIUD_V3.pptx" class="qa-link-card">
-              <span class="qa-link-icon">🏠</span>
-              <div><strong>Página Inicial</strong><span class="qa-link-label">Portal QA BIUD</span></div>
+            <a href="docs/Apresentacao_Setor_QA_BIUD_V3.pdf" class="qa-link-card" target="_blank" rel="noopener">
+              <span class="qa-link-icon">📊</span>
+              <div><strong>Apresentação QA BIUD</strong><span class="qa-link-label">Visão geral do setor</span></div>
             </a>
-            <a href="docs/- Responsabilidades QA.docx" class="qa-link-card">
+            <a href="docs/- Responsabilidades QA.pdf" class="qa-link-card" target="_blank" rel="noopener">
               <span class="qa-link-icon">👤</span>
               <div><strong>Responsabilidades QA</strong><span class="qa-link-label">Fluxo refinamento → pós-deploy</span></div>
             </a>
-            <a href="docs/- Gestão e Templates de BUG e Sub-Bug.docx" class="qa-link-card">
+            <a href="docs/- Gestão e Templates de BUG e Sub-Bug.pdf" class="qa-link-card" target="_blank" rel="noopener">
               <span class="qa-link-icon">🐛</span>
               <div><strong>Templates de Bug</strong><span class="qa-link-label">Gestão de Bug e Sub-Bug</span></div>
             </a>
-            <a href="docs/- Implementação de KPIs de Qualidade (QA).pdf" class="qa-link-card">
+            <a href="docs/- Implementação de KPIs de Qualidade (QA).pdf" class="qa-link-card" target="_blank" rel="noopener">
               <span class="qa-link-icon">📊</span>
               <div><strong>KPIs de Qualidade</strong><span class="qa-link-label">Implementação e métricas</span></div>
             </a>
-            <a href="docs/- Definição de Severidade e Prioridade.pdf" class="qa-link-card">
+            <a href="docs/- Definição de Severidade e Prioridade.pdf" class="qa-link-card" target="_blank" rel="noopener">
               <span class="qa-link-icon">🚨</span>
               <div><strong>Severidade & Prioridade</strong><span class="qa-link-label">Definição e critérios</span></div>
             </a>
-            <a href="docs/- Tipos de BUGs.docx" class="qa-link-card">
+            <a href="docs/- Tipos de BUGs.pdf" class="qa-link-card" target="_blank" rel="noopener">
               <span class="qa-link-icon">🔍</span>
               <div><strong>Tipos de Bugs</strong><span class="qa-link-label">Classificação de Bug e Sub-Bug</span></div>
             </a>
-            <a href="docs/- Padrão para Abertura de Card (DoR – Definition of Ready).docx" class="qa-link-card">
+            <a href="docs/- Padrão para Abertura de Card (DoR – Definition of Ready).pdf" class="qa-link-card" target="_blank" rel="noopener">
               <span class="qa-link-icon">📋</span>
               <div><strong>Padrão DoR</strong><span class="qa-link-label">Abertura de Card – Definition of Ready</span></div>
             </a>
-            <a href="docs/- Apresentacao_DoR_DoD_Squad.pptx" class="qa-link-card">
+            <a href="docs/- Apresentacao_DoR_DoD_Squad.pdf" class="qa-link-card" target="_blank" rel="noopener">
               <span class="qa-link-icon">🎯</span>
               <div><strong>Apresentação DoR × DoD</strong><span class="qa-link-label">Definition of Ready vs Done</span></div>
             </a>
-            <a href="docs/- Modelo de Plano de Teste.docx" class="qa-link-card">
+            <a href="docs/- Modelo de Plano de Teste.pdf" class="qa-link-card" target="_blank" rel="noopener">
               <span class="qa-link-icon">📝</span>
               <div><strong>Plano de Teste</strong><span class="qa-link-label">Modelo oficial de test plan</span></div>
             </a>
-            <a href="docs/- Modelo de Execução de Teste.docx" class="qa-link-card">
+            <a href="docs/- Modelo de Execução de Teste.pdf" class="qa-link-card" target="_blank" rel="noopener">
               <span class="qa-link-icon">▶️</span>
               <div><strong>Execução de Teste</strong><span class="qa-link-label">Modelo de test execution</span></div>
             </a>
@@ -873,7 +1071,7 @@
     <div class="section-header reveal">
       <div class="section-tag">Indicadores</div>
       <h2 class="section-title">Dados reais do <span class="accent">projeto em produção</span></h2>
-      <p class="section-desc">Gráficos gerados a partir dos dados reais do BIUD V3 – ESG SEBRAE. Atualizados conforme o ciclo de sprints.</p>
+      <p class="section-desc">Indicadores gerados a partir dos dados reais do BIUD V3 – ESG SEBRAE. Sprints 25–31 via relatórios exportados; Sprints 33–39 via Jira.</p>
     </div>
 
 
@@ -897,7 +1095,7 @@
           </div>
         </div>
         <p style="font-size:0.82rem;color:var(--text-secondary);line-height:1.65;margin-bottom:1.25rem;">
-          Cada barra representa o total de bugs e sub-bugs registrados no ClickUp durante o sprint.
+          Cada barra representa o total de bugs e sub-bugs registrados no Jira durante o sprint.
           O pico no <strong style="color:var(--text-primary)">Sprint 31</strong> coincide com a equalização do ambiente de HMG e a entrada de novas funcionalidades de pagamento.
           A queda no <strong style="color:var(--text-primary)">Sprint 29</strong> reflete o efeito da esteira de bug estruturada nas sprints anteriores.
         </p>
@@ -929,6 +1127,118 @@
         </p>
         <img src="docs/tendencia_producao_qualidade.png" alt="Tendência Produção x Qualidade"
              style="width:100%;border-radius:0.75rem;object-fit:contain;" />
+      </div>
+
+      <!-- Tabela Jira — Sprints 33-39 -->
+      <div class="glass-card chart-card reveal">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:2rem;flex-wrap:wrap;margin-bottom:1.25rem;">
+          <div>
+            <div class="chart-title" style="font-size:1.05rem;">BUGs em Produção × Capturados em Homologação</div>
+            <div class="chart-sub" style="margin-bottom:0;">Sprints 33 a 39 — dados extraídos do Jira · atualizado 27/05/2026</div>
+          </div>
+          <div style="display:flex;gap:1.25rem;flex-shrink:0;align-items:center;">
+            <div style="display:flex;align-items:center;gap:0.4rem;font-size:0.78rem;color:var(--text-secondary);">
+              <span style="width:12px;height:12px;border-radius:2px;background:#e84393;display:inline-block;flex-shrink:0;"></span>BUGs (Produção)
+            </div>
+            <div style="display:flex;align-items:center;gap:0.4rem;font-size:0.78rem;color:var(--text-secondary);">
+              <span style="width:12px;height:12px;border-radius:2px;background:#10b981;display:inline-block;flex-shrink:0;"></span>SUB-BUGs (Homologação)
+            </div>
+          </div>
+        </div>
+        <p style="font-size:0.82rem;color:var(--text-secondary);line-height:1.65;margin-bottom:1.5rem;">
+          Comparativo entre bugs que escaparam para produção (BUG) e falhas interceptadas em homologação (SUB-BUG).
+          A razão <strong style="color:var(--text-primary)">SUB-BUG/BUG &gt; 1</strong> indica que o QA captura mais falhas antes do deploy do que as que chegam ao usuário final.
+          Baseline pré-QA (Sprints 25–29): razão média de <strong style="color:var(--text-primary)">0,10</strong> — quase nenhuma falha era interceptada antes de produção.
+        </p>
+
+        <!-- Barras visuais -->
+        <div style="display:flex;flex-direction:column;gap:0.9rem;margin-bottom:1.75rem;">
+
+          <!-- S33 -->
+          <div>
+            <div style="display:flex;justify-content:space-between;font-size:0.76rem;color:var(--text-secondary);margin-bottom:0.3rem;">
+              <span>Sprint 33</span><span style="color:var(--text-muted);">BUGs: 11 · SUB: 9 · ratio 0,82</span>
+            </div>
+            <div style="display:flex;gap:3px;height:10px;">
+              <div style="width:calc(11/16*100%);max-width:100%;background:#e84393;border-radius:3px;opacity:0.85;"></div>
+              <div style="width:calc(9/16*100%);max-width:100%;background:#10b981;border-radius:3px;opacity:0.75;"></div>
+            </div>
+          </div>
+
+          <!-- S34 -->
+          <div>
+            <div style="display:flex;justify-content:space-between;font-size:0.76rem;color:var(--text-secondary);margin-bottom:0.3rem;">
+              <span>Sprint 34</span><span style="color:var(--text-muted);">BUGs: 0 · SUB: 4 · tudo capturado</span>
+            </div>
+            <div style="display:flex;gap:3px;height:10px;">
+              <div style="width:1%;background:#e84393;border-radius:3px;opacity:0.3;"></div>
+              <div style="width:calc(4/16*100%);background:#10b981;border-radius:3px;opacity:0.75;"></div>
+            </div>
+          </div>
+
+          <!-- S35 -->
+          <div>
+            <div style="display:flex;justify-content:space-between;font-size:0.76rem;color:var(--text-secondary);margin-bottom:0.3rem;">
+              <span>Sprint 35</span><span style="color:var(--text-muted);">BUGs: 3 · SUB: 4 · ratio 1,33</span>
+            </div>
+            <div style="display:flex;gap:3px;height:10px;">
+              <div style="width:calc(3/16*100%);background:#e84393;border-radius:3px;opacity:0.85;"></div>
+              <div style="width:calc(4/16*100%);background:#10b981;border-radius:3px;opacity:0.75;"></div>
+            </div>
+          </div>
+
+          <!-- S36 -->
+          <div>
+            <div style="display:flex;justify-content:space-between;font-size:0.76rem;color:var(--text-secondary);margin-bottom:0.3rem;">
+              <span>Sprint 36</span><span style="color:var(--text-muted);">BUGs: 5 · SUB: 5 · ratio 1,00</span>
+            </div>
+            <div style="display:flex;gap:3px;height:10px;">
+              <div style="width:calc(5/16*100%);background:#e84393;border-radius:3px;opacity:0.85;"></div>
+              <div style="width:calc(5/16*100%);background:#10b981;border-radius:3px;opacity:0.75;"></div>
+            </div>
+          </div>
+
+          <!-- S37 -->
+          <div>
+            <div style="display:flex;justify-content:space-between;font-size:0.76rem;color:var(--text-secondary);margin-bottom:0.3rem;">
+              <span>Sprint 37</span><span style="color:var(--text-muted);">BUGs: 0 · SUB: 0 · sprint sem bugs em produção</span>
+            </div>
+            <div style="display:flex;gap:3px;height:10px;opacity:0.3;">
+              <div style="width:2%;background:var(--border);border-radius:3px;"></div>
+            </div>
+          </div>
+
+          <!-- S38 -->
+          <div>
+            <div style="display:flex;justify-content:space-between;font-size:0.76rem;color:var(--text-secondary);margin-bottom:0.3rem;">
+              <span>Sprint 38</span><span style="color:var(--text-muted);">BUGs: 3 · SUB: 3 · ratio 1,00</span>
+            </div>
+            <div style="display:flex;gap:3px;height:10px;">
+              <div style="width:calc(3/16*100%);background:#e84393;border-radius:3px;opacity:0.85;"></div>
+              <div style="width:calc(3/16*100%);background:#10b981;border-radius:3px;opacity:0.75;"></div>
+            </div>
+          </div>
+
+          <!-- S39 — destaque -->
+          <div style="background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.2);border-radius:8px;padding:0.5rem 0.75rem;">
+            <div style="display:flex;justify-content:space-between;font-size:0.76rem;margin-bottom:0.3rem;">
+              <span style="color:var(--green);font-weight:700;">Sprint 39 ← atual</span>
+              <span style="color:var(--green);font-weight:700;">BUGs: 2 · SUB: 8 · ratio 4,00 🏆</span>
+            </div>
+            <div style="display:flex;gap:3px;height:10px;">
+              <div style="width:calc(2/16*100%);background:#e84393;border-radius:3px;opacity:0.85;"></div>
+              <div style="width:calc(8/16*100%);background:#10b981;border-radius:3px;opacity:0.9;"></div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Rodapé com nota metodológica -->
+        <div style="font-size:0.74rem;color:var(--text-muted);border-top:1px solid var(--border);padding-top:0.9rem;line-height:1.6;">
+          <strong>Nota:</strong> BUG = bug aberto em produção (usuário afetado). SUB-BUG = falha identificada em homologação antes do deploy.
+          Sprints 32, 34 e 37 não registraram BUGs novos em produção no período.
+          BT-277 aberto no Sprint 36, resolvido no Sprint 38 (carry-over). Dados de Sprint 39 parciais — sprint ativo até 08/06/2026.
+        </div>
       </div>
 
     </div>
@@ -965,7 +1275,7 @@
         <div class="process-step step-blue">
           <div class="step-node">⚙️</div>
           <div class="step-label">Dev + Review</div>
-          <div class="step-sub">QA revisa PRs e critérios</div>
+          <div class="step-sub">Alinhamento de critérios de aceite</div>
         </div>
         <div class="process-step step-cyan">
           <div class="step-node">🔬</div>
@@ -1111,7 +1421,7 @@
 
     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1.25rem;">
 
-      <a href="docs/- Responsabilidades QA.docx"
+      <a href="docs/- Responsabilidades QA.pdf"
          target="_blank" class="doc-card reveal" style="text-decoration:none">
         <div class="doc-card-inner">
           <div class="doc-icon" style="background:rgba(59,130,246,0.12);color:var(--blue)">👤</div>
@@ -1123,7 +1433,7 @@
         </div>
       </a>
 
-      <a href="docs/- Gestão e Templates de BUG e Sub-Bug.docx"
+      <a href="docs/- Gestão e Templates de BUG e Sub-Bug.pdf"
          target="_blank" class="doc-card reveal reveal-delay-1" style="text-decoration:none">
         <div class="doc-card-inner">
           <div class="doc-icon" style="background:rgba(239,68,68,0.12);color:var(--red)">🐛</div>
@@ -1159,7 +1469,7 @@
         </div>
       </a>
 
-      <a href="docs/- Tipos de BUGs.docx"
+      <a href="docs/- Tipos de BUGs.pdf"
          target="_blank" class="doc-card reveal reveal-delay-1" style="text-decoration:none">
         <div class="doc-card-inner">
           <div class="doc-icon" style="background:rgba(139,92,246,0.12);color:var(--purple)">🔍</div>
@@ -1171,7 +1481,7 @@
         </div>
       </a>
 
-      <a href="docs/- Padrão para Abertura de Card (DoR – Definition of Ready).docx"
+      <a href="docs/- Padrão para Abertura de Card (DoR – Definition of Ready).pdf"
          target="_blank" class="doc-card reveal reveal-delay-2" style="text-decoration:none">
         <div class="doc-card-inner">
           <div class="doc-icon" style="background:rgba(34,211,238,0.12);color:var(--cyan)">📋</div>
@@ -1183,7 +1493,7 @@
         </div>
       </a>
 
-      <a href="docs/- Apresentacao_DoR_DoD_Squad.pptx"
+      <a href="docs/- Apresentacao_DoR_DoD_Squad.pdf"
          target="_blank" class="doc-card reveal" style="text-decoration:none">
         <div class="doc-card-inner">
           <div class="doc-icon" style="background:rgba(59,130,246,0.12);color:var(--blue)">🎯</div>
@@ -1195,7 +1505,7 @@
         </div>
       </a>
 
-      <a href="docs/- Modelo de Plano de Teste.docx"
+      <a href="docs/- Modelo de Plano de Teste.pdf"
          target="_blank" class="doc-card reveal reveal-delay-1" style="text-decoration:none">
         <div class="doc-card-inner">
           <div class="doc-icon" style="background:rgba(16,185,129,0.12);color:var(--green)">📝</div>
@@ -1207,7 +1517,7 @@
         </div>
       </a>
 
-      <a href="docs/- Modelo de Execução de Teste.docx"
+      <a href="docs/- Modelo de Execução de Teste.pdf"
          target="_blank" class="doc-card reveal reveal-delay-2" style="text-decoration:none">
         <div class="doc-card-inner">
           <div class="doc-icon" style="background:rgba(139,92,246,0.12);color:var(--purple)">▶️</div>
@@ -1316,12 +1626,12 @@
         <div class="case-body">
           <div class="case-title">Suite de Regressão Automatizada</div>
           <div class="case-desc">
-            Identificamos que 70% do tempo de QA era gasto em regressão manual a cada release.
-            Criamos uma suite Playwright cobrindo os fluxos críticos que rodou no CI a cada PR,
-            liberando o time para testes exploratórios de maior valor.
+            Estruturamos uma suite Playwright cobrindo os fluxos críticos do produto, integrada ao CI.
+            A cada execução do pipeline os testes rodam automaticamente, liberando o time para
+            testes exploratórios e análise de maior valor.
           </div>
           <div class="case-impact">
-            <span>⚡</span> -80% tempo de regressão manual por release
+            <span>⚡</span> Suite ativa no CI — regressão automatizada a cada build
           </div>
         </div>
       </div>
@@ -1357,7 +1667,7 @@
             tomada de decisão estratégica.
           </div>
           <div class="case-impact purple">
-            <span>👁️</span> Visibilidade em tempo real para todos os stakeholders
+            <span>📊</span> Sprint 39 — 2 BUGs em produção · 8 capturados em homologação · razão 4,0
           </div>
         </div>
       </div>
@@ -1371,11 +1681,11 @@
           <div class="case-title">QA Shift-Left nas Cerimônias</div>
           <div class="case-desc">
             Introdução do QA desde o refinamento de backlog, criando critérios de aceite precisos
-            antes do desenvolvimento começar. Redução drástica de retrabalho e ambiguidades de
-            requisitos que causavam bugs funcionais.
+            antes do desenvolvimento começar. Retrabalho e ambiguidades de requisitos reduzidos com critérios
+            claros antes da abertura de cada card.
           </div>
           <div class="case-impact">
-            <span>📉</span> -45% de bugs por requisitos ambíguos
+            <span>📋</span> Critérios de aceite definidos antes do desenvolvimento iniciar
           </div>
         </div>
       </div>
@@ -1393,7 +1703,7 @@
             Redução de incidentes recorrentes.
           </div>
           <div class="case-impact">
-            <span>🛡️</span> -67% de incidentes recorrentes em 6 meses
+            <span>🛡️</span> RCA implementado na Sprint 39 — processo ativo
           </div>
         </div>
       </div>
@@ -1411,7 +1721,7 @@
             runbooks de resposta para cada tipo de alerta.
           </div>
           <div class="case-impact blue">
-            <span>⚡</span> MTTD reduzido de horas para minutos
+            <span>⚡</span> Alertas e runbooks configurados — resposta estruturada pós-deploy
           </div>
         </div>
       </div>
@@ -1432,8 +1742,9 @@
       <h2 class="section-title">O que o QA <span class="accent">construiu e está construindo</span></h2>
       <p class="section-desc">
         Histórico real desde <strong style="color:var(--blue)">02/02/2026</strong> — entrada do QA na BIUD.
-        Hoje, <strong style="color:var(--green)">25/05/2026</strong>, iniciamos a
-        <strong style="color:var(--green)">Sprint 39</strong>.
+        Hoje, <strong id="sprint-today-date" style="color:var(--green)">—</strong>, estamos na
+        <strong id="sprint-section-num" style="color:var(--green)">Sprint —</strong>
+        <span id="sprint-section-range" style="color:var(--text-muted);font-size:0.88em;"></span>.
       </p>
     </div>
 
@@ -1663,9 +1974,10 @@
 
     <!-- ─── Em andamento ──────────────────────────────────────────────────── -->
     <div class="reveal" style="margin-bottom:3rem">
-      <h3 style="font-size:1.25rem;font-weight:700;color:#f59e0b;margin-bottom:1.5rem;display:flex;align-items:center;gap:0.6rem;">
+      <h3 style="font-size:1.25rem;font-weight:700;color:#f59e0b;margin-bottom:1.5rem;display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;">
         <span style="background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.35);border-radius:6px;padding:0.25rem 0.75rem;font-size:0.8rem;letter-spacing:.08em;text-transform:uppercase;">🔄 Em Andamento</span>
         Atividades e processos em curso
+        <span id="andamento-sprint-badge" style="background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.3);border-radius:6px;padding:0.25rem 0.75rem;font-size:0.75rem;color:var(--green);font-family:'JetBrains Mono',monospace;"></span>
       </h3>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;">
 
@@ -1853,18 +2165,18 @@
     <div class="section-header reveal">
       <div class="section-tag">Cultura de Qualidade</div>
       <h2 class="section-title">Qualidade e <span class="accent">responsabilidade de todos</span></h2>
-      <p class="section-desc">O QA nao e um filtro no final - e uma mentalidade que permeia cada decisao de produto e engenharia da BIUD.</p>
+      <p class="section-desc">O QA não é um filtro no final — é uma mentalidade que permeia cada decisão de produto e engenharia da BIUD.</p>
     </div>
     <div class="culture-grid">
       <div class="culture-card reveal" style="--glow:rgba(59,130,246,0.12)">
         <span class="culture-emoji">&#129309;</span>
-        <div class="culture-title">Colaboracao Continua</div>
-        <div class="culture-desc">QA, Dev e Product alinhados desde o refinamento. DoR claro, criterios antecipados, problemas resolvidos antes de virar codigo.</div>
+        <div class="culture-title">Colaboração Contínua</div>
+        <div class="culture-desc">QA, Dev e Product alinhados desde o refinamento. DoR claro, critérios antecipados, problemas resolvidos antes de virar código.</div>
       </div>
       <div class="culture-card reveal reveal-delay-1" style="--glow:rgba(16,185,129,0.12)">
         <span class="culture-emoji">&#128737;</span>
-        <div class="culture-title">Prevencao sobre Correcao</div>
-        <div class="culture-desc">Investimos em prevenir bugs na origem. Templates de abertura de card, definition of ready e criterios de aceite bem definidos.</div>
+        <div class="culture-title">Prevenção sobre Correcao</div>
+        <div class="culture-desc">Investimos em prevenir bugs na origem. Templates de abertura de card, definition of ready e critérios de aceite bem definidos.</div>
       </div>
       <div class="culture-card reveal reveal-delay-2" style="--glow:rgba(139,92,246,0.12)">
         <span class="culture-emoji">&#128218;</span>
@@ -1873,18 +2185,18 @@
       </div>
       <div class="culture-card reveal" style="--glow:rgba(245,158,11,0.12)">
         <span class="culture-emoji">&#128202;</span>
-        <div class="culture-title">Metricas como Bussola</div>
-        <div class="culture-desc">Decisoes baseadas em KPIs de qualidade. Indicadores visiveis para toda a engenharia, nao so para o QA.</div>
+        <div class="culture-title">Métricas como Bússola</div>
+        <div class="culture-desc">Decisões baseadas em KPIs de qualidade. Indicadores visíveis para toda a engenharia, não só para o QA.</div>
       </div>
       <div class="culture-card reveal reveal-delay-1" style="--glow:rgba(34,211,238,0.12)">
         <span class="culture-emoji">&#9889;</span>
         <div class="culture-title">Velocidade com Seguranca</div>
-        <div class="culture-desc">Automacao que libera o time para inovar com confianca. Deployments frequentes e confiaveis, nao apavorantes.</div>
+        <div class="culture-desc">Automação que libera o time para inovar com confiança. Deployments frequentes e confiáveis, não apavorantes.</div>
       </div>
       <div class="culture-card reveal reveal-delay-2" style="--glow:rgba(239,68,68,0.12)">
         <span class="culture-emoji">&#128680;</span>
         <div class="culture-title">Resiliencia Operacional</div>
-        <div class="culture-desc">Severidade e prioridade definidas, runbooks claros e processos de resposta a incidentes que funcionam sob pressao real.</div>
+        <div class="culture-desc">Severidade e prioridade definidas, runbooks claros e processos de resposta a incidentes que funcionam sob pressão real.</div>
       </div>
     </div>
 
@@ -1893,35 +2205,161 @@
 </section>
 
 <!-- FOOTER -->
+
+<!-- GLOSSÁRIO FLUTUANTE -->
+<button class="glossary-btn" onclick="openGlossary()" title="Glossário de termos técnicos">?</button>
+
+<div class="glossary-overlay" id="glossaryOverlay" onclick="closeGlossaryOutside(event)">
+  <div class="glossary-modal">
+    <div class="glossary-header">
+      <h2>📖 Glossário Técnico</h2>
+      <input class="glossary-search" type="text" id="glossarySearch"
+             placeholder="Buscar termo..." oninput="filterGlossary()" />
+      <button class="glossary-close" onclick="closeGlossary()">✕</button>
+    </div>
+    <div class="glossary-body" id="glossaryBody">
+
+      <div class="glossary-item visible">
+        <div class="glossary-term">QA</div>
+        <div class="glossary-full">Quality Assurance — Garantia de Qualidade</div>
+        <div class="glossary-def">Processo de verificação sistemática que garante que o produto atende aos requisitos e padrões definidos antes de chegar ao usuário final. O QA atua em todo o ciclo de desenvolvimento, não apenas no final.</div>
+      </div>
+
+      <div class="glossary-item visible">
+        <div class="glossary-term">DoR</div>
+        <div class="glossary-full">Definition of Ready — Definição de Pronto (para entrar no sprint)</div>
+        <div class="glossary-def">Conjunto de critérios que um card (tarefa) deve atender antes de ser aceito em uma sprint. Exemplo: ter descrição clara, critérios de aceite, design aprovado e sem dependências bloqueantes.</div>
+      </div>
+
+      <div class="glossary-item visible">
+        <div class="glossary-term">DoD</div>
+        <div class="glossary-full">Definition of Done — Definição de Concluído</div>
+        <div class="glossary-def">Critérios que uma funcionalidade deve cumprir para ser considerada "pronta" e entregável. Inclui: código revisado, testes passando, documentação atualizada e aprovação do QA.</div>
+      </div>
+
+      <div class="glossary-item visible">
+        <div class="glossary-term">RCA</div>
+        <div class="glossary-full">Root Cause Analysis — Análise de Causa Raiz</div>
+        <div class="glossary-def">Processo estruturado para identificar a causa fundamental de um incidente ou bug, não apenas o sintoma. O objetivo é corrigir a origem do problema para evitar recorrência, não apenas o efeito visível.</div>
+      </div>
+
+      <div class="glossary-item visible">
+        <div class="glossary-term">CI/CD</div>
+        <div class="glossary-full">Continuous Integration / Continuous Deployment</div>
+        <div class="glossary-def">Pipeline automatizado que integra código continuamente (CI) e faz deploy em ambientes de forma automática (CD). No contexto do QA, os testes automatizados são executados no CI para bloquear deploys com falhas.</div>
+      </div>
+
+      <div class="glossary-item visible">
+        <div class="glossary-term">KPI</div>
+        <div class="glossary-full">Key Performance Indicator — Indicador-Chave de Desempenho</div>
+        <div class="glossary-def">Métricas quantificáveis usadas para medir o desempenho de um processo ou área. No QA, exemplos são: número de bugs por sprint, taxa de regressão, cobertura de testes e tempo médio de resolução.</div>
+      </div>
+
+      <div class="glossary-item visible">
+        <div class="glossary-term">HMG</div>
+        <div class="glossary-full">Homologação — Ambiente de Homologação</div>
+        <div class="glossary-def">Ambiente de testes que replica a produção para validação de funcionalidades antes do deploy real. No projeto ESG Sebrae, o HMG é acessado em esg-hmg.sebrae.com.br. "Equalizar o HMG" significa sincronizá-lo com o estado atual de produção.</div>
+      </div>
+
+      <div class="glossary-item visible">
+        <div class="glossary-term">ESG</div>
+        <div class="glossary-full">Environmental, Social and Governance</div>
+        <div class="glossary-def">Conjunto de critérios ambientais, sociais e de governança usados para avaliar empresas. O projeto BIUD V3 – ESG SEBRAE é uma plataforma que auxilia pequenas empresas a medir e melhorar seus indicadores ESG.</div>
+      </div>
+
+      <div class="glossary-item visible">
+        <div class="glossary-term">MIA</div>
+        <div class="glossary-full">Assistente Virtual Inteligente da BIUD</div>
+        <div class="glossary-def">Assistente de IA integrado ao produto ESG Sebrae que auxilia os usuários na plataforma com respostas contextuais e orientações sobre o questionário de diagnóstico ESG.</div>
+      </div>
+
+      <div class="glossary-item visible">
+        <div class="glossary-term">Playwright</div>
+        <div class="glossary-full">Framework de automação de testes end-to-end</div>
+        <div class="glossary-def">Ferramenta open-source da Microsoft para automação de testes de interface (UI) em navegadores. Suporta Chromium, Firefox e WebKit. No QA da BIUD é usado com TypeScript e padrão Page Object Model (POM).</div>
+      </div>
+
+      <div class="glossary-item visible">
+        <div class="glossary-term">Smoke Test</div>
+        <div class="glossary-full">Teste de Fumaça — validação básica de sanidade</div>
+        <div class="glossary-def">Suite de testes rápidos (idealmente abaixo de 10 minutos) que verifica se as funcionalidades críticas do sistema estão operacionais. É executado após cada deploy para detectar falhas graves antes de testes mais completos.</div>
+      </div>
+
+      <div class="glossary-item visible">
+        <div class="glossary-term">Sprint</div>
+        <div class="glossary-full">Iteração de desenvolvimento (metodologia Scrum/Ágil)</div>
+        <div class="glossary-def">Ciclo de trabalho de duração fixa (geralmente 2 semanas) onde o time desenvolve e entrega um conjunto de funcionalidades planejadas. O QA da BIUD está na Sprint 39 desde 25/05/2026.</div>
+      </div>
+
+      <div class="glossary-item visible">
+        <div class="glossary-term">API</div>
+        <div class="glossary-full">Application Programming Interface</div>
+        <div class="glossary-def">Interface que permite a comunicação entre sistemas. No projeto ESG Sebrae, o QA valida as APIs de Core, Payment, ESG, Clients, Insights e MIA nos ambientes de HMG e produção.</div>
+      </div>
+
+      <div class="glossary-item visible">
+        <div class="glossary-term">UI</div>
+        <div class="glossary-full">User Interface — Interface do Usuário</div>
+        <div class="glossary-def">A camada visual do produto com a qual o usuário interage diretamente no navegador. Testes de UI validam fluxos de interação — cliques, formulários, navegação — simulando o comportamento real do usuário.</div>
+      </div>
+
+      <div class="glossary-item visible">
+        <div class="glossary-term">Bug / Sub-Bug</div>
+        <div class="glossary-full">Defeito no software</div>
+        <div class="glossary-def">Bug é um defeito que causa comportamento incorreto no sistema. Sub-bug é um defeito derivado ou relacionado a um bug principal. No ClickUp, sub-bugs são cards filhos vinculados ao bug pai para rastreamento granular.</div>
+      </div>
+
+      <div class="glossary-item visible">
+        <div class="glossary-term">MEI / ME / EPP</div>
+        <div class="glossary-full">Microempreendedor Individual / Microempresa / Empresa de Pequeno Porte</div>
+        <div class="glossary-def">Classificações do porte de empresas no Brasil. No contexto do ESG Sebrae, o porte (CPE) determina quais questionários e planos a empresa pode acessar na plataforma.</div>
+      </div>
+
+      <div class="glossary-item visible">
+        <div class="glossary-term">POM</div>
+        <div class="glossary-full">Page Object Model — Padrão de Projeto para Automação</div>
+        <div class="glossary-def">Padrão de arquitetura de testes onde cada página ou componente do sistema possui uma classe correspondente que encapsula seus seletores e ações. Melhora a manutenibilidade e reutilização do código de testes.</div>
+      </div>
+
+      <div class="glossary-item visible">
+        <div class="glossary-term">BIUD Talks</div>
+        <div class="glossary-full">Programa interno de disseminação de conhecimento</div>
+        <div class="glossary-def">Iniciativa do setor de QA para compartilhar aprendizados, práticas e cultura de qualidade com toda a engenharia da BIUD através de apresentações e discussões internas.</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 <footer>
   <div class="footer-inner">
     <div class="footer-brand">
       <span class="nav-logo">BIUD <span style="-webkit-text-fill-color:var(--text-secondary)">/ QA</span></span>
-      <p>Setor de Quality Assurance da BIUD &mdash; excelencia, confiabilidade e performance no produto <strong style="color:var(--text-primary)">BIUD V3 &ndash; ESG SEBRAE</strong> e na plataforma de marketing inteligente para o varejo brasileiro.</p>
+      <p>Setor de Quality Assurance da BIUD &mdash; excelência, confiabilidade e performance no produto <strong style="color:var(--text-primary)">BIUD V3 &ndash; ESG SEBRAE</strong> e na plataforma de marketing inteligente para o varejo brasileiro.</p>
       <div class="footer-status" style="margin-top:1rem">
         <div class="status-dot"></div>
         Todos os sistemas operacionais
       </div>
     </div>
     <div class="footer-col">
-      <h4>Documentacao QA</h4>
+      <h4>Documentação QA</h4>
       <ul>
-        <li><a href="docs/- Responsabilidades QA.docx">Responsabilidades QA</a></li>
-        <li><a href="docs/- Gestão e Templates de BUG e Sub-Bug.docx">Templates de Bug</a></li>
-        <li><a href="docs/- Implementação de KPIs de Qualidade (QA).pdf">KPIs de Qualidade</a></li>
-        <li><a href="docs/- Definição de Severidade e Prioridade.pdf">Severidade e Prioridade</a></li>
-        <li><a href="docs/- Padrão para Abertura de Card (DoR – Definition of Ready).docx">Padrão DoR</a></li>
-        <li><a href="docs/- Modelo de Plano de Teste.docx">Plano de Teste</a></li>
-        <li><a href="docs/- Modelo de Execução de Teste.docx">Modelo de Execução</a></li>
+        <li><a href="docs/- Responsabilidades QA.pdf" target="_blank" rel="noopener">Responsabilidades QA</a></li>
+        <li><a href="docs/- Gestão e Templates de BUG e Sub-Bug.pdf" target="_blank" rel="noopener">Templates de Bug</a></li>
+        <li><a href="docs/- Implementação de KPIs de Qualidade (QA).pdf" target="_blank" rel="noopener">KPIs de Qualidade</a></li>
+        <li><a href="docs/- Definição de Severidade e Prioridade.pdf" target="_blank" rel="noopener">Severidade e Prioridade</a></li>
+        <li><a href="docs/- Padrão para Abertura de Card (DoR – Definition of Ready).pdf" target="_blank" rel="noopener">Padrão DoR</a></li>
+        <li><a href="docs/- Modelo de Plano de Teste.pdf" target="_blank" rel="noopener">Plano de Teste</a></li>
+        <li><a href="docs/- Modelo de Execução de Teste.pdf" target="_blank" rel="noopener">Modelo de Execução</a></li>
       </ul>
     </div>
     <div class="footer-col">
       <h4>Setor QA</h4>
       <ul>
         <li><a href="#about">Sobre o QA</a></li>
-        <li><a href="#metrics">Metricas</a></li>
+        <li><a href="#metrics">Métricas</a></li>
         <li><a href="#processes">Processos</a></li>
-        <li><a href="#docs">Documentacao</a></li>
+        <li><a href="#docs">Documentação</a></li>
         <li><a href="#tools">Ferramentas</a></li>
         <li><a href="#cases">Cases</a></li>
         <li><a href="#culture">Cultura</a></li>
@@ -1941,7 +2379,7 @@
     </div>
   </div>
   <div class="footer-bottom">
-    <span>&copy; 2025 BIUD Tecnologia &middot; Setor de Quality Assurance &middot; BIUD V3 &ndash; ESG SEBRAE</span>
+    <span>&copy; 2026 BIUD Tecnologia &middot; Setor de Quality Assurance &middot; BIUD V3 &ndash; ESG SEBRAE</span>
     <span style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--text-muted)">v2.1.0 &middot; Build com &#10084; pelo time de QA</span>
     <span>rogeriolopes@biud.com.br</span>
   </div>
@@ -1986,10 +2424,115 @@
     Chart.defaults.font = { family: 'Inter', size: 11 };
   }
 
+
+  // ── Theme toggle ──────────────────────────────────────────────────────────
+  (function() {
+    var saved = sessionStorage.getItem('qa_theme');
+    if (saved === 'light') {
+      document.body.classList.add('light-mode');
+      var ico = document.getElementById('themeIcon');
+      var lbl = document.getElementById('themeLabel');
+      if (ico) ico.textContent = '☀️';
+      if (lbl) lbl.textContent = 'Light';
+    }
+  })();
+
+  function toggleTheme() {
+    var isLight = document.body.classList.toggle('light-mode');
+    var ico = document.getElementById('themeIcon');
+    var lbl = document.getElementById('themeLabel');
+    if (isLight) {
+      sessionStorage.setItem('qa_theme', 'light');
+      if (ico) ico.textContent = '☀️';
+      if (lbl) lbl.textContent = 'Light';
+    } else {
+      sessionStorage.setItem('qa_theme', 'dark');
+      if (ico) ico.textContent = '🌙';
+      if (lbl) lbl.textContent = 'Dark';
+    }
+  }
+
+  // ── Glossário ─────────────────────────────────────────────────────────────
+  function openGlossary() {
+    document.getElementById('glossaryOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    setTimeout(function() { document.getElementById('glossarySearch').focus(); }, 100);
+  }
+  function closeGlossary() {
+    document.getElementById('glossaryOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+    document.getElementById('glossarySearch').value = '';
+    filterGlossary();
+  }
+  function closeGlossaryOutside(e) {
+    if (e.target === document.getElementById('glossaryOverlay')) closeGlossary();
+  }
+  function filterGlossary() {
+    var q = document.getElementById('glossarySearch').value.toLowerCase();
+    document.querySelectorAll('.glossary-item').forEach(function(item) {
+      var text = item.textContent.toLowerCase();
+      item.classList.toggle('visible', !q || text.includes(q));
+    });
+  }
+  // Fechar com Escape
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeGlossary();
+  });
+
   function qaLogout() {
     sessionStorage.removeItem('qa_auth');
     window.location.replace('login.html');
   }
+
+
+  // ── Sprint dinâmico ─────────────────────────────────────────────────────
+  (function() {
+    var SPRINT_31_START = new Date('2026-02-02');
+    var SPRINT_LEN = 14; // dias (quinzenal)
+    var today = new Date();
+    today.setHours(0,0,0,0);
+    SPRINT_31_START.setHours(0,0,0,0);
+
+    var daysElapsed  = Math.floor((today - SPRINT_31_START) / 86400000);
+    var sprintOffset = Math.floor(daysElapsed / SPRINT_LEN);
+    var sprintNum    = 31 + sprintOffset;
+
+    var sprintStart  = new Date(SPRINT_31_START.getTime() + sprintOffset * SPRINT_LEN * 86400000);
+    var sprintEnd    = new Date(sprintStart.getTime() + (SPRINT_LEN - 1) * 86400000);
+
+    function fmt(d) {
+      return d.toLocaleDateString('pt-BR', { day:'2-digit', month:'2-digit', year:'numeric' });
+    }
+
+    // Hero tag e stat
+    var heroTag = document.getElementById('hero-tag-sprint');
+    var heroStat = document.getElementById('hero-sprint-num');
+    if (heroTag)  heroTag.textContent  = 'Sprint ' + sprintNum;
+    if (heroStat) heroStat.textContent = sprintNum;
+
+    // Sprint section description
+    var todayEl   = document.getElementById('sprint-today-date');
+    var secNum    = document.getElementById('sprint-section-num');
+    var secRange  = document.getElementById('sprint-section-range');
+    if (todayEl)  todayEl.textContent  = fmt(today);
+    if (secNum)   secNum.textContent   = 'Sprint ' + sprintNum;
+    if (secRange) secRange.textContent = '(' + fmt(sprintStart) + ' – ' + fmt(sprintEnd) + ')';
+
+    // Em Andamento badge
+    var andBadge = document.getElementById('andamento-sprint-badge');
+    if (andBadge) andBadge.textContent = 'Sprint ' + sprintNum + ' · ' + fmt(sprintStart) + ' → ' + fmt(sprintEnd);
+  })();
+
+  // ── Contador automático de dias ──────────────────────────────
+  (function() {
+    var start = new Date('2026-02-02');
+    var today = new Date();
+    today.setHours(0,0,0,0);
+    start.setHours(0,0,0,0);
+    var diff = Math.floor((today - start) / (1000 * 60 * 60 * 24));
+    var el = document.getElementById('qa-days-counter');
+    if (el) el.textContent = diff + 'd';
+  })();
 </script>
 </body>
 </html>

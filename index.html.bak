@@ -19,8 +19,6 @@
 
   <!-- Chart.js -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-  <script>emailjs.init('4RGvlKxs_yD2aVVAw');</script>
 
   <style>
     /* ─── RESET & BASE ─── */
@@ -35,8 +33,8 @@
       --blue:         #3B82F6;
       --blue-bright:  #60A5FA;
       --blue-glow:    rgba(59, 130, 246, 0.25);
-      --purple:       #EC4899;
-      --purple-glow:  rgba(236, 72, 153, 0.2);
+      --purple:       #8B5CF6;
+      --purple-glow:  rgba(139, 92, 246, 0.2);
       --cyan:         #22D3EE;
       --green:        #10B981;
       --amber:        #F59E0B;
@@ -161,7 +159,7 @@
       pointer-events: none;
     }
     .orb-1 { width: 600px; height: 600px; background: rgba(59,130,246,0.12); top: -200px; right: -150px; animation-delay: 0s; }
-    .orb-2 { width: 400px; height: 400px; background: rgba(236,72,153,0.1); bottom: -100px; left: -100px; animation-delay: -3s; }
+    .orb-2 { width: 400px; height: 400px; background: rgba(139,92,246,0.1); bottom: -100px; left: -100px; animation-delay: -3s; }
     .orb-3 { width: 300px; height: 300px; background: rgba(34,211,238,0.06); top: 50%; left: 40%; animation-delay: -6s; }
     @keyframes orbFloat {
       0%, 100% { transform: translateY(0) scale(1); }
@@ -422,7 +420,7 @@
     .step-sub { font-size: 0.68rem; color: var(--text-muted); text-align: center; line-height: 1.4; max-width: 110px; }
 
     .step-blue  .step-node { background: rgba(59,130,246,0.15); color: var(--blue); }
-    .step-purple .step-node { background: rgba(236,72,153,0.15); color: var(--purple); }
+    .step-purple .step-node { background: rgba(139,92,246,0.15); color: var(--purple); }
     .step-cyan  .step-node { background: rgba(34,211,238,0.15); color: var(--cyan); }
     .step-green .step-node { background: rgba(16,185,129,0.15); color: var(--green); }
     .step-amber .step-node { background: rgba(245,158,11,0.15); color: var(--amber); }
@@ -446,7 +444,7 @@
       color: var(--blue); border: 1px solid rgba(59,130,246,0.2);
       font-family: 'JetBrains Mono', monospace;
     }
-    .proc-tag.purple { background: rgba(236,72,153,0.1); color: var(--purple); border-color: rgba(236,72,153,0.2); }
+    .proc-tag.purple { background: rgba(139,92,246,0.1); color: var(--purple); border-color: rgba(139,92,246,0.2); }
     .proc-tag.green  { background: rgba(16,185,129,0.1);  color: var(--green);  border-color: rgba(16,185,129,0.2); }
     .proc-tag.amber  { background: rgba(245,158,11,0.1);  color: var(--amber);  border-color: rgba(245,158,11,0.2); }
     .proc-tag.cyan   { background: rgba(34,211,238,0.1);  color: var(--cyan);   border-color: rgba(34,211,238,0.2); }
@@ -503,7 +501,7 @@
     }
     .badge-blue   { background: rgba(59,130,246,0.15); color: var(--blue); }
     .badge-green  { background: rgba(16,185,129,0.15); color: var(--green); }
-    .badge-purple { background: rgba(236,72,153,0.15); color: var(--purple); }
+    .badge-purple { background: rgba(139,92,246,0.15); color: var(--purple); }
     .badge-amber  { background: rgba(245,158,11,0.15); color: var(--amber); }
     .badge-cyan   { background: rgba(34,211,238,0.15); color: var(--cyan); }
 
@@ -518,7 +516,7 @@
       padding: 0.5rem 0.8rem; border-radius: 8px;
     }
     .case-impact.blue { color: var(--blue); background: rgba(59,130,246,0.08); border-color: rgba(59,130,246,0.15); }
-    .case-impact.purple { color: var(--purple); background: rgba(236,72,153,0.08); border-color: rgba(236,72,153,0.15); }
+    .case-impact.purple { color: var(--purple); background: rgba(139,92,246,0.08); border-color: rgba(139,92,246,0.15); }
 
     /* ─── CULTURE ─── */
     #culture { background: var(--bg-primary); }
@@ -612,7 +610,7 @@
     .doc-tag.green  { background: rgba(16,185,129,0.1);  color: var(--green);  border-color: rgba(16,185,129,0.2); }
     .doc-tag.red    { background: rgba(239,68,68,0.1);   color: var(--red);    border-color: rgba(239,68,68,0.2); }
     .doc-tag.amber  { background: rgba(245,158,11,0.1);  color: var(--amber);  border-color: rgba(245,158,11,0.2); }
-    .doc-tag.purple { background: rgba(236,72,153,0.1);  color: var(--purple); border-color: rgba(236,72,153,0.2); }
+    .doc-tag.purple { background: rgba(139,92,246,0.1);  color: var(--purple); border-color: rgba(139,92,246,0.2); }
     .doc-tag.cyan   { background: rgba(34,211,238,0.1);  color: var(--cyan);   border-color: rgba(34,211,238,0.2); }
 
     /* ─── RESPONSIVE ─── */
@@ -658,7 +656,7 @@
     --surface:      rgba(0,0,0,0.03);
     --glass-bg:     rgba(255,255,255,0.70);
     --blue:         #2563EB;
-    --purple:       #DB2777;
+    --purple:       #7C3AED;
     --cyan:         #0891B2;
     --green:        #059669;
     --amber:        #D97706;
@@ -890,79 +888,16 @@
   .talk-card:not(.upcoming) .talk-pdf-icon { color: var(--cyan); opacity: 1; }
   .talks-template-bar {
     display: flex; align-items: center; gap: 1.25rem;
-    background: rgba(236,72,153,0.07);
-    border: 1px solid rgba(236,72,153,0.22);
+    background: rgba(139,92,246,0.07);
+    border: 1px solid rgba(139,92,246,0.22);
     border-radius: 14px; padding: 1rem 1.4rem;
     text-decoration: none; color: inherit;
     transition: var(--transition); margin-bottom: 2.5rem;
   }
-  .talks-template-bar:hover { background: rgba(236,72,153,0.13); border-color: rgba(236,72,153,0.4); transform: translateY(-1px); }
+  .talks-template-bar:hover { background: rgba(139,92,246,0.13); border-color: rgba(139,92,246,0.4); transform: translateY(-1px); }
   body.light-mode .talk-card { background: rgba(255,255,255,0.82); border-color: rgba(0,0,0,0.08); }
   body.light-mode .talk-date { color: #0369a1; }
-  body.light-mode .talks-template-bar { background: rgba(236,72,153,0.05); }
-
-  /* ── Talk Schedule Modal ── */
-  #talkScheduleModal {
-    display:none; position:fixed; inset:0; background:rgba(0,0,0,0.75);
-    z-index:9999; align-items:center; justify-content:center; padding:1.5rem;
-    backdrop-filter:blur(6px);
-  }
-  #talkScheduleModal.open { display:flex; }
-  .talk-schedule-inner {
-    background:var(--bg-secondary); border:1px solid var(--border);
-    border-radius:1.25rem; width:100%; max-width:480px;
-    padding:2rem 2.25rem; box-shadow:0 24px 80px rgba(0,0,0,0.6);
-    animation:fadeUp 0.25s ease both; position:relative;
-  }
-  .talk-schedule-inner h3 {
-    font-size:1.1rem; font-weight:800; margin-bottom:0.3rem;
-  }
-  .talk-schedule-inner .tsub {
-    font-size:0.8rem; color:var(--text-muted); margin-bottom:1.5rem;
-  }
-  .ts-field { margin-bottom:1rem; }
-  .ts-field label {
-    display:block; font-size:0.75rem; font-weight:700;
-    color:var(--text-muted); margin-bottom:0.35rem; letter-spacing:0.3px;
-    text-transform:uppercase;
-  }
-  .ts-field input, .ts-field textarea, .ts-field select {
-    width:100%; padding:0.65rem 0.9rem;
-    background:rgba(255,255,255,0.05); border:1px solid var(--border);
-    border-radius:0.55rem; color:var(--text-primary);
-    font-size:0.87rem; font-family:inherit; outline:none;
-    transition:border-color 0.2s; resize:none;
-  }
-  .ts-field input:focus, .ts-field textarea:focus, .ts-field select:focus {
-    border-color:var(--blue);
-  }
-  body.light-mode .ts-field input,
-  body.light-mode .ts-field textarea,
-  body.light-mode .ts-field select {
-    background:rgba(0,0,0,0.04); color:#1e293b;
-  }
-  .ts-row { display:grid; grid-template-columns:1fr 1fr; gap:0.75rem; }
-  .ts-actions { display:flex; gap:0.75rem; margin-top:1.5rem; }
-  .ts-btn-submit {
-    flex:1; padding:0.75rem; border:none; border-radius:0.6rem;
-    background:linear-gradient(135deg,var(--blue),var(--purple));
-    color:#fff; font-size:0.9rem; font-weight:700; cursor:pointer;
-    transition:opacity 0.2s, transform 0.15s; font-family:inherit;
-  }
-  .ts-btn-submit:hover { opacity:0.9; transform:translateY(-1px); }
-  .ts-btn-cancel {
-    padding:0.75rem 1.25rem; border:1px solid var(--border);
-    border-radius:0.6rem; background:none; color:var(--text-muted);
-    font-size:0.87rem; cursor:pointer; font-family:inherit;
-    transition:border-color 0.2s, color 0.2s;
-  }
-  .ts-btn-cancel:hover { border-color:var(--text-muted); color:var(--text-primary); }
-  .ts-close {
-    position:absolute; top:1.1rem; right:1.25rem;
-    background:none; border:none; color:var(--text-muted);
-    font-size:1.3rem; cursor:pointer; line-height:1; transition:color 0.2s;
-  }
-  .ts-close:hover { color:var(--text-primary); }
+  body.light-mode .talks-template-bar { background: rgba(139,92,246,0.05); }
 
   /* ── Video Modal ── */
   .talk-actions { display:flex; gap:0.5rem; align-items:center; flex-shrink:0; }
@@ -1617,7 +1552,7 @@
       <a href="docs/- Tipos de BUGs.pdf"
          target="_blank" class="doc-card reveal reveal-delay-1" style="text-decoration:none">
         <div class="doc-card-inner">
-          <div class="doc-icon" style="background:rgba(236,72,153,0.12);color:var(--purple)">🔍</div>
+          <div class="doc-icon" style="background:rgba(139,92,246,0.12);color:var(--purple)">🔍</div>
           <div class="doc-body">
             <div class="doc-title">Tipos de Bug e Sub-Bug</div>
             <div class="doc-desc">Taxonomia completa dos tipos de bugs e sub-bugs identificados no produto, com exemplos e orientações de classificação para o time.</div>
@@ -1665,7 +1600,7 @@
       <a href="docs/- Modelo de Execução de Teste.pdf"
          target="_blank" class="doc-card reveal reveal-delay-2" style="text-decoration:none">
         <div class="doc-card-inner">
-          <div class="doc-icon" style="background:rgba(236,72,153,0.12);color:var(--purple)">▶️</div>
+          <div class="doc-icon" style="background:rgba(139,92,246,0.12);color:var(--purple)">▶️</div>
           <div class="doc-body">
             <div class="doc-title">Modelo de Execução de Teste</div>
             <div class="doc-desc">Template de registro de execução de testes — resultados, evidências, defeitos encontrados e status de cada caso de teste executado.</div>
@@ -2003,7 +1938,7 @@
     <!-- ─── Últimas 2 sprints ──────────────────────────────────────────────── -->
     <div class="reveal" style="margin-bottom:3rem">
       <h3 style="font-size:1.25rem;font-weight:700;color:var(--purple);margin-bottom:1.5rem;display:flex;align-items:center;gap:0.6rem;">
-        <span style="background:rgba(236,72,153,.15);border:1px solid rgba(236,72,153,.3);border-radius:6px;padding:0.25rem 0.75rem;font-size:0.8rem;letter-spacing:.08em;text-transform:uppercase;">🏃 Sprints 37 & 38</span>
+        <span style="background:rgba(139,92,246,.15);border:1px solid rgba(139,92,246,.3);border-radius:6px;padding:0.25rem 0.75rem;font-size:0.8rem;letter-spacing:.08em;text-transform:uppercase;">🏃 Sprints 37 & 38</span>
         Atividades e processos recentes
       </h3>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;">
@@ -2203,11 +2138,11 @@
             </div>
             <div style="display:flex;gap:0.5rem;align-items:center;font-size:0.82rem;">
               <span style="flex:1;">Aplicação de Cupom Estadual</span>
-              <span style="background:rgba(236,72,153,.15);color:var(--purple);padding:0.15rem 0.5rem;border-radius:4px;font-size:0.7rem;">API</span>
+              <span style="background:rgba(139,92,246,.15);color:var(--purple);padding:0.15rem 0.5rem;border-radius:4px;font-size:0.7rem;">API</span>
             </div>
             <div style="display:flex;gap:0.5rem;align-items:center;font-size:0.82rem;">
               <span style="flex:1;">Restrição de Cupom por UF</span>
-              <span style="background:rgba(236,72,153,.15);color:var(--purple);padding:0.15rem 0.5rem;border-radius:4px;font-size:0.7rem;">API</span>
+              <span style="background:rgba(139,92,246,.15);color:var(--purple);padding:0.15rem 0.5rem;border-radius:4px;font-size:0.7rem;">API</span>
             </div>
           </div>
         </div>
@@ -2240,7 +2175,7 @@
           <div style="display:flex;flex-direction:column;gap:0.45rem;">
             <div style="display:flex;gap:0.5rem;align-items:center;font-size:0.82rem;opacity:0.7;">
               <span style="flex:1;">Sincronização de CPF Existente</span>
-              <span style="background:rgba(236,72,153,.12);color:var(--purple);padding:0.15rem 0.5rem;border-radius:4px;font-size:0.7rem;">API</span>
+              <span style="background:rgba(139,92,246,.12);color:var(--purple);padding:0.15rem 0.5rem;border-radius:4px;font-size:0.7rem;">API</span>
             </div>
             <div style="display:flex;gap:0.5rem;align-items:center;font-size:0.82rem;opacity:0.7;">
               <span style="flex:1;">Bloqueio Pós-Trial de 15 Dias</span>
@@ -2248,15 +2183,15 @@
             </div>
             <div style="display:flex;gap:0.5rem;align-items:center;font-size:0.82rem;opacity:0.7;">
               <span style="flex:1;">Revogação de Selo por Exclusão</span>
-              <span style="background:rgba(236,72,153,.12);color:var(--purple);padding:0.15rem 0.5rem;border-radius:4px;font-size:0.7rem;">API</span>
+              <span style="background:rgba(139,92,246,.12);color:var(--purple);padding:0.15rem 0.5rem;border-radius:4px;font-size:0.7rem;">API</span>
             </div>
             <div style="display:flex;gap:0.5rem;align-items:center;font-size:0.82rem;opacity:0.7;">
               <span style="flex:1;">Deferimento de Autodiagnóstico</span>
-              <span style="background:rgba(236,72,153,.12);color:var(--purple);padding:0.15rem 0.5rem;border-radius:4px;font-size:0.7rem;">API</span>
+              <span style="background:rgba(139,92,246,.12);color:var(--purple);padding:0.15rem 0.5rem;border-radius:4px;font-size:0.7rem;">API</span>
             </div>
             <div style="display:flex;gap:0.5rem;align-items:center;font-size:0.82rem;opacity:0.7;">
               <span style="flex:1;">Verificação de Critérios Impeditivos</span>
-              <span style="background:rgba(236,72,153,.12);color:var(--purple);padding:0.15rem 0.5rem;border-radius:4px;font-size:0.7rem;">API</span>
+              <span style="background:rgba(139,92,246,.12);color:var(--purple);padding:0.15rem 0.5rem;border-radius:4px;font-size:0.7rem;">API</span>
             </div>
             <div style="display:flex;gap:0.5rem;align-items:center;font-size:0.82rem;opacity:0.7;">
               <span style="flex:1;">Restrição de Usuário Regional</span>
@@ -2297,9 +2232,6 @@
       <div class="section-tag">Knowledge Sharing</div>
       <h2 class="section-title">BIUD <span class="accent">Talks</span></h2>
       <p class="section-desc">Ciclo de palestras técnicas semanais da BIUD — toda quarta-feira às 15h um membro do time compartilha conhecimento com toda a engenharia.</p>
-      <div style="display:inline-flex;align-items:center;gap:0.5rem;margin-top:0.9rem;background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.22);border-radius:999px;padding:0.4rem 1.1rem;font-size:0.8rem;color:var(--green);font-weight:600;">
-        🌐 Aberto a todos os membros da BIUD — qualquer área, qualquer setor
-      </div>
     </div>
 
     <!-- Stats compactos -->
@@ -2310,31 +2242,21 @@
       <span style="display:inline-flex;align-items:center;gap:0.45rem;background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.25);border-radius:999px;padding:0.35rem 1rem;font-size:0.82rem;font-weight:600;color:var(--blue);">
         <span style="font-size:1rem;font-weight:900;">11</span> Palestras agendadas
       </span>
-      <span style="display:inline-flex;align-items:center;gap:0.45rem;background:rgba(236,72,153,0.1);border:1px solid rgba(236,72,153,0.25);border-radius:999px;padding:0.35rem 1rem;font-size:0.82rem;font-weight:600;color:var(--purple);">
+      <span style="display:inline-flex;align-items:center;gap:0.45rem;background:rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.25);border-radius:999px;padding:0.35rem 1rem;font-size:0.82rem;font-weight:600;color:var(--purple);">
         📅 Toda quarta · 15h
       </span>
     </div>
 
-    <!-- Template de apresentação + Agendar -->
-    <div class="talks-template-bar reveal" style="cursor:default;">
+    <!-- Template de apresentação -->
+    <a href="docs/biud-talks/modelo-apresentacao-biud-talks.pptx" target="_blank" rel="noopener"
+       class="talks-template-bar reveal">
       <span style="font-size:1.6rem;">📎</span>
       <div style="flex:1;">
         <div style="font-weight:700;font-size:0.95rem;margin-bottom:0.2rem;color:var(--text-primary);">Template Oficial — BIUD Talks</div>
-        <div style="font-size:0.8rem;color:var(--text-secondary);">Use este modelo para preparar sua apresentação. Quer apresentar? Agende sua palestra abaixo.</div>
+        <div style="font-size:0.8rem;color:var(--text-secondary);">Use este modelo para preparar sua apresentação. Quer apresentar? Envie seu tema para o Rogério.</div>
       </div>
-      <div style="display:flex;gap:0.6rem;align-items:center;flex-shrink:0;">
-        <a href="docs/biud-talks/modelo-apresentacao-biud-talks.pptx" target="_blank" rel="noopener"
-           style="display:inline-flex;align-items:center;gap:0.35rem;font-size:0.78rem;font-weight:700;color:var(--purple);white-space:nowrap;text-decoration:none;padding:0.35rem 0.8rem;border:1px solid rgba(236,72,153,0.3);border-radius:999px;transition:var(--transition);"
-           onmouseover="this.style.background='rgba(236,72,153,0.1)'" onmouseout="this.style.background='transparent'">
-          Ver Template →
-        </a>
-        <button onclick="openTalkSchedule()"
-           style="display:inline-flex;align-items:center;gap:0.35rem;font-size:0.78rem;font-weight:700;color:#fff;white-space:nowrap;padding:0.38rem 0.9rem;border:none;border-radius:999px;background:linear-gradient(135deg,var(--blue),var(--purple));cursor:pointer;font-family:inherit;transition:opacity 0.2s;"
-           onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
-          🎤 Agendar palestra
-        </button>
-      </div>
-    </div>
+      <span style="font-size:0.78rem;font-weight:700;color:var(--purple);white-space:nowrap;">Ver Template →</span>
+    </a>
 
     <!-- Grade de palestras -->
     <div class="talks-grid reveal">
@@ -2545,7 +2467,7 @@
         <div class="culture-title">Prevenção sobre Correção</div>
         <div class="culture-desc">Investimos em prevenir bugs na origem. Templates de abertura de card, definition of ready e critérios de aceite bem definidos.</div>
       </div>
-      <div class="culture-card reveal reveal-delay-2" style="--glow:rgba(236,72,153,0.12)">
+      <div class="culture-card reveal reveal-delay-2" style="--glow:rgba(139,92,246,0.12)">
         <span class="culture-emoji">&#128218;</span>
         <div class="culture-title">Aprendizado Contínuo</div>
         <div class="culture-desc">Cada incidente vira aprendizado. RCAs documentados, retrospectivas e portal de QA centralizado para todo o time.</div>
@@ -2578,58 +2500,6 @@
   <div class="video-modal-inner">
     <button class="video-modal-close" onclick="closeVideo()">✕</button>
     <iframe id="videoFrame" src="" allowfullscreen allow="autoplay; encrypted-media"></iframe>
-  </div>
-</div>
-
-<!-- MODAL AGENDAR PALESTRA BIUD TALKS -->
-<div id="talkScheduleModal" onclick="closeTalkScheduleOutside(event)">
-  <div class="talk-schedule-inner">
-    <button class="ts-close" onclick="closeTalkSchedule()">✕</button>
-    <h3>🎤 Agendar Palestra — BIUD Talks</h3>
-    <p class="tsub">Toda quarta · 15h · Aberto a todos da BIUD. Preencha e enviaremos sua proposta para o Rogério.</p>
-
-    <form id="talkScheduleForm" onsubmit="submitTalkSchedule(event)">
-      <div class="ts-row">
-        <div class="ts-field">
-          <label for="ts-name">Seu nome</label>
-          <input type="text" id="ts-name" placeholder="Ex: João Silva" required />
-        </div>
-        <div class="ts-field">
-          <label for="ts-area">Área / Setor</label>
-          <input type="text" id="ts-area" placeholder="Ex: Backend, Design…" required />
-        </div>
-      </div>
-
-      <div class="ts-field">
-        <label for="ts-topic">Tema da palestra</label>
-        <input type="text" id="ts-topic" placeholder="Ex: Testes de performance com k6" required />
-      </div>
-
-      <div class="ts-row">
-        <div class="ts-field">
-          <label for="ts-date">Data preferida</label>
-          <input type="date" id="ts-date" />
-        </div>
-        <div class="ts-field">
-          <label for="ts-duration">Duração estimada</label>
-          <select id="ts-duration">
-            <option value="30 minutos">30 minutos</option>
-            <option value="45 minutos" selected>45 minutos</option>
-            <option value="60 minutos">60 minutos</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="ts-field">
-        <label for="ts-desc">Breve descrição (opcional)</label>
-        <textarea id="ts-desc" rows="3" placeholder="O que você vai abordar? Qual o público esperado?"></textarea>
-      </div>
-
-      <div class="ts-actions">
-        <button type="button" class="ts-btn-cancel" onclick="closeTalkSchedule()">Cancelar</button>
-        <button type="submit" class="ts-btn-submit">📧 Enviar proposta</button>
-      </div>
-    </form>
   </div>
 </div>
 
@@ -2787,7 +2657,7 @@
         <li><a href="#metrics">Métricas</a></li>
         <li><a href="#processes">Processos</a></li>
         <li><a href="#docs">Documentação</a></li>
-                <li><a href="#tools">Ferramentas</a></li>
+        <li><a href="#tools">Ferramentas</a></li>
         <li><a href="#cases">Cases</a></li>
         <li><a href="#biud-talks">BIUD Talks</a></li>
         <li><a href="#culture">Cultura</a></li>
@@ -2895,64 +2765,8 @@
   function closeGlossaryOutside(e) {
     if (e.target === document.getElementById('glossaryOverlay')) closeGlossary();
   }
-
-  // ── Talk Schedule Modal ──────────────────────────────────────────────────
-  function openTalkSchedule() {
-    document.getElementById('talkScheduleModal').classList.add('open');
-    document.body.style.overflow = 'hidden';
-    // Pré-define data para a próxima quarta-feira
-    var d = new Date();
-    var day = d.getDay(); // 0=dom, 3=qua
-    var daysUntilWed = (3 - day + 7) % 7 || 7;
-    d.setDate(d.getDate() + daysUntilWed);
-    var iso = d.toISOString().split('T')[0];
-    document.getElementById('ts-date').value = iso;
-    setTimeout(function(){ document.getElementById('ts-name').focus(); }, 100);
-  }
-  function closeTalkSchedule() {
-    document.getElementById('talkScheduleModal').classList.remove('open');
-    document.body.style.overflow = '';
-  }
-  function closeTalkScheduleOutside(e) {
-    if (e.target === document.getElementById('talkScheduleModal')) closeTalkSchedule();
-  }
-  function submitTalkSchedule(e) {
-    e.preventDefault();
-    var btn      = document.querySelector('.ts-btn-submit');
-    var nome     = document.getElementById('ts-name').value.trim();
-    var area     = document.getElementById('ts-area').value.trim();
-    var tema     = document.getElementById('ts-topic').value.trim();
-    var data     = document.getElementById('ts-date').value;
-    var duracao  = document.getElementById('ts-duration').value;
-    var desc     = document.getElementById('ts-desc').value.trim();
-    var dataFmt  = data ? new Date(data + 'T12:00:00').toLocaleDateString('pt-BR') : 'A definir';
-
-    btn.disabled = true;
-    btn.textContent = 'Enviando…';
-
-    emailjs.send('service_wfyjifg', 'template_bxlli08', {
-      from_name:      nome,
-      area:           area,
-      tema:           tema,
-      data_preferida: dataFmt,
-      duracao:        duracao,
-      descricao:      desc || '—'
-    }).then(function() {
-      btn.textContent = '✅ Enviado!';
-      setTimeout(function() {
-        closeTalkSchedule();
-        document.getElementById('talkScheduleForm').reset();
-        btn.disabled = false;
-        btn.innerHTML = '📤 Enviar proposta';
-      }, 1800);
-    }, function(err) {
-      btn.disabled = false;
-      btn.innerHTML = '📤 Enviar proposta';
-      alert('Erro ao enviar: ' + JSON.stringify(err) + '\nTente novamente ou contate rogeriolopes@biud.com.br');
-    });
-  }
   function normalizeStr(s) {
-    return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
   }
   function filterGlossary() {
     var raw = document.getElementById('glossarySearch').value;
@@ -2999,45 +2813,4 @@
     if (heroStat) heroStat.textContent = sprintNum;
 
     var todayEl   = document.getElementById('sprint-today-date');
-    var secNum    = document.getElementById('sprint-section-num');
-    var secRange  = document.getElementById('sprint-section-range');
-    if (todayEl)  todayEl.textContent  = fmt(today);
-    if (secNum)   secNum.textContent   = 'Sprint ' + sprintNum;
-    if (secRange) secRange.textContent = '(' + fmt(sprintStart) + ' – ' + fmt(sprintEnd) + ')';
-
-    var andBadge = document.getElementById('andamento-sprint-badge');
-    if (andBadge) andBadge.textContent = 'Sprint ' + sprintNum + ' · ' + fmt(sprintStart) + ' → ' + fmt(sprintEnd);
-  })();
-
-  // -- Contador automatico de dias
-  (function() {
-    var start = new Date('2026-02-02');
-    var today = new Date();
-    today.setHours(0,0,0,0);
-    start.setHours(0,0,0,0);
-    var diff = Math.floor((today - start) / (1000 * 60 * 60 * 24));
-    var el = document.getElementById('qa-days-counter');
-    if (el) el.textContent = diff + 'd';
-  })();
-
-  // ── Video Modal ──────────────────────────────────────────────────────────
-  function openVideo(url) {
-    document.getElementById('videoFrame').src = url;
-    document.getElementById('videoModal').classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
-  function closeVideo() {
-    document.getElementById('videoModal').classList.remove('open');
-    document.getElementById('videoFrame').src = '';
-    document.body.style.overflow = '';
-  }
-  function closeVideoModal(e) {
-    if (e.target === document.getElementById('videoModal')) closeVideo();
-  }
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape' && document.getElementById('videoModal').classList.contains('open')) closeVideo();
-  });
-</script>
-
-</body>
-</html>
+    va

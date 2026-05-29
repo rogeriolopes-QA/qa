@@ -941,6 +941,22 @@
   body.light-mode .ts-field select {
     background:rgba(0,0,0,0.04); color:#1e293b;
   }
+  .ts-field input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1) opacity(0.4);
+    cursor:pointer;
+    border-radius:4px;
+    padding:2px;
+    transition:filter 0.2s;
+  }
+  .ts-field input[type="date"]::-webkit-calendar-picker-indicator:hover {
+    filter: invert(0.6) sepia(1) saturate(5) hue-rotate(290deg) opacity(0.9);
+  }
+  body.light-mode .ts-field input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(0) opacity(0.4);
+  }
+  body.light-mode .ts-field input[type="date"]::-webkit-calendar-picker-indicator:hover {
+    filter: invert(0.2) sepia(1) saturate(5) hue-rotate(290deg) opacity(0.9);
+  }
   .ts-row { display:grid; grid-template-columns:1fr 1fr; gap:0.75rem; }
   .ts-actions { display:flex; gap:0.75rem; margin-top:1.5rem; }
   .ts-btn-submit {
@@ -2605,19 +2621,9 @@
         <input type="text" id="ts-topic" placeholder="Ex: Testes de performance com k6" required />
       </div>
 
-      <div class="ts-row">
-        <div class="ts-field">
-          <label for="ts-date">Data preferida</label>
-          <input type="date" id="ts-date" />
-        </div>
-        <div class="ts-field">
-          <label for="ts-duration">Duração estimada</label>
-          <select id="ts-duration">
-            <option value="30 minutos">30 minutos</option>
-            <option value="45 minutos" selected>45 minutos</option>
-            <option value="60 minutos">60 minutos</option>
-          </select>
-        </div>
+      <div class="ts-field">
+        <label for="ts-date">Data preferida</label>
+        <input type="date" id="ts-date" />
       </div>
 
       <div class="ts-field">
@@ -2923,7 +2929,6 @@
     var area     = document.getElementById('ts-area').value.trim();
     var tema     = document.getElementById('ts-topic').value.trim();
     var data     = document.getElementById('ts-date').value;
-    var duracao  = document.getElementById('ts-duration').value;
     var desc     = document.getElementById('ts-desc').value.trim();
     var dataFmt  = data ? new Date(data + 'T12:00:00').toLocaleDateString('pt-BR') : 'A definir';
 
@@ -2935,7 +2940,6 @@
       area:           area,
       tema:           tema,
       data_preferida: dataFmt,
-      duracao:        duracao,
       descricao:      desc || '—'
     }).then(function() {
       btn.textContent = '✅ Enviado!';
